@@ -1,0 +1,27 @@
+.sales-table-container {
+  overflow-x: auto;
+  table {
+    color: white;
+    text-align: center;
+    border: 1px solid white;
+    border-collapse: collapse;
+    
+    thead {
+      height: 3rem;
+      th {
+        border: 1px solid white;
+        padding: 0 0.5rem;
+      }
+    }
+    
+    tbody {
+      tr {
+
+        border: 1px solid white;
+      }
+      td {
+        padding: 0.5rem;
+      }
+    }
+  }
+}

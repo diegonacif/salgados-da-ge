@@ -1,0 +1,38 @@
+export const table = [
+  {
+    bloco: 18,
+    apartamento: 304,
+    misto: 3,
+    frango: 0,
+    salsicha: 0,
+    pao: 10,
+    pagamento: "Pix",
+    status: "Novo Pedido",
+    data: "18/03/2023",
+    preco: "R$20,00",
+  },
+  {
+    bloco: 18,
+    apartamento: 304,
+    misto: 3,
+    frango: 0,
+    salsicha: 0,
+    pao: 10,
+    pagamento: "Pix",
+    status: "Novo Pedido",
+    data: "18/03/2023",
+    preco: "R$20,00",
+  },
+  {
+    bloco: 18,
+    apartamento: 304,
+    misto: 3,
+    frango: 0,
+    salsicha: 0,
+    pao: 10,
+    pagamento: "Pix",
+    status: "Novo Pedido",
+    data: "18/03/2023",
+    preco: "R$20,00",
+  }
+]
