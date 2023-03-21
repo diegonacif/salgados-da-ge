@@ -9,6 +9,17 @@
     flex-direction: column;
   }
 
+  .cart-wrapper {
+    .cart-row {
+      display: flex;
+      // gap: 0.5rem;
+
+      input[type="number"] {
+        width: 3rem;
+      }
+    }
+  }
+
   input, select {
     height: 2rem;
     width: 12rem;

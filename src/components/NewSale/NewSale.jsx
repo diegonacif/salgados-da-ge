@@ -5,6 +5,8 @@ import '../../App.scss';
 import { db } from '../../services/firebase';
 
 export const NewSale = () => {
+  const date = new Date();
+
   // Hook Form Controller
   const {
     watch,
@@ -18,36 +20,28 @@ export const NewSale = () => {
     }
   });
 
-  console.log(watch());
-
-  const [cart, setCart] = useState([
-    {
-      quantity: 3,
-      product: 'Misto',
-    },
-    {
-      quantity: 2,
-      product: 'Frango',
-    },
-    {
-      quantity: 1,
-      product: 'Salsicha',
-    }
-  ]);
+  const [cart, setCart] = useState([]);
 
   // Create sale data
   async function registerSale() {
-    const docRef = doc(db, "nova-venda", "01");
+    const docRef = doc(db, "vendas", "01");
 
     return await setDoc(docRef, {
       block: watch("block"),
       apartment: watch("apartment"),
       payment: watch("payment"),
       status: watch("status"),
+      date: date,
+      cart: cart,
     })
     .then(
-      console.log("Registered"),
+      console.log("New sale successfully registered"),
     )
+  }
+
+  // Add product to cart
+  function handleNewCartProduct() {
+    setCart(current => [...current, {quantity: Number(watch("cart-quantity")), product: watch("cart-product")}])
   }
 
   return (
@@ -73,22 +67,23 @@ export const NewSale = () => {
           cart.map((product, index) => {
             return (
               <div className="cart-row" key={index}>
-                <span>{product.quantity} x </span>
-                <span>{product.product}</span>
+                <span>{product.quantity} x</span>
+                <span>&nbsp;{product.product}</span>
               </div>
             )
           })
         }
         
         <div className="cart-row">
-          <input type="number" />
-          <select name="product-type" id="" >
+          <input type="number" defaultValue={1} {...register("cart-quantity")} />
+          <select name="product-type" id="" {...register("cart-product")} >
             <option value="" disabled>Produto</option>
             <option value="Misto">Misto</option>
             <option value="Frango">Frango</option>
             <option value="Salsicha">Salsicha</option>
             <option value="Cebola">Pão de Cebola</option>
           </select>
+          <button onClick={() => handleNewCartProduct()}>+</button>
         </div>
       </div>
       <button onClick={() => registerSale()}>Salvar</button>
