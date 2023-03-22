@@ -7,14 +7,17 @@ import {
 } from "react-router-dom";
 import { App } from './App'
 import { NewSale } from './components/NewSale/NewSale';
+import { UpdateProductsProvider } from './contexts/UpdateProductsProvider';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/new-sale" element={<NewSale />} />
-      </Routes>
-    </BrowserRouter>
+    <UpdateProductsProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/new-sale" element={<NewSale />} />
+        </Routes>
+      </BrowserRouter>
+    </UpdateProductsProvider>
   </React.StrictMode>,
 )

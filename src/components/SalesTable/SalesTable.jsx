@@ -1,12 +1,46 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom';
 import { table } from '../../assets/table';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../services/firebase';
+import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
+import { useNavigate } from 'react-router-dom';
 import '../../App.scss';
 
 export const SalesTable = () => {
+  const salesCollectionRef = collection(db, 'vendas');
+  const [salesRaw, setSalesRaw] = useState();
+  const { setUpdateProductId, refreshHandler } = useContext(UpdateProductsContext)
+
+  const navigate = useNavigate();
+
+  // Sales Data
+  useEffect(() => {
+    const getSalesData = async () => {
+      const data = await getDocs(salesCollectionRef);
+      setSalesRaw(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    }
+    getSalesData();
+  }, [])
+
+  function handleNewSale() {
+    sessionStorage.clear();
+    setUpdateProductId('');
+    navigate("/new-sale")
+  }
+
+  function handleUpdateSale(id) {
+    setUpdateProductId(id);
+    navigate("/new-sale")
+  }
+
+  function toDateTime(secs) {
+    return new Date(secs * 1000);
+  }
+
   return (
     <div className="sales-table-container">
-      <Link to="/new-sale">Nova venda</Link>
+      <span onClick={() => handleNewSale()}>Nova venda</span>
       <table>
         <thead>
           <tr>
@@ -23,19 +57,45 @@ export const SalesTable = () => {
           </tr>
         </thead>
         <tbody>
-          {
-            table.map((entrance, index) => (
+          { 
+            salesRaw?.map((sale, index) => (
               <tr key={index}>
-                <td>{entrance.bloco}</td>
-                <td>{entrance.apartamento}</td>
-                <td>{entrance.misto}</td>
-                <td>{entrance.frango}</td>
-                <td>{entrance.salsicha}</td>
-                <td>{entrance.pao}</td>
-                <td>{entrance.pagamento}</td>
-                <td>{entrance.status}</td>
-                <td>{entrance.data}</td>
-                <td>{entrance.preco}</td>
+                <td onClick={() => handleUpdateSale(sale.id)}>{sale?.block}</td>
+                <td>{sale?.apartment}</td>
+                <td>
+                  {
+                    sale?.cart.filter((product) =>  product.product === "Misto").length === 0 ?
+                    0 :
+                    sale?.cart.filter((product) =>  product.product === "Misto")[0].quantity
+                  }
+                </td>
+                <td>
+                  {
+                    sale?.cart.filter((product) =>  product.product === "Frango").length === 0 ?
+                    0 :
+                    sale?.cart.filter((product) =>  product.product === "Frango")[0].quantity
+                  }
+                </td>
+                <td>
+                  {
+                    sale?.cart.filter((product) =>  product.product === "Salsicha").length === 0 ?
+                    0 :
+                    sale?.cart.filter((product) =>  product.product === "Salsicha")[0].quantity
+                  }
+                </td>
+                <td>
+                  {
+                    sale?.cart.filter((product) =>  product.product === "Cebola").length === 0 ?
+                    0 :
+                    sale?.cart.filter((product) =>  product.product === "Cebola")[0].quantity
+                  }
+                </td>
+                <td>{sale?.payment}</td>
+                <td>{sale?.status}</td>
+                <td>
+                  {`${toDateTime(sale.date.seconds).getDate()}/${toDateTime(sale.date.seconds).getMonth() + 1}/${toDateTime(sale.date.seconds).getFullYear()}`}
+                </td>
+                <td>{sale?.preco}</td>
               </tr>
             ))
           }

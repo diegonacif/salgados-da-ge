@@ -16,6 +16,9 @@
     
     tbody {
       tr {
+        :first-child {
+          cursor: pointer;
+        }
 
         border: 1px solid white;
       }

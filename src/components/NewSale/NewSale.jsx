@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
-import '../../App.scss';
 import { db } from '../../services/firebase';
+import { useNavigate, useBeforeUnload } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
+
+import '../../App.scss';
 
 export const NewSale = () => {
   const date = new Date();
+  const navigate = useNavigate();
+  const { setUpdateProductId, updateProductId, saleRaw, firestoreLoading } = useContext(UpdateProductsContext);
 
   // Hook Form Controller
   const {
@@ -22,9 +28,25 @@ export const NewSale = () => {
 
   const [cart, setCart] = useState([]);
 
+  // Loading products editing
+  useEffect(() => {
+    if(firestoreLoading === true || updateProductId === '') {
+      return;
+    } else {
+      const sale = saleRaw[0];
+      // console.log(saleRaw)
+      setValue("block", sale?.block);
+      setValue("apartment", sale?.apartment);
+      setValue("payment", sale?.payment);
+      setValue("status", sale?.status);
+      setCart(sale?.cart);
+    }
+  }, [firestoreLoading, saleRaw])
+
   // Create sale data
   async function registerSale() {
-    const docRef = doc(db, "vendas", "01");
+    const uuid = uuidv4();
+    const docRef = doc(db, "vendas", uuid);
 
     return await setDoc(docRef, {
       block: watch("block"),
@@ -36,6 +58,7 @@ export const NewSale = () => {
     })
     .then(
       console.log("New sale successfully registered"),
+      navigate("/")
     )
   }
 
@@ -64,7 +87,7 @@ export const NewSale = () => {
       </div>
       <div className="cart-wrapper">
         {
-          cart.map((product, index) => {
+          cart?.map((product, index) => {
             return (
               <div className="cart-row" key={index}>
                 <span>{product.quantity} x</span>
