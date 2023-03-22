@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { db } from '../../services/firebase';
 import { useNavigate, useBeforeUnload } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,7 +11,8 @@ import '../../App.scss';
 export const NewSale = () => {
   const date = new Date();
   const navigate = useNavigate();
-  const { setUpdateProductId, updateProductId, saleRaw, firestoreLoading } = useContext(UpdateProductsContext);
+  const { setUpdateProductId, updateProductId, saleRaw, firestoreLoading, refreshHandler } = useContext(UpdateProductsContext);
+  const salesCollectionRef = collection(db, 'vendas');
 
   // Hook Form Controller
   const {
@@ -43,7 +44,7 @@ export const NewSale = () => {
     }
   }, [firestoreLoading, saleRaw])
 
-  // Create sale data
+  // Create sale
   async function registerSale() {
     const uuid = uuidv4();
     const docRef = doc(db, "vendas", uuid);
@@ -58,6 +59,36 @@ export const NewSale = () => {
     })
     .then(
       console.log("New sale successfully registered"),
+      navigate("/")
+    )
+  }
+
+  // Update sale
+  async function updateSale() {
+    const docRef = doc(db, "vendas", updateProductId);
+
+    return await setDoc(docRef, {
+      block: watch("block"),
+      apartment: watch("apartment"),
+      payment: watch("payment"),
+      status: watch("status"),
+      date: saleRaw[0].date,
+      cart: cart,
+    })
+    .then(
+      console.log("New sale successfully registered"),
+      refreshHandler(),
+      navigate("/")
+    )
+  }
+
+  // Delete sale
+  async function deleteSale() {
+
+    await deleteDoc(doc(salesCollectionRef, updateProductId))
+    .then(
+      console.log("Sale successfully deleted"),
+      refreshHandler(),
       navigate("/")
     )
   }
@@ -109,7 +140,14 @@ export const NewSale = () => {
           <button onClick={() => handleNewCartProduct()}>+</button>
         </div>
       </div>
-      <button onClick={() => registerSale()}>Salvar</button>
+      {
+        updateProductId ?
+        <>
+          <button onClick={() => updateSale()}>Atualizar</button> 
+          <button onClick={() => deleteSale()}>Deletar</button>
+        </> :
+        <button onClick={() => registerSale()}>Salvar</button>
+      }
       {/* <span>*Preço*</span> */}
     </div>
   )

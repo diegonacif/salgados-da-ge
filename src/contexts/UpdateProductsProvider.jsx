@@ -13,7 +13,8 @@ export const UpdateProductsProvider = ({ children }) => {
   const [refresh, setRefresh] = useState(false);
   const salesCollectionRef = collection(db, 'vendas');
 
-  console.log({updateProductId: updateProductId, saleRaw: saleRaw, refresh: refresh})
+  // console.log({updateProductId: updateProductId, saleRaw: saleRaw, refresh: refresh})
+  console.log(saleRaw[0]);
 
 
   // Sale Data
