@@ -38,19 +38,25 @@ export const NewSale = () => {
 
   const [temp, setTemp] = useState([]);
 
-  // console.log(temp);
+  console.log(price);
 
   useEffect(() => {
-
     const arrAssado = cart?.filter((data) => (data.type === 'assado'));
     const arrFrito = cart?.filter((data) => (data.type === 'frito'));
     const arrPao = cart?.filter((data) => (data.type === 'pao'));
 
-    const assadosSum = arrAssado.map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const assadoSum = arrAssado.map((data) => data.quantity).reduce((a, b) => a + b, 0);
     const fritoSum = arrFrito.map((data) => data.quantity).reduce((a, b) => a + b, 0);
     const paoSum = arrPao.map((data) => data.quantity).reduce((a, b) => a + b, 0);
+
+    const assadoPrice = ((assadoSum % 3) * 4) + ((((assadoSum - (assadoSum % 3)) / 3) * 10))
     
-    console.log({assados: assadosSum, pães: paoSum});
+    // console.log({ assados: assadoSum, pães: paoSum });
+    // console.log(assadoPrice);
+
+    setPrice(
+      assadoPrice
+    )
 
   }, [watch("cart-product"), cart])
 
