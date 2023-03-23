@@ -29,6 +29,46 @@ export const NewSale = () => {
 
   const [cart, setCart] = useState([]);
 
+  // Handling Price
+  const [price, setPrice] = useState(0);
+  
+  const [assado, setAssado] = useState(0);
+  const [frito, setFrito] = useState(0);
+  const [pao, setPao] = useState(0);
+
+  const [temp, setTemp] = useState([]);
+
+  // console.log(temp);
+
+  useEffect(() => {
+
+    const arrAssado = cart?.filter((data) => (data.type === 'assado'));
+    const arrFrito = cart?.filter((data) => (data.type === 'frito'));
+    const arrPao = cart?.filter((data) => (data.type === 'pao'));
+
+    const assadosSum = arrAssado.map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const fritoSum = arrFrito.map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const paoSum = arrPao.map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    
+    console.log({assados: assadosSum, pães: paoSum});
+
+  }, [watch("cart-product"), cart])
+
+  // Handling Type
+  const [type, setType] = useState('');
+  // console.log(price);
+  useEffect(() => {
+    if(['Misto', 'Frango', 'Salsicha'].includes(watch("cart-product"))) {
+      setType('assado');
+    } else if(['Enroladinho', 'Coxinha', 'Torta'].includes(watch("cart-product"))) {
+      setType('frito');
+    } else if(['Cebola'].includes(watch("cart-product"))) {
+      setType('pao');
+    } else (
+      console.log('type not found')
+    )
+  }, [watch("cart-product")])
+
   // Loading products editing
   useEffect(() => {
     if(firestoreLoading === true || updateProductId === '') {
@@ -76,7 +116,7 @@ export const NewSale = () => {
       cart: cart,
     })
     .then(
-      console.log("New sale successfully registered"),
+      console.log("Sale successfully updated"),
       refreshHandler(),
       navigate("/")
     )
@@ -95,7 +135,16 @@ export const NewSale = () => {
 
   // Add product to cart
   function handleNewCartProduct() {
-    setCart(current => [...current, {quantity: Number(watch("cart-quantity")), product: watch("cart-product")}])
+    setCart(current => [...current, {
+      quantity: Number(watch("cart-quantity")),
+      product: watch("cart-product"),
+      type: type,
+    }]);
+    
+    setTimeout(() => {
+      setValue("cart-quantity", 1);
+      setValue("cart-product", '');
+    }, 25);
   }
 
   return (
@@ -139,6 +188,7 @@ export const NewSale = () => {
           </select>
           <button onClick={() => handleNewCartProduct()}>+</button>
         </div>
+        <span>Price</span>
       </div>
       {
         updateProductId ?

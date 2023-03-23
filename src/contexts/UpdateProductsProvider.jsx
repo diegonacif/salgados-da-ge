@@ -14,7 +14,7 @@ export const UpdateProductsProvider = ({ children }) => {
   const salesCollectionRef = collection(db, 'vendas');
 
   // console.log({updateProductId: updateProductId, saleRaw: saleRaw, refresh: refresh})
-  console.log(saleRaw[0]);
+  // console.log(saleRaw[0]);
 
 
   // Sale Data
