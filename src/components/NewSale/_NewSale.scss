@@ -3,6 +3,7 @@
   grid-template-columns: 1fr 1fr;
   justify-items: center;
   row-gap: 5rem;
+  margin-top: 2rem;
 
   .main-info {
     display: flex;
@@ -10,12 +11,36 @@
   }
 
   .cart-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     .cart-row {
       display: flex;
+
+      & + .cart-row {
+        margin-top: 0.75rem;
+      }
 
       input[type="number"] {
         width: 3rem;
       }
+
+      .cart-delete-button {
+        height: 100%;
+        width: 1.75rem;
+        padding: 0;
+        margin-left: auto;
+        background-color: gray;
+        border: 1px solid rgb(187, 187, 187);
+      }
+    }
+
+    #cart-input {
+      margin-top: 2rem;
+    }
+
+    #cart-total-price {
+      margin-top: 1rem;
     }
   }
 

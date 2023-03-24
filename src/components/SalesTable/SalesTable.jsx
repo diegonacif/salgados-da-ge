@@ -38,6 +38,7 @@ export const SalesTable = () => {
     return new Date(secs * 1000);
   }
 
+
   return (
     <div className="sales-table-container">
       <span onClick={() => handleNewSale()}>Nova venda</span>
@@ -95,7 +96,7 @@ export const SalesTable = () => {
                 <td>
                   {`${toDateTime(sale.date.seconds).getDate()}/${toDateTime(sale.date.seconds).getMonth() + 1}/${toDateTime(sale.date.seconds).getFullYear()}`}
                 </td>
-                <td>{sale?.preco}</td>
+                <td>R$ {sale?.price},00</td>
               </tr>
             ))
           }

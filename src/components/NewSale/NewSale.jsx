@@ -28,41 +28,34 @@ export const NewSale = () => {
   });
 
   const [cart, setCart] = useState([]);
+  // console.log(cart);
 
   // Handling Price
   const [price, setPrice] = useState(0);
-  
-  const [assado, setAssado] = useState(0);
-  const [frito, setFrito] = useState(0);
-  const [pao, setPao] = useState(0);
-
-  const [temp, setTemp] = useState([]);
-
-  console.log(price);
 
   useEffect(() => {
     const arrAssado = cart?.filter((data) => (data.type === 'assado'));
     const arrFrito = cart?.filter((data) => (data.type === 'frito'));
     const arrPao = cart?.filter((data) => (data.type === 'pao'));
 
-    const assadoSum = arrAssado.map((data) => data.quantity).reduce((a, b) => a + b, 0);
-    const fritoSum = arrFrito.map((data) => data.quantity).reduce((a, b) => a + b, 0);
-    const paoSum = arrPao.map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const assadoSum = arrAssado?.map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const fritoSum = arrFrito?.map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const paoSum = arrPao?.map((data) => data.quantity).reduce((a, b) => a + b, 0);
 
     const assadoPrice = ((assadoSum % 3) * 4) + ((((assadoSum - (assadoSum % 3)) / 3) * 10))
-    
-    // console.log({ assados: assadoSum, pães: paoSum });
-    // console.log(assadoPrice);
+    const fritoPrice = ((fritoSum % 2) * 3) + ((((fritoSum - (fritoSum % 2)) / 2) * 5))
+    const paoPrice = paoSum * 1
+
+    // console.log(fritoPrice);
 
     setPrice(
-      assadoPrice
+      assadoPrice + paoPrice + fritoPrice
     )
 
-  }, [watch("cart-product"), cart])
+  }, [watch("cart-product")])
 
   // Handling Type
   const [type, setType] = useState('');
-  // console.log(price);
   useEffect(() => {
     if(['Misto', 'Frango', 'Salsicha'].includes(watch("cart-product"))) {
       setType('assado');
@@ -71,7 +64,7 @@ export const NewSale = () => {
     } else if(['Cebola'].includes(watch("cart-product"))) {
       setType('pao');
     } else (
-      console.log('type not found')
+      null
     )
   }, [watch("cart-product")])
 
@@ -102,6 +95,7 @@ export const NewSale = () => {
       status: watch("status"),
       date: date,
       cart: cart,
+      price: price
     })
     .then(
       console.log("New sale successfully registered"),
@@ -120,6 +114,7 @@ export const NewSale = () => {
       status: watch("status"),
       date: saleRaw[0].date,
       cart: cart,
+      price: price
     })
     .then(
       console.log("Sale successfully updated"),
@@ -153,6 +148,15 @@ export const NewSale = () => {
     }, 25);
   }
 
+  // Delete product from cart
+  function handleDeleteCartProduct(product) {
+    const productIndex = cart.indexOf(product);
+    const newCart = structuredClone(cart);
+    newCart.splice(productIndex, 1);
+    setCart(newCart);
+    // console.log(cart);
+  };
+
   return (
     <div className="new-sale-container">
       <div className="main-info">
@@ -177,24 +181,28 @@ export const NewSale = () => {
             return (
               <div className="cart-row" key={index}>
                 <span>{product.quantity} x</span>
-                <span>&nbsp;{product.product}</span>
+                <span>&nbsp;{product.product === "Cebola" && "Pão de "}{product.product}</span>
+                <button onClick={() => handleDeleteCartProduct(product, index)} className="cart-delete-button">-</button>
               </div>
             )
           })
         }
         
-        <div className="cart-row">
+        <div className="cart-row" id="cart-input">
           <input type="number" defaultValue={1} {...register("cart-quantity")} />
-          <select name="product-type" id="" {...register("cart-product")} >
+          <select name="product-type" id="" defaultValue={''} {...register("cart-product")} >
             <option value="" disabled>Produto</option>
             <option value="Misto">Misto</option>
             <option value="Frango">Frango</option>
             <option value="Salsicha">Salsicha</option>
+            <option value="Enroladinho">Enroladinho</option>
+            <option value="Coxinha">Coxinha</option>
+            <option value="Torta">Torta</option>
             <option value="Cebola">Pão de Cebola</option>
           </select>
           <button onClick={() => handleNewCartProduct()}>+</button>
         </div>
-        <span>Price</span>
+        <span id="cart-total-price">R$ {price}</span>
       </div>
       {
         updateProductId ?
