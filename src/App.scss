@@ -1,7 +1,7 @@
 // Color Palette
 $white: #fafafa;
 $black: #0a0a0a;
-$gray-800: #505050;
+$gray-800: #313131;
 $yelllow-700: #E4B147;
 $red-600: #801115;
 
@@ -18,6 +18,19 @@ $font-primary: 'Laila', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  // Remove arrows/spinners from numeric inputs
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    appearance: textfield;
+  }
 }
 
 // .App {

@@ -6,11 +6,9 @@ import { useNavigate, useBeforeUnload } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { Header } from '../Header/Header';
-import TextField from '@mui/material/TextField';
-import CssBaseline from '@mui/material/CssBaseline';
 
 import '../../App.scss';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { FloppyDisk, MinusCircle, PlusCircle } from '@phosphor-icons/react';
 
 export const NewSale = () => {
   const date = new Date();
@@ -164,7 +162,6 @@ export const NewSale = () => {
 
   return (
     <>
-      <CssBaseline />
       <Header />
       <div className="new-sale-container">
         <div className="main-info">
@@ -196,18 +193,6 @@ export const NewSale = () => {
           {/* <span>*Data*</span> */}
         </div>
         <div className="cart-wrapper">
-          {
-            cart?.map((product, index) => {
-              return (
-                <div className="cart-row" key={index}>
-                  <span>{product.quantity} x</span>
-                  <span>&nbsp;{product.product === "Cebola" && "Pão de "}{product.product}</span>
-                  <button onClick={() => handleDeleteCartProduct(product, index)} className="cart-delete-button">-</button>
-                </div>
-              )
-            })
-          }
-          
           <div className="cart-row" id="cart-input">
             <input type="number" defaultValue={1} {...register("cart-quantity")} />
             <select name="product-type" id="" defaultValue={''} {...register("cart-product")} >
@@ -220,17 +205,31 @@ export const NewSale = () => {
               <option value="Torta">Torta</option>
               <option value="Cebola">Pão de Cebola</option>
             </select>
-            <button onClick={() => handleNewCartProduct()}>+</button>
+            {/* <button onClick={() => handleNewCartProduct()}>+</button> */}
+            <PlusCircle size={32} weight="fill" onClick={() => handleNewCartProduct()} />
           </div>
           <span id="cart-total-price">R$ {price}</span>
+          {
+            cart?.map((product, index) => {
+              return (
+                <div className="cart-row cart-product" key={index}>
+                  <span>{product.quantity} x</span>
+                  <span>&nbsp;{product.product === "Cebola" && "Pão de "}{product.product}</span>
+                  {/* <button onClick={() => handleDeleteCartProduct(product, index)} className="cart-delete-button">-</button> */}
+                  <MinusCircle size={28} weight="fill" onClick={() => handleDeleteCartProduct(product, index)} className="cart-delete-button" />
+                </div>
+              )
+            })
+          }
         </div>
         {
           updateProductId ?
           <>
-            <button onClick={() => updateSale()}>Atualizar</button> 
-            <button onClick={() => deleteSale()}>Deletar</button>
+            <button id="update-button" onClick={() => updateSale()}>Atualizar</button> 
+            <button id="delete-button" onClick={() => deleteSale()}>Deletar</button>
           </> :
-          <button onClick={() => registerSale()}>Salvar</button>
+          <FloppyDisk size={40} weight="fill" id="register-button" onClick={() => registerSale()} />
+          // <button id="register-button" onClick={() => registerSale()}>Salvar</button>
         }
         {/* <span>*Preço*</span> */}
       </div>
