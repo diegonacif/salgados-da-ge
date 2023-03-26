@@ -5,9 +5,12 @@ import { db } from '../../services/firebase';
 import { useNavigate, useBeforeUnload } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
+import { Header } from '../Header/Header';
+import TextField from '@mui/material/TextField';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import '../../App.scss';
-import { Header } from '../Header/Header';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 export const NewSale = () => {
   const date = new Date();
@@ -158,24 +161,38 @@ export const NewSale = () => {
     // console.log(cart);
   };
 
+
   return (
     <>
+      <CssBaseline />
       <Header />
       <div className="new-sale-container">
         <div className="main-info">
-          <input type="text" id="block" placeholder="Bloco" {...register("block")} />
-          <input type="text" placeholder="Apartamento" {...register("apartment")} />
-          <select name="payment" id="payment" {...register("payment")}>
-            <option value="" disabled>Forma de pagamento...</option>
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Pix">Pix</option>
-            <option value="Cartão">Cartão</option>
-          </select>
-          <select name="status" id="status" {...register("status")}>
-            <option value="Novo Pedido">Novo Pedido</option>
-            <option value="Saindo">Saindo</option>
-            <option value="Entregue">Entregue</option>
-          </select>
+          <div className="input-row">
+            <label htmlFor="block">Bloco</label>
+            <input type="text" id="block" {...register("block")} />
+          </div>
+          <div className="input-row">
+            <label htmlFor="block">Apartamento</label>
+            <input type="text" {...register("apartment")} />
+          </div>
+          <div className="input-row">
+            <label htmlFor="block">Forma de pagamento</label>
+            <select name="payment" id="payment" {...register("payment")}>
+              <option value="" disabled>Selecione...</option>
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="Pix">Pix</option>
+              <option value="Cartão">Cartão</option>
+            </select>
+          </div>
+          <div className="input-row">
+            <label htmlFor="block">Status</label>
+            <select name="status" id="status" {...register("status")}>
+              <option value="Novo Pedido">Novo Pedido</option>
+              <option value="Saindo">Saindo</option>
+              <option value="Entregue">Entregue</option>
+            </select>
+          </div>
           {/* <span>*Data*</span> */}
         </div>
         <div className="cart-wrapper">

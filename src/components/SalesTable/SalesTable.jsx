@@ -5,8 +5,6 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { useNavigate } from 'react-router-dom';
-import titleLogo from '../../assets/salgados-title.png';
-import titleMiniGe from '../../assets/salgados-mini-ge.png';
 import '../../App.scss';
 
 export const SalesTable = () => {
@@ -43,8 +41,6 @@ export const SalesTable = () => {
 
   return (
     <div className="sales-table-container">
-      {/* <img src={titleLogo} alt="Salgados da Gê" id="titleLogo" />
-      <img src={titleMiniGe} alt="Boneca Mini Gê" id="titleMiniGe" /> */}
       <button onClick={() => handleNewSale()}>Nova venda</button>
       <div className="table-wrapper">
         <table>
@@ -52,10 +48,10 @@ export const SalesTable = () => {
             <tr>
               <th>Bloco</th>
               <th>Apartamento</th>
-              <th>Misto</th>
+              {/* <th>Misto</th>
               <th>Frango</th>
               <th>Salsicha</th>
-              <th>Pão</th>
+              <th>Pão</th> */}
               <th>Pagamento</th>
               <th>Status</th>
               <th>Data</th>
@@ -68,7 +64,7 @@ export const SalesTable = () => {
                 <tr key={index}>
                   <td onClick={() => handleUpdateSale(sale.id)}>{sale?.block}</td>
                   <td>{sale?.apartment}</td>
-                  <td>
+                  {/* <td>
                     {
                       sale?.cart.filter((product) =>  product.product === "Misto").length === 0 ?
                       0 :
@@ -95,7 +91,7 @@ export const SalesTable = () => {
                       0 :
                       sale?.cart.filter((product) =>  product.product === "Cebola")[0].quantity
                     }
-                  </td>
+                  </td> */}
                   <td>{sale?.payment}</td>
                   <td className={
                     sale?.status === "Novo Pedido" ? "status-red" :
@@ -106,7 +102,7 @@ export const SalesTable = () => {
                     {sale?.status}
                   </td>
                   <td>
-                    {`${toDateTime(sale.date.seconds).getDate()}/${toDateTime(sale.date.seconds).getMonth() + 1}/${toDateTime(sale.date.seconds).getFullYear()}`}
+                    {`${toDateTime(sale.date.seconds).getDate() < 10 ? '0' : ''}${toDateTime(sale.date.seconds).getDate()}/${toDateTime(sale.date.seconds).getMonth() + 1 < 10 ? '0' : ''}${toDateTime(sale.date.seconds).getMonth() + 1}/${toDateTime(sale.date.seconds).getFullYear()}`}
                   </td>
                   <td>R$ {sale?.price},00</td>
                 </tr>
