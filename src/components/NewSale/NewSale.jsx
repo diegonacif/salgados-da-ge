@@ -208,7 +208,7 @@ export const NewSale = () => {
             {/* <button onClick={() => handleNewCartProduct()}>+</button> */}
             <PlusCircle size={32} weight="fill" onClick={() => handleNewCartProduct()} />
           </div>
-          <span id="cart-total-price">R$ {price}</span>
+          <span id="cart-total-price">Total: R$ {price}</span>
           {
             cart?.map((product, index) => {
               return (
