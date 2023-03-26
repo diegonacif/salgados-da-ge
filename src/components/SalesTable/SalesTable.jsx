@@ -97,7 +97,14 @@ export const SalesTable = () => {
                     }
                   </td>
                   <td>{sale?.payment}</td>
-                  <td>{sale?.status}</td>
+                  <td className={
+                    sale?.status === "Novo Pedido" ? "status-red" :
+                    sale?.status === "Saindo" ? "status-blue" :
+                    sale?.status === "Entregue" ? "status-green" :
+                    null
+                  }>
+                    {sale?.status}
+                  </td>
                   <td>
                     {`${toDateTime(sale.date.seconds).getDate()}/${toDateTime(sale.date.seconds).getMonth() + 1}/${toDateTime(sale.date.seconds).getFullYear()}`}
                   </td>

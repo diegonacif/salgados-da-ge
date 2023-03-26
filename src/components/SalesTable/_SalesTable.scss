@@ -70,6 +70,16 @@
         }
         td {
           padding: 0.5rem;
+
+          &.status-red {
+            text-shadow: 0 0 5px rgb(255, 0, 0);
+          }
+          &.status-blue {
+            text-shadow: 0 0 5px rgb(0, 0, 255);
+          }
+          &.status-green {
+            text-shadow: 0 0 5px rgb(0, 255, 0);
+          }
         }
       }
     }

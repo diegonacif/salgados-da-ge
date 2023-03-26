@@ -174,7 +174,7 @@ export const NewSale = () => {
           <select name="status" id="status" {...register("status")}>
             <option value="Novo Pedido">Novo Pedido</option>
             <option value="Saindo">Saindo</option>
-            <option value="Novo Pedido">Entregue</option>
+            <option value="Entregue">Entregue</option>
           </select>
           {/* <span>*Data*</span> */}
         </div>
