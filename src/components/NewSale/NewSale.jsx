@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 
 import '../../App.scss';
+import { Header } from '../Header/Header';
 
 export const NewSale = () => {
   const date = new Date();
@@ -158,61 +159,64 @@ export const NewSale = () => {
   };
 
   return (
-    <div className="new-sale-container">
-      <div className="main-info">
-        <input type="text" id="block" placeholder="Bloco" {...register("block")} />
-        <input type="text" placeholder="Apartamento" {...register("apartment")} />
-        <select name="payment" id="payment" {...register("payment")}>
-          <option value="" disabled>Forma de pagamento...</option>
-          <option value="Dinheiro">Dinheiro</option>
-          <option value="Pix">Pix</option>
-          <option value="Cartão">Cartão</option>
-        </select>
-        <select name="status" id="status" {...register("status")}>
-          <option value="Novo Pedido">Novo Pedido</option>
-          <option value="Saindo">Saindo</option>
-          <option value="Novo Pedido">Entregue</option>
-        </select>
-        {/* <span>*Data*</span> */}
-      </div>
-      <div className="cart-wrapper">
-        {
-          cart?.map((product, index) => {
-            return (
-              <div className="cart-row" key={index}>
-                <span>{product.quantity} x</span>
-                <span>&nbsp;{product.product === "Cebola" && "Pão de "}{product.product}</span>
-                <button onClick={() => handleDeleteCartProduct(product, index)} className="cart-delete-button">-</button>
-              </div>
-            )
-          })
-        }
-        
-        <div className="cart-row" id="cart-input">
-          <input type="number" defaultValue={1} {...register("cart-quantity")} />
-          <select name="product-type" id="" defaultValue={''} {...register("cart-product")} >
-            <option value="" disabled>Produto</option>
-            <option value="Misto">Misto</option>
-            <option value="Frango">Frango</option>
-            <option value="Salsicha">Salsicha</option>
-            <option value="Enroladinho">Enroladinho</option>
-            <option value="Coxinha">Coxinha</option>
-            <option value="Torta">Torta</option>
-            <option value="Cebola">Pão de Cebola</option>
+    <>
+      <Header />
+      <div className="new-sale-container">
+        <div className="main-info">
+          <input type="text" id="block" placeholder="Bloco" {...register("block")} />
+          <input type="text" placeholder="Apartamento" {...register("apartment")} />
+          <select name="payment" id="payment" {...register("payment")}>
+            <option value="" disabled>Forma de pagamento...</option>
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Pix">Pix</option>
+            <option value="Cartão">Cartão</option>
           </select>
-          <button onClick={() => handleNewCartProduct()}>+</button>
+          <select name="status" id="status" {...register("status")}>
+            <option value="Novo Pedido">Novo Pedido</option>
+            <option value="Saindo">Saindo</option>
+            <option value="Novo Pedido">Entregue</option>
+          </select>
+          {/* <span>*Data*</span> */}
         </div>
-        <span id="cart-total-price">R$ {price}</span>
+        <div className="cart-wrapper">
+          {
+            cart?.map((product, index) => {
+              return (
+                <div className="cart-row" key={index}>
+                  <span>{product.quantity} x</span>
+                  <span>&nbsp;{product.product === "Cebola" && "Pão de "}{product.product}</span>
+                  <button onClick={() => handleDeleteCartProduct(product, index)} className="cart-delete-button">-</button>
+                </div>
+              )
+            })
+          }
+          
+          <div className="cart-row" id="cart-input">
+            <input type="number" defaultValue={1} {...register("cart-quantity")} />
+            <select name="product-type" id="" defaultValue={''} {...register("cart-product")} >
+              <option value="" disabled>Produto</option>
+              <option value="Misto">Misto</option>
+              <option value="Frango">Frango</option>
+              <option value="Salsicha">Salsicha</option>
+              <option value="Enroladinho">Enroladinho</option>
+              <option value="Coxinha">Coxinha</option>
+              <option value="Torta">Torta</option>
+              <option value="Cebola">Pão de Cebola</option>
+            </select>
+            <button onClick={() => handleNewCartProduct()}>+</button>
+          </div>
+          <span id="cart-total-price">R$ {price}</span>
+        </div>
+        {
+          updateProductId ?
+          <>
+            <button onClick={() => updateSale()}>Atualizar</button> 
+            <button onClick={() => deleteSale()}>Deletar</button>
+          </> :
+          <button onClick={() => registerSale()}>Salvar</button>
+        }
+        {/* <span>*Preço*</span> */}
       </div>
-      {
-        updateProductId ?
-        <>
-          <button onClick={() => updateSale()}>Atualizar</button> 
-          <button onClick={() => deleteSale()}>Deletar</button>
-        </> :
-        <button onClick={() => registerSale()}>Salvar</button>
-      }
-      {/* <span>*Preço*</span> */}
-    </div>
+    </>
   )
 }

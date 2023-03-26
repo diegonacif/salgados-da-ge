@@ -2,6 +2,7 @@
 $white: #fafafa;
 $black: #0a0a0a;
 $yelllow-700: #E4B147;
+$red-600: #801115;
 
 // Media Variables
 $mobile-size: "min-width: 320px";
@@ -9,7 +10,8 @@ $tablet-size: "min-width: 600px";
 $notebook-size: "min-width: 1024px";
 $desktop-size: "min-width: 1280px";
 
-$font-title: 'Laila', sans-serif;
+$font-title: 'Great Vibes', cursive;
+$font-primary: 'Laila', sans-serif;
 
 * {
   margin: 0;
@@ -17,10 +19,11 @@ $font-title: 'Laila', sans-serif;
   box-sizing: border-box;
 }
 
-body {
-  background-color: $yelllow-700;
-  padding: 3rem 0;
-}
+// .App {
+//   background-color: $yelllow-700;
+//   padding: 3rem 0;
+//   z-index: 1;
+// }
 
 @mixin responsive-padding($pt: 0, $pb: 0) {
   padding: $pt 1rem $pb;
@@ -38,3 +41,4 @@ body {
 
 @import "./components/SalesTable/SalesTable";
 @import "./components/NewSale/NewSale";
+@import "./components/Header/Header";

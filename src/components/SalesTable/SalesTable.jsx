@@ -5,6 +5,8 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { useNavigate } from 'react-router-dom';
+import titleLogo from '../../assets/salgados-title.png';
+import titleMiniGe from '../../assets/salgados-mini-ge.png';
 import '../../App.scss';
 
 export const SalesTable = () => {
@@ -41,67 +43,71 @@ export const SalesTable = () => {
 
   return (
     <div className="sales-table-container">
+      {/* <img src={titleLogo} alt="Salgados da Gê" id="titleLogo" />
+      <img src={titleMiniGe} alt="Boneca Mini Gê" id="titleMiniGe" /> */}
       <button onClick={() => handleNewSale()}>Nova venda</button>
-      <table>
-        <thead>
-          <tr>
-            <th>Bloco</th>
-            <th>Apartamento</th>
-            <th>Misto</th>
-            <th>Frango</th>
-            <th>Salsicha</th>
-            <th>Pão</th>
-            <th>Pagamento</th>
-            <th>Status</th>
-            <th>Data</th>
-            <th>Preço</th>
-          </tr>
-        </thead>
-        <tbody>
-          { 
-            salesRaw?.map((sale, index) => (
-              <tr key={index}>
-                <td onClick={() => handleUpdateSale(sale.id)}>{sale?.block}</td>
-                <td>{sale?.apartment}</td>
-                <td>
-                  {
-                    sale?.cart.filter((product) =>  product.product === "Misto").length === 0 ?
-                    0 :
-                    sale?.cart.filter((product) =>  product.product === "Misto")[0].quantity
-                  }
-                </td>
-                <td>
-                  {
-                    sale?.cart.filter((product) =>  product.product === "Frango").length === 0 ?
-                    0 :
-                    sale?.cart.filter((product) =>  product.product === "Frango")[0].quantity
-                  }
-                </td>
-                <td>
-                  {
-                    sale?.cart.filter((product) =>  product.product === "Salsicha").length === 0 ?
-                    0 :
-                    sale?.cart.filter((product) =>  product.product === "Salsicha")[0].quantity
-                  }
-                </td>
-                <td>
-                  {
-                    sale?.cart.filter((product) =>  product.product === "Cebola").length === 0 ?
-                    0 :
-                    sale?.cart.filter((product) =>  product.product === "Cebola")[0].quantity
-                  }
-                </td>
-                <td>{sale?.payment}</td>
-                <td>{sale?.status}</td>
-                <td>
-                  {`${toDateTime(sale.date.seconds).getDate()}/${toDateTime(sale.date.seconds).getMonth() + 1}/${toDateTime(sale.date.seconds).getFullYear()}`}
-                </td>
-                <td>R$ {sale?.price},00</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Bloco</th>
+              <th>Apartamento</th>
+              <th>Misto</th>
+              <th>Frango</th>
+              <th>Salsicha</th>
+              <th>Pão</th>
+              <th>Pagamento</th>
+              <th>Status</th>
+              <th>Data</th>
+              <th>Preço</th>
+            </tr>
+          </thead>
+          <tbody>
+            { 
+              salesRaw?.map((sale, index) => (
+                <tr key={index}>
+                  <td onClick={() => handleUpdateSale(sale.id)}>{sale?.block}</td>
+                  <td>{sale?.apartment}</td>
+                  <td>
+                    {
+                      sale?.cart.filter((product) =>  product.product === "Misto").length === 0 ?
+                      0 :
+                      sale?.cart.filter((product) =>  product.product === "Misto")[0].quantity
+                    }
+                  </td>
+                  <td>
+                    {
+                      sale?.cart.filter((product) =>  product.product === "Frango").length === 0 ?
+                      0 :
+                      sale?.cart.filter((product) =>  product.product === "Frango")[0].quantity
+                    }
+                  </td>
+                  <td>
+                    {
+                      sale?.cart.filter((product) =>  product.product === "Salsicha").length === 0 ?
+                      0 :
+                      sale?.cart.filter((product) =>  product.product === "Salsicha")[0].quantity
+                    }
+                  </td>
+                  <td>
+                    {
+                      sale?.cart.filter((product) =>  product.product === "Cebola").length === 0 ?
+                      0 :
+                      sale?.cart.filter((product) =>  product.product === "Cebola")[0].quantity
+                    }
+                  </td>
+                  <td>{sale?.payment}</td>
+                  <td>{sale?.status}</td>
+                  <td>
+                    {`${toDateTime(sale.date.seconds).getDate()}/${toDateTime(sale.date.seconds).getMonth() + 1}/${toDateTime(sale.date.seconds).getFullYear()}`}
+                  </td>
+                  <td>R$ {sale?.price},00</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

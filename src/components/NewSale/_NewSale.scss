@@ -47,24 +47,24 @@
   input, select {
     height: 2rem;
     width: 12rem;
-    color: white;
+    color: $black;
   }
 
   input {
     padding: 0 0.25rem;
 
     &::placeholder {
-      color: white;
+      color: $black;
       opacity: 0.75;
     }
   }
 
   span {
-    color: white;
+    color: $black;
   }
 
   button {
-    color: white;
+    color: $black;
     height: 2rem;
     padding: 0 1rem;
     cursor: pointer;

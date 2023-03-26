@@ -1,0 +1,26 @@
+.header-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  width: 100%;
+  background-color: $yelllow-700;
+
+  #titleMiniGe {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-16rem);
+    width: 5rem;
+    z-index: 99;
+  }
+
+  h1 {
+    padding-top: 1.5rem;
+    color: $red-600;
+    font-size: 3.5rem;
+    z-index: 99;
+    font-family: $font-title;
+  }
+}

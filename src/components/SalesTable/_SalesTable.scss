@@ -1,11 +1,29 @@
 .sales-table-container {
+  position: relative;
   @include responsive-padding(2rem, 2rem);
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow-x: auto;
   background-color: $white;
-  font-family: $font-title;
+  font-family: $font-primary;
+
+  #titleLogo {
+    position: absolute;
+    top: -2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22rem;
+    z-index: 99;
+  }
+
+  #titleMiniGe {
+    position: absolute;
+    top: -2.5rem;
+    left: 50%;
+    transform: translateX(-16rem);
+    width: 5rem;
+    z-index: 99;
+  }
 
   button {
     height: 2.5rem;
@@ -15,37 +33,46 @@
     border-radius: 6px;
     font-size: 1rem;
     cursor: pointer;
+    align-self: flex-end;
   }
 
-  table {
-    margin-top: 2rem;
+  .table-wrapper {
     width: 100%;
-    min-width: max-content;
-    color: $black;
-    text-align: center;
-    border: 1px solid $yelllow-700;
-    border-collapse: collapse;
-    background-color: $white;
-    
-    thead {
-      height: 3rem;
-      th {
-        border: 2px solid $yelllow-700;
-        padding: 0 0.5rem;
-      }
-    }
-    
-    tbody {
-      tr {
-        :first-child {
-          cursor: pointer;
-        }
+    height: 100%;
+    overflow-x: auto;
+    padding-bottom: 1rem;
 
-        border: 1px solid $yelllow-700;
+    table {
+      margin-top: 2rem;
+      width: 100%;
+      min-width: max-content;
+      color: $black;
+      text-align: center;
+      border: 1px solid $yelllow-700;
+      border-collapse: collapse;
+      background-color: $white;
+      
+      thead {
+        height: 3rem;
+        th {
+          border: 2px solid $yelllow-700;
+          padding: 0 0.5rem;
+        }
       }
-      td {
-        padding: 0.5rem;
+      
+      tbody {
+        tr {
+          :first-child {
+            cursor: pointer;
+          }
+  
+          border: 1px solid $yelllow-700;
+        }
+        td {
+          padding: 0.5rem;
+        }
       }
     }
   }
+
 }
