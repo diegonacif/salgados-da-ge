@@ -1,15 +1,35 @@
 .sales-table-container {
+  @include responsive-padding(2rem, 2rem);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   overflow-x: auto;
+  background-color: $white;
+
+  button {
+    height: 2.5rem;
+    width: 7rem;
+    border: 0;
+    background-color: $yelllow-700;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
   table {
-    color: white;
+    margin-top: 2rem;
+    width: 100%;
+    min-width: max-content;
+    color: $black;
     text-align: center;
-    border: 1px solid white;
+    border: 1px solid $yelllow-700;
     border-collapse: collapse;
+    background-color: $white;
     
     thead {
       height: 3rem;
       th {
-        border: 1px solid white;
+        border: 2px solid $yelllow-700;
         padding: 0 0.5rem;
       }
     }
@@ -20,7 +40,7 @@
           cursor: pointer;
         }
 
-        border: 1px solid white;
+        border: 1px solid $yelllow-700;
       }
       td {
         padding: 0.5rem;

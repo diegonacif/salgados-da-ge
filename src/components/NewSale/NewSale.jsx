@@ -52,7 +52,7 @@ export const NewSale = () => {
       assadoPrice + paoPrice + fritoPrice
     )
 
-  }, [watch("cart-product")])
+  }, [watch("cart-product"), cart])
 
   // Handling Type
   const [type, setType] = useState('');
@@ -173,7 +173,7 @@ export const NewSale = () => {
           <option value="Saindo">Saindo</option>
           <option value="Novo Pedido">Entregue</option>
         </select>
-        <span>*Data*</span>
+        {/* <span>*Data*</span> */}
       </div>
       <div className="cart-wrapper">
         {

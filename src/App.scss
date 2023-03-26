@@ -1,8 +1,37 @@
+// Color Palette
+$white: #fafafa;
+$black: #0a0a0a;
+$yelllow-700: #E4B147;
+
+// Media Variables
+$mobile-size: "min-width: 320px";
+$tablet-size: "min-width: 600px";
+$notebook-size: "min-width: 1024px";
+$desktop-size: "min-width: 1280px";
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: rgb(36, 36, 36);
+}
+
+body {
+  background-color: $yelllow-700;
+  padding: 3rem 0;
+}
+
+@mixin responsive-padding($pt: 0, $pb: 0) {
+  padding: $pt 1rem $pb;
+
+  @media only screen and ($tablet-size) {
+    padding: $pt 4rem $pb;
+  }
+  @media only screen and ($notebook-size) {
+    padding: $pt 6rem $pb;
+  }
+  @media only screen and ($desktop-size) {
+    padding: $pt calc(8rem + 5vw) $pb;
+  }
 }
 
 @import "./components/SalesTable/SalesTable";
