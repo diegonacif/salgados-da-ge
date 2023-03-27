@@ -8,7 +8,7 @@ import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { Header } from '../Header/Header';
 
 import '../../App.scss';
-import { FloppyDisk, MinusCircle, PlusCircle } from '@phosphor-icons/react';
+import { Export, FloppyDisk, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
 
 export const NewSale = () => {
   const date = new Date();
@@ -191,6 +191,28 @@ export const NewSale = () => {
             </select>
           </div>
           {/* <span>*Data*</span> */}
+          <div className="input-row buttons-wrapper">
+            {
+              updateProductId ?
+              <>
+                <div id="update-button" onClick={() => updateSale()}>
+                  <span>Atualizar</span>
+                  <Export size={24} weight="duotone" />
+                </div>
+                {/* <button id="update-button" onClick={() => updateSale()}>Atualizar</button>  */}
+                <div id="delete-button" onClick={() => deleteSale()}>
+                  <span>Deletar</span>
+                  <Trash size={24} weight="duotone" />
+                </div>
+                {/* <button id="delete-button" onClick={() => deleteSale()}>Deletar</button> */}
+              </> :
+              <div id="register-button" onClick={() => registerSale()}>
+                <span>Salvar</span>
+                <FloppyDisk size={24} weight="duotone" />
+              </div>
+              // <button id="register-button" onClick={() => registerSale()}>Salvar</button>
+            }
+          </div>
         </div>
         <div className="cart-wrapper">
           <div className="cart-row" id="cart-input">
@@ -222,15 +244,7 @@ export const NewSale = () => {
             })
           }
         </div>
-        {
-          updateProductId ?
-          <>
-            <button id="update-button" onClick={() => updateSale()}>Atualizar</button> 
-            <button id="delete-button" onClick={() => deleteSale()}>Deletar</button>
-          </> :
-          <FloppyDisk size={40} weight="fill" id="register-button" onClick={() => registerSale()} />
-          // <button id="register-button" onClick={() => registerSale()}>Salvar</button>
-        }
+        
         {/* <span>*Preço*</span> */}
       </div>
     </>
