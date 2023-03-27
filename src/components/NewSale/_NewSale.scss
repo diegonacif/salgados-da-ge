@@ -53,11 +53,6 @@
       }
 
       .cart-delete-button {
-        // height: 100%;
-        // width: 1.75rem;
-        // padding: 0;
-        // background-color: gray;
-        // border: 1px solid rgb(187, 187, 187);
         color: $red-600;
         margin-left: auto;
         cursor: pointer;
@@ -82,10 +77,51 @@
       }
     }
 
-    #cart-total-price {
+    .price-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
       margin-top: 1rem;
-      text-align: center;
+
+      .price-row {
+        display: flex;
+        align-items: center;
+        margin-top: 0.75rem;
+        gap: 1.5rem;
+
+        // #cart-total-price {}
+        svg {
+          color: $red-600;
+          cursor: pointer;
+        }
+      }
+
+      input {
+        height: 2.5rem;
+        width: 12rem;
+        max-width: 90%;
+        color: $gray-800;
+        border-radius: 4px;
+        border: 1px solid $yelllow-700;
+        background-color: $white;
+      }
+
+      #discount-wrapper {
+        input {
+          padding-left: 2rem;
+          padding-top: 0.175rem;
+        }
+        #currency-label {
+          position: absolute;
+          top: 50%;
+          left: 0.5rem;
+          transform: translateY(-50%);
+        }
+      }
+
     }
+
   }
 
   .input-row {

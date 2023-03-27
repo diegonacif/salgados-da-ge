@@ -6,7 +6,7 @@ import { useNavigate, useBeforeUnload } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { Header } from '../Header/Header';
-import { Export, FloppyDisk, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
+import { Export, FloppyDisk, HandCoins, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
 
 import '../../App.scss';
 
@@ -26,11 +26,11 @@ export const NewSale = () => {
     mode: "all",
     defaultValues: {
       payment: "",
+      discount: 0
     }
   });
 
   const [cart, setCart] = useState([]);
-  // console.log(cart);
 
   // Handling Price
   const [price, setPrice] = useState(0);
@@ -51,10 +51,10 @@ export const NewSale = () => {
     // console.log(fritoPrice);
 
     setPrice(
-      assadoPrice + paoPrice + fritoPrice
+      (assadoPrice + paoPrice + fritoPrice) - Number(watch("discount"))
     )
 
-  }, [watch("cart-product"), cart])
+  }, [watch("cart-product"), cart, watch("discount")])
 
   // Handling Type
   const [type, setType] = useState('');
@@ -81,6 +81,7 @@ export const NewSale = () => {
       setValue("apartment", sale?.apartment);
       setValue("payment", sale?.payment);
       setValue("status", sale?.status);
+      setValue("discount", sale?.discount);
       setCart(sale?.cart);
     }
   }, [firestoreLoading, saleRaw])
@@ -97,7 +98,8 @@ export const NewSale = () => {
       status: watch("status"),
       date: date,
       cart: cart,
-      price: price
+      price: price,
+      discount: watch("discount")
     })
     .then(
       console.log("New sale successfully registered"),
@@ -116,7 +118,8 @@ export const NewSale = () => {
       status: watch("status"),
       date: saleRaw[0].date,
       cart: cart,
-      price: price
+      price: price,
+      discount: watch("discount")
     })
     .then(
       console.log("Sale successfully updated"),
@@ -159,6 +162,9 @@ export const NewSale = () => {
     // console.log(cart);
   };
 
+  // Handling Discount Show
+  const [discountShow, setDiscountShow] = useState(false);
+  console.log(discountShow);
 
   return (
     <>
@@ -227,25 +233,34 @@ export const NewSale = () => {
               <option value="Torta">Torta</option>
               <option value="Cebola">Pão de Cebola</option>
             </select>
-            {/* <button onClick={() => handleNewCartProduct()}>+</button> */}
             <PlusCircle size={32} weight="fill" onClick={() => handleNewCartProduct()} />
           </div>
-          <span id="cart-total-price">Total: R$ {price}</span>
+          <div className="price-wrapper">
+            {
+              discountShow &&
+              <div className="input-row" id="discount-wrapper">
+                <label htmlFor="discount">Desconto</label>
+                <span id="currency-label">R$</span>
+                <input type="number" id="discount" name="discount" {...register("discount")} />
+              </div>
+            }
+            <div className="price-row">
+              <span id="cart-total-price">Total: R$ {price}</span>
+              <HandCoins size={24} weight={discountShow ? "fill" : "duotone"} onClick={() => setDiscountShow(current => !current)} />
+            </div>
+          </div>
           {
             cart?.map((product, index) => {
               return (
                 <div className="cart-row cart-product" key={index}>
                   <span>{product.quantity} x</span>
                   <span>&nbsp;{product.product === "Cebola" && "Pão de "}{product.product}</span>
-                  {/* <button onClick={() => handleDeleteCartProduct(product, index)} className="cart-delete-button">-</button> */}
                   <MinusCircle size={28} weight="fill" onClick={() => handleDeleteCartProduct(product, index)} className="cart-delete-button" />
                 </div>
               )
             })
           }
         </div>
-        
-        {/* <span>*Preço*</span> */}
       </div>
     </>
   )
