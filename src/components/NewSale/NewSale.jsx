@@ -6,9 +6,9 @@ import { useNavigate, useBeforeUnload } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { Header } from '../Header/Header';
+import { Export, FloppyDisk, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
 
 import '../../App.scss';
-import { Export, FloppyDisk, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
 
 export const NewSale = () => {
   const date = new Date();
