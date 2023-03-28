@@ -41,7 +41,10 @@ export const SalesTable = () => {
 
   return (
     <div className="sales-table-container">
-      <button onClick={() => handleNewSale()}>Nova venda</button>
+      <div className="link-buttons">
+        <button onClick={() => navigate("/stock")}>Estoque</button>
+        <button onClick={() => handleNewSale()}>Nova venda</button>
+      </div>
       <div className="table-wrapper">
         <table>
           <thead>

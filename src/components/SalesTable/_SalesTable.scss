@@ -7,34 +7,23 @@
   background-color: $white;
   font-family: $font-primary;
 
-  #titleLogo {
-    position: absolute;
-    top: -2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 22rem;
-    z-index: 99;
+  .link-buttons {
+    display: flex;
+    justify-content: end;
+    gap: 2rem;
+
+    button {
+      height: 2.5rem;
+      width: 7rem;
+      border: 0;
+      background-color: $yelllow-700;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      align-self: flex-end;
+    }
   }
 
-  #titleMiniGe {
-    position: absolute;
-    top: -2.5rem;
-    left: 50%;
-    transform: translateX(-16rem);
-    width: 5rem;
-    z-index: 99;
-  }
-
-  button {
-    height: 2.5rem;
-    width: 7rem;
-    border: 0;
-    background-color: $yelllow-700;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    align-self: flex-end;
-  }
 
   .table-wrapper {
     width: 100%;
