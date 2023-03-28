@@ -1,15 +1,41 @@
-import { collection, getDocs } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { useContext, useEffect, useState } from 'react';
 import { db } from '../../services/firebase';
 import { Header } from '../Header/Header';
 import { BiEdit, BiSend } from 'react-icons/bi';
+import { useForm } from 'react-hook-form';
+import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 
 import '../../App.scss';
 
 export const Stock = () => {
+  const [stockRefresh, setStockRefresh] = useState(false);
   const salesCollectionRef = collection(db, 'vendas');
+  const stockCollectionRef = collection(db, 'stock');
   const [salesRaw, setSalesRaw] = useState();
+  const [stockRaw, setStockRaw] = useState();
   const [carts, setCarts] = useState([]);
+  const {firestoreLoading} = useContext(UpdateProductsContext);
+
+  // Hook Form Controller
+  const {
+    watch,
+    register,
+    setValue,
+    getValues
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+      misto: 0,
+      frango: 0,
+      salsicha: 0,
+      enroladinho: 0,
+      coxinha: 0,
+      torta: 0,
+      cebola: 0
+    }
+  });
+
   
   const [mistoSum, setMistoSum] = useState(0);
   const [frangoSum, setFrangoSum] = useState(0);
@@ -19,17 +45,23 @@ export const Stock = () => {
   const [tortaSum, setTortaSum] = useState(0);
   const [cebolaSum, setCebolaSum] = useState(0);
 
-  const [editProductionStatus, setEditProductionStatus] = useState(false);
+  const [editMistoProductionStatus, setEditMistoProductionStatus] = useState(false);
+  const [editFrangoProductionStatus, setEditFrangoProductionStatus] = useState(false);
+  const [editSalsichaProductionStatus, setEditSalsichaProductionStatus] = useState(false);
+  const [editEnroladinhoProductionStatus, setEditEnroladinhoProductionStatus] = useState(false);
+  const [editCoxinhaProductionStatus, setEditCoxinhaProductionStatus] = useState(false);
+  const [editTortaProductionStatus, setEditTortaProductionStatus] = useState(false);
+  const [editCebolaProductionStatus, setEditCebolaProductionStatus] = useState(false);
 
-  console.log({
-    misto: mistoSum,
-    frango: frangoSum,
-    salsicha: salsichaSum,
-    enroladinho: enroladinhoSum,
-    coxinha: coxinhaSum,
-    torta: tortaSum,
-    cebola: cebolaSum,
-  })
+  // console.log({
+  //   misto: mistoSum,
+  //   frango: frangoSum,
+  //   salsicha: salsichaSum,
+  //   enroladinho: enroladinhoSum,
+  //   coxinha: coxinhaSum,
+  //   torta: tortaSum,
+  //   cebola: cebolaSum,
+  // })
 
   // Sales Data
   useEffect(() => {
@@ -71,15 +103,97 @@ export const Stock = () => {
   }, [carts])
 
   // Handle production status
-  function handleProductionStatus() {
-    setEditProductionStatus(current => !current)
+  function handleProductionStatus(product) {
+    product === "misto" ?
+    setEditMistoProductionStatus(current => !current) :
+    product === "frango" ?
+    setEditFrangoProductionStatus(current => !current) :
+    product === "salsicha" ?
+    setEditSalsichaProductionStatus(current => !current) :
+    product === "enroladinho" ?
+    setEditEnroladinhoProductionStatus(current => !current) :
+    product === "coxinha" ?
+    setEditCoxinhaProductionStatus(current => !current) :
+    product === "torta" ?
+    setEditTortaProductionStatus(current => !current) :
+    product === "cebola" ?
+    setEditCebolaProductionStatus(current => !current) :
+    null
   }
+
+  // Update production values
+  async function updateProduction(product) {
+    const docRef = doc(db, "stock", product);
+
+    return await setDoc(docRef, 
+      product === "misto" ?
+      {quantity: Number(watch("misto"))} :
+      product === "frango" ?
+      {quantity: Number(watch("frango"))} :
+      product === "salsicha" ?
+      {quantity: Number(watch("salsicha"))} :
+      product === "enroladinho" ?
+      {quantity: Number(watch("enroladinho"))} :
+      product === "coxinha" ?
+      {quantity: Number(watch("coxinha"))} :
+      product === "torta" ?
+      {quantity: Number(watch("torta"))} :
+      product === "cebola" ?
+      {quantity: Number(watch("cebola"))} :
+      null
+    )
+    .then(
+      console.log("Stock successfully updated"),
+      handleProductionStatus(product),
+      handleStockRefresh()
+    )
+  }
+
+  // Load production values
+  useEffect(() => {
+    const getSalesData = async () => {
+      const data = await getDocs(stockCollectionRef);
+      const raw = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setStockRaw(raw);
+    }
+    getSalesData();
+  }, [stockRefresh])
+
+  // Updating production values
+  useEffect(() => {
+    if(firestoreLoading === true) {
+      return;
+    } else {
+      const misto = stockRaw?.filter(data => data.id === "misto");
+      const frango = stockRaw?.filter(data => data.id === "frango");
+      const salsicha = stockRaw?.filter(data => data.id === "salsicha");
+      const enroladinho = stockRaw?.filter(data => data.id === "enroladinho");
+      const coxinha = stockRaw?.filter(data => data.id === "coxinha");
+      const torta = stockRaw?.filter(data => data.id === "torta");
+      const cebola = stockRaw?.filter(data => data.id === "cebola");
+
+      console.log(frango[0].quantity)
+  
+      setValue("misto", misto[0]?.quantity);
+      setValue("frango", frango[0]?.quantity);
+      setValue("salsicha", salsicha[0]?.quantity);
+      setValue("enroladinho", enroladinho[0]?.quantity);
+      setValue("coxinha", coxinha[0]?.quantity);
+      setValue("torta", torta[0]?.quantity);
+      setValue("cebola", cebola[0]?.quantity);
+    }
+  }, [stockRaw, stockRefresh])
+
+
+  function handleStockRefresh() {
+    setStockRefresh(current => !current);
+  }
+
 
   return (
     <>
       <Header />
       <div className="stock-container">
-
         <div className="stock-wrapper">
           {/* Misto */}
           <div className="stock-row">
@@ -88,21 +202,21 @@ export const Stock = () => {
               <label htmlFor="production-number">Produzidos</label>
               <div className="production-inner">
                 {
-                  editProductionStatus ?
+                  editMistoProductionStatus ?
                   <>
-                    <input type="number" />
-                    <BiSend size={24} onClick={() => handleProductionStatus()} />
+                    <input type="number" {...register("misto")} />
+                    <BiSend size={24} onClick={() => updateProduction("misto")} />
                   </> :
                   <>
-                    <span>50</span>
-                    <BiEdit size={24} onClick={() => handleProductionStatus()} />
+                    <span>{watch("misto")}</span>
+                    <BiEdit size={24} onClick={() => handleProductionStatus("misto")} />
                   </>
                 }
               </div>
             </div>
             <div className="remain-row">
               <label htmlFor="remain-number">Estoque</label>
-              <span>88</span>
+              <span>{getValues("misto") - mistoSum}</span>
             </div>
           </div>
 
@@ -113,21 +227,21 @@ export const Stock = () => {
               <label htmlFor="production-number">Produzidos</label>
               <div className="production-inner">
                 {
-                  editProductionStatus ?
+                  editFrangoProductionStatus ?
                   <>
-                    <input type="number" />
-                    <BiSend size={24} onClick={() => handleProductionStatus()} />
+                    <input type="number" {...register("frango")}/>
+                    <BiSend size={24} onClick={() => updateProduction("frango")} />
                   </> :
                   <>
-                    <span>50</span>
-                    <BiEdit size={24} onClick={() => handleProductionStatus()} />
+                    <span>{watch("frango")}</span>
+                    <BiEdit size={24} onClick={() => handleProductionStatus("frango")} />
                   </>
                 }
               </div>
             </div>
             <div className="remain-row">
               <label htmlFor="remain-number">Estoque</label>
-              <span>88</span>
+              <span>{getValues("frango") - frangoSum}</span>
             </div>
           </div>
 
@@ -138,21 +252,21 @@ export const Stock = () => {
               <label htmlFor="production-number">Produzidos</label>
               <div className="production-inner">
                 {
-                  editProductionStatus ?
+                  editSalsichaProductionStatus ?
                   <>
-                    <input type="number" />
-                    <BiSend size={24} onClick={() => handleProductionStatus()} />
+                    <input type="number" {...register("salsicha")} />
+                    <BiSend size={24} onClick={() => updateProduction("salsicha")} />
                   </> :
                   <>
-                    <span>50</span>
-                    <BiEdit size={24} onClick={() => handleProductionStatus()} />
+                    <span>{watch("salsicha")}</span>
+                    <BiEdit size={24} onClick={() => handleProductionStatus("salsicha")} />
                   </>
                 }
               </div>
             </div>
             <div className="remain-row">
               <label htmlFor="remain-number">Estoque</label>
-              <span>88</span>
+              <span>{getValues("salsicha") - salsichaSum}</span>
             </div>
           </div>
 
@@ -163,21 +277,21 @@ export const Stock = () => {
               <label htmlFor="production-number">Produzidos</label>
               <div className="production-inner">
                 {
-                  editProductionStatus ?
+                  editEnroladinhoProductionStatus ?
                   <>
-                    <input type="number" />
-                    <BiSend size={24} onClick={() => handleProductionStatus()} />
+                    <input type="number" {...register("enroladinho")}/>
+                    <BiSend size={24} onClick={() => updateProduction("enroladinho")} />
                   </> :
                   <>
-                    <span>50</span>
-                    <BiEdit size={24} onClick={() => handleProductionStatus()} />
+                    <span>{watch("enroladinho")}</span>
+                    <BiEdit size={24} onClick={() => handleProductionStatus("enroladinho")} />
                   </>
                 }
               </div>
             </div>
             <div className="remain-row">
               <label htmlFor="remain-number">Estoque</label>
-              <span>88</span>
+              <span>{getValues("enroladinho") - enroladinhoSum}</span>
             </div>
           </div>
 
@@ -188,21 +302,21 @@ export const Stock = () => {
               <label htmlFor="production-number">Produzidos</label>
               <div className="production-inner">
                 {
-                  editProductionStatus ?
+                  editCoxinhaProductionStatus ?
                   <>
-                    <input type="number" />
-                    <BiSend size={24} onClick={() => handleProductionStatus()} />
+                    <input type="number" {...register("coxinha")}/>
+                    <BiSend size={24} onClick={() => updateProduction("coxinha")} />
                   </> :
                   <>
-                    <span>50</span>
-                    <BiEdit size={24} onClick={() => handleProductionStatus()} />
+                    <span>{watch("coxinha")}</span>
+                    <BiEdit size={24} onClick={() => handleProductionStatus("coxinha")} />
                   </>
                 }
               </div>
             </div>
             <div className="remain-row">
               <label htmlFor="remain-number">Estoque</label>
-              <span>88</span>
+              <span>{getValues("coxinha") - coxinhaSum}</span>
             </div>
           </div>
 
@@ -213,21 +327,21 @@ export const Stock = () => {
               <label htmlFor="production-number">Produzidos</label>
               <div className="production-inner">
                 {
-                  editProductionStatus ?
+                  editTortaProductionStatus ?
                   <>
-                    <input type="number" />
-                    <BiSend size={24} onClick={() => handleProductionStatus()} />
+                    <input type="number" {...register("torta")} />
+                    <BiSend size={24} onClick={() => updateProduction("torta")} />
                   </> :
                   <>
-                    <span>50</span>
-                    <BiEdit size={24} onClick={() => handleProductionStatus()} />
+                    <span>{watch("torta")}</span>
+                    <BiEdit size={24} onClick={() => handleProductionStatus("torta")} />
                   </>
                 }
               </div>
             </div>
             <div className="remain-row">
               <label htmlFor="remain-number">Estoque</label>
-              <span>88</span>
+              <span>{getValues("torta") - tortaSum}</span>
             </div>
           </div>
 
@@ -238,25 +352,24 @@ export const Stock = () => {
               <label htmlFor="production-number">Produzidos</label>
               <div className="production-inner">
                 {
-                  editProductionStatus ?
+                  editCebolaProductionStatus ?
                   <>
-                    <input type="number" />
-                    <BiSend size={24} onClick={() => handleProductionStatus()} />
+                    <input type="number" {...register("cebola")} />
+                    <BiSend size={24} onClick={() => updateProduction("cebola")} />
                   </> :
                   <>
-                    <span>50</span>
-                    <BiEdit size={24} onClick={() => handleProductionStatus()} />
+                    <span>{watch("cebola")}</span>
+                    <BiEdit size={24} onClick={() => handleProductionStatus("cebola")} />
                   </>
                 }
               </div>
             </div>
             <div className="remain-row">
               <label htmlFor="remain-number">Estoque</label>
-              <span>88</span>
+              <span>{getValues("cebola") - cebolaSum}</span>
             </div>
           </div>
         </div>
-
       </div>
     </>
   )
