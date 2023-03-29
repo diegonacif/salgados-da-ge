@@ -9,6 +9,7 @@ import { Header } from '../Header/Header';
 import { Export, FloppyDisk, HandCoins, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { ToastifyContext } from '../../contexts/ToastifyProvider';
 
 import '../../App.scss';
 
@@ -17,6 +18,7 @@ export const NewSale = () => {
   const navigate = useNavigate();
   const { setUpdateProductId, updateProductId, saleRaw, firestoreLoading, refreshHandler } = useContext(UpdateProductsContext);
   const salesCollectionRef = collection(db, 'vendas');
+  const { notifySuccess, notifyError } = useContext(ToastifyContext); // Toastify Context
 
   // Yup Resolver
   const saleSchema = yup.object({
@@ -121,7 +123,8 @@ export const NewSale = () => {
     })
     .then(
       console.log("New sale successfully registered"),
-      navigate("/")
+      navigate("/"),
+      notifySuccess("Venda registrada!"),
     )
   }
 
@@ -142,7 +145,8 @@ export const NewSale = () => {
     .then(
       console.log("Sale successfully updated"),
       refreshHandler(),
-      navigate("/")
+      navigate("/"),
+      notifySuccess("Venda atualizada!")
     )
   }
 
@@ -160,6 +164,7 @@ export const NewSale = () => {
   function handleDeleteSale() {
     confirm("Tem certeza que deseja deletar a venda ?") === true &&
     deleteSale()
+    notifySuccess("Venda excluída!")
   }
 
   // Add product to cart
@@ -169,6 +174,8 @@ export const NewSale = () => {
       product: watch("cart-product"),
       type: type,
     }]);
+
+    notifySuccess("Produto adicionado");
     
     setTimeout(() => {
       setValue("cart-quantity", 1);
@@ -252,7 +259,7 @@ export const NewSale = () => {
                 className={`register-button ${!isValid && 'disabled-button'}`}
                 onClick={() => 
                   !isValid ?
-                  alert("Preencha os dados") :
+                  notifyError("Preencha os dados") :
                   registerSale()
                 }
               >
@@ -281,7 +288,7 @@ export const NewSale = () => {
               weight={isPlusButtonDisabled ? "duotone" : "fill"}
               onClick={() => 
                 isPlusButtonDisabled ?
-                alert("insira um produto") :
+                notifyError("insira um produto") :
                 handleNewCartProduct()
               } 
             />

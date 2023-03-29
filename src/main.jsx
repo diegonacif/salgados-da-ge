@@ -8,11 +8,13 @@ import {
 import { App } from './App'
 import { NewSale } from './components/NewSale/NewSale';
 import { Stock } from './components/Stock/Stock';
+import { ToastifyProvider } from './contexts/ToastifyProvider';
 import { UpdateProductsProvider } from './contexts/UpdateProductsProvider';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <UpdateProductsProvider>
+    <ToastifyProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
@@ -20,6 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/stock" element={<Stock />} />
         </Routes>
       </BrowserRouter>
+    </ToastifyProvider>
     </UpdateProductsProvider>
   </React.StrictMode>,
 )

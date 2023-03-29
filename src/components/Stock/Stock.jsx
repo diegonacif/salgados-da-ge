@@ -6,8 +6,9 @@ import { BiEdit, BiSend } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 
-import '../../App.scss';
 import { useCollection } from 'react-firebase-hooks/firestore';
+import { ToastifyContext } from '../../contexts/ToastifyProvider';
+import '../../App.scss';
 
 export const Stock = () => {
   const [stockRefresh, setStockRefresh] = useState(false);
@@ -17,6 +18,7 @@ export const Stock = () => {
   const [stockRaw, setStockRaw] = useState();
   const [carts, setCarts] = useState([]);
   const [firestoreLoading, setFirestoreLoading] = useState(true);
+  const { notifySuccess, notifyError } = useContext(ToastifyContext); // Toastify Context
 
   // Firestore loading
   const [value, loading, error] = useCollection(stockCollectionRef,
@@ -155,6 +157,7 @@ export const Stock = () => {
     .then(
       console.log("Stock successfully updated"),
       handleProductionStatus(product),
+      notifySuccess("Produção atualizada!"),
       handleStockRefresh()
     )
   }

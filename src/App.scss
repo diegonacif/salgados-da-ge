@@ -16,9 +16,12 @@ $font-title: 'Great Vibes', cursive;
 $font-primary: 'Laila', sans-serif;
 
 * {
+  // --toastify-color-success: #E4B147;
+  // --toastify-text-color-success: #801115;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
 
   // Remove arrows/spinners from numeric inputs
   /* Chrome, Safari, Edge, Opera */
