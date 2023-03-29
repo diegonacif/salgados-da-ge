@@ -191,7 +191,7 @@ export const NewSale = () => {
   // Is plus button disabled
   const [isPlusButtonDisabled, setIsPlusButtonDisabled] = useState(true);
   useEffect(() => {
-    watch("cart-product") === "" || watch("cart-quantity") === "" ?
+    watch("cart-product") === "" || watch("cart-quantity") < 1 ?
     setIsPlusButtonDisabled(true) :
     setIsPlusButtonDisabled(false);
   }, [watch("cart-product"), watch("cart-quantity")]);
