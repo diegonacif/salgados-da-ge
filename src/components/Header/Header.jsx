@@ -1,9 +1,11 @@
+import { useWindowSize } from 'usehooks-ts'
 import titleMiniGe from '../../assets/salgados-mini-ge.png';
 import smoke from '../../assets/smoke.png';
 
 import '../../App.scss';
 
 export const Header = () => {
+  const { width, height } = useWindowSize();
   return (
     <div className="header-container">
       <img src={titleMiniGe} alt="Boneca Mini Gê" id="titleMiniGe" />

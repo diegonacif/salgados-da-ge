@@ -3,8 +3,11 @@
   flex-direction: column;
   min-height: calc(100vh - 4rem);
   background-color: $white;
-  padding: 7rem 1rem 3rem;
   font-family: $font-primary;
+  // padding: 7rem 1rem 3rem;
+  padding-top: 7rem !important;
+  padding-bottom: 3rem !important;
+  @include responsive-padding;
 
   .stock-wrapper {
     display: flex;
@@ -90,5 +93,9 @@
       flex-direction: column;
       row-gap: 0.65rem;
     }
+  }
+
+  @media only screen and ($tablet-size) {
+    padding-top: 3rem !important; 
   }
 }

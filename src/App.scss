@@ -6,10 +6,10 @@ $yelllow-700: #E4B147;
 $red-600: #801115;
 
 // Media Variables
-$mobile-size: "min-width: 320px";
-$tablet-size: "min-width: 600px";
-$notebook-size: "min-width: 1024px";
-$desktop-size: "min-width: 1280px";
+$mobile-size: "max-width: 450px";
+$tablet-size: "max-width: 600px";
+$notebook-size: "max-width: 1024px";
+$desktop-size: "max-width: 1280px";
 
 $font-title: 'Great Vibes', cursive;
 $font-primary: 'Laila', sans-serif;
@@ -33,23 +33,34 @@ $font-primary: 'Laila', sans-serif;
   }
 }
 
-// .App {
-//   background-color: $yelllow-700;
-//   padding: 3rem 0;
-//   z-index: 1;
+// @mixin responsive-padding($pt: 0, $pb: 0) {
+//   padding: $pt 1rem $pb;
+
+//   @media only screen and ($tablet-size) {
+//     padding: $pt 4rem $pb;
+//   }
+//   @media only screen and ($notebook-size) {
+//     padding: $pt 6rem $pb;
+//   }
+//   @media only screen and ($desktop-size) {
+//     padding: $pt calc(8rem + 5vw) $pb;
+//   }
 // }
 
 @mixin responsive-padding($pt: 0, $pb: 0) {
-  padding: $pt 1rem $pb;
+  padding: $pt calc(8rem + 5vw) $pb;
 
-  @media only screen and ($tablet-size) {
-    padding: $pt 4rem $pb;
-  }
-  @media only screen and ($notebook-size) {
+  @media only screen and ($desktop-size) {
     padding: $pt 6rem $pb;
   }
-  @media only screen and ($desktop-size) {
-    padding: $pt calc(8rem + 5vw) $pb;
+  @media only screen and ($notebook-size) {
+    padding: $pt 4rem $pb;
+  }
+  @media only screen and ($tablet-size) {
+    padding: $pt 2rem $pb;
+  }
+  @media only screen and ($mobile-size) {
+    padding: $pt 1rem $pb;
   }
 }
 

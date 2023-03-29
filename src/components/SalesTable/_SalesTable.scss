@@ -74,4 +74,10 @@
     }
   }
 
+  @media ($tablet-size) {
+    .link-buttons {
+      justify-content: center;
+    }
+  }
+
 }

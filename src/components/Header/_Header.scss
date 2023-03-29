@@ -135,4 +135,21 @@
       opacity: 0;
     }
   }
+
+  @media only screen and ($tablet-size) {
+    #titleMiniGe {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: 2.25rem;
+      z-index: 99;
+      transform: none;
+      margin-right: 0.75rem;
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      padding-top: 1.7rem;
+    }
+  }
 }
