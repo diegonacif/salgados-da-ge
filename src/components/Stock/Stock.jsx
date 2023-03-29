@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 
 import '../../App.scss';
+import { useCollection } from 'react-firebase-hooks/firestore';
 
 export const Stock = () => {
   const [stockRefresh, setStockRefresh] = useState(false);
@@ -15,8 +16,17 @@ export const Stock = () => {
   const [salesRaw, setSalesRaw] = useState();
   const [stockRaw, setStockRaw] = useState();
   const [carts, setCarts] = useState([]);
-  const {firestoreLoading} = useContext(UpdateProductsContext);
+  const [firestoreLoading, setFirestoreLoading] = useState(true);
 
+  // Firestore loading
+  const [value, loading, error] = useCollection(stockCollectionRef,
+    { snapshotListenOptions: { includeMetadataChanges: true } }
+  );
+  useEffect(() => {
+    setFirestoreLoading(loading);
+  }, [loading])
+
+  
   // Hook Form Controller
   const {
     watch,
@@ -171,8 +181,6 @@ export const Stock = () => {
       const coxinha = stockRaw?.filter(data => data.id === "coxinha");
       const torta = stockRaw?.filter(data => data.id === "torta");
       const cebola = stockRaw?.filter(data => data.id === "cebola");
-
-      console.log(frango[0].quantity)
   
       setValue("misto", misto[0]?.quantity);
       setValue("frango", frango[0]?.quantity);
@@ -182,7 +190,7 @@ export const Stock = () => {
       setValue("torta", torta[0]?.quantity);
       setValue("cebola", cebola[0]?.quantity);
     }
-  }, [stockRaw, stockRefresh])
+  }, [stockRaw, stockRefresh, firestoreLoading])
 
 
   function handleStockRefresh() {
