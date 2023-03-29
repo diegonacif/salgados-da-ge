@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { Header } from '../Header/Header';
 import { Export, FloppyDisk, HandCoins, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import '../../App.scss';
 
@@ -16,19 +18,32 @@ export const NewSale = () => {
   const { setUpdateProductId, updateProductId, saleRaw, firestoreLoading, refreshHandler } = useContext(UpdateProductsContext);
   const salesCollectionRef = collection(db, 'vendas');
 
+  // Yup Resolver
+  const saleSchema = yup.object({
+    apartment: yup.string().required("Insira o número do apartamento").min(3, "Número inválido"),
+    block: yup.string().required("Insira o número do bloco"),
+    payment: yup.string().required("Insira o método de pagamento"),
+  }).required()
+
   // Hook Form Controller
   const {
     watch,
     register,
     setValue,
-    getValues
+    getValues,
+    trigger,
+    formState: { errors, isValid }
   } = useForm({
     mode: "all",
+    resolver: yupResolver(saleSchema),
     defaultValues: {
       payment: "",
       discount: 0
     }
   });
+
+
+  console.log(watch());
 
   const [cart, setCart] = useState([]);
 
@@ -83,10 +98,13 @@ export const NewSale = () => {
       setValue("status", sale?.status);
       setValue("discount", sale?.discount);
       setCart(sale?.cart);
+      setTimeout(() => {
+        trigger();
+      }, 100);
     }
   }, [firestoreLoading, saleRaw])
 
-  // Create sale
+  // Register sale
   async function registerSale() {
     const uuid = uuidv4();
     const docRef = doc(db, "vendas", uuid);
@@ -164,7 +182,14 @@ export const NewSale = () => {
 
   // Handling Discount Show
   const [discountShow, setDiscountShow] = useState(false);
-  console.log(discountShow);
+
+  // Is plus button disabled
+  const [isPlusButtonDisabled, setIsPlusButtonDisabled] = useState(true);
+  useEffect(() => {
+    watch("cart-product") === "" || watch("cart-quantity") === "" ?
+    setIsPlusButtonDisabled(true) :
+    setIsPlusButtonDisabled(false);
+  }, [watch("cart-product"), watch("cart-quantity")]);
 
   return (
     <>
@@ -174,10 +199,12 @@ export const NewSale = () => {
           <div className="input-row">
             <label htmlFor="block">Bloco</label>
             <input type="text" id="block" {...register("block")} />
+            <span id="error-alert-message">{errors?.block?.message}</span>
           </div>
-          <div className="input-row">
+          <div className={`input-row ${errors.apartment}`}>
             <label htmlFor="block">Apartamento</label>
             <input type="text" {...register("apartment")} />
+            <span id="error-alert-message">{errors?.apartment?.message}</span>
           </div>
           <div className="input-row">
             <label htmlFor="block">Forma de pagamento</label>
@@ -187,6 +214,7 @@ export const NewSale = () => {
               <option value="Pix">Pix</option>
               <option value="Cartão">Cartão</option>
             </select>
+            <span id="error-alert-message">{errors?.payment?.message}</span>
           </div>
           <div className="input-row">
             <label htmlFor="block">Status</label>
@@ -201,10 +229,13 @@ export const NewSale = () => {
             {
               updateProductId ?
               <>
-                <div id="update-button" onClick={() => updateSale()}>
+                <button 
+                  className={`update-button ${!isValid && 'disabled-button'}`}
+                  onClick={() => updateSale()}
+                >
                   <span>Atualizar</span>
                   <Export size={24} weight="duotone" />
-                </div>
+                </button>
                 {/* <button id="update-button" onClick={() => updateSale()}>Atualizar</button>  */}
                 <div id="delete-button" onClick={() => deleteSale()}>
                   <span>Deletar</span>
@@ -212,10 +243,17 @@ export const NewSale = () => {
                 </div>
                 {/* <button id="delete-button" onClick={() => deleteSale()}>Deletar</button> */}
               </> :
-              <div id="register-button" onClick={() => registerSale()}>
+              <button 
+                className={`register-button ${!isValid && 'disabled-button'}`}
+                onClick={() => 
+                  !isValid ?
+                  alert("Preencha os dados") :
+                  registerSale()
+                }
+              >
                 <span>Salvar</span>
                 <FloppyDisk size={24} weight="duotone" />
-              </div>
+              </button>
               // <button id="register-button" onClick={() => registerSale()}>Salvar</button>
             }
           </div>
@@ -233,7 +271,20 @@ export const NewSale = () => {
               <option value="Torta">Torta</option>
               <option value="Cebola">Pão de Cebola</option>
             </select>
-            <PlusCircle size={32} weight="fill" onClick={() => handleNewCartProduct()} />
+            <PlusCircle 
+              size={32} 
+              weight={isPlusButtonDisabled ? "duotone" : "fill"}
+              onClick={() => 
+                isPlusButtonDisabled ?
+                alert("insira um produto") :
+                handleNewCartProduct()
+              } 
+            />
+            {/* {
+              isPlusButtonDisabled ?
+              <PlusCircle size={32} weight="duotone" onClick={() => alert("insira um produto")} /> :
+              <PlusCircle size={32} weight="fill" onClick={() => handleNewCartProduct()} />
+            } */}
           </div>
           <div className="price-wrapper">
             {
