@@ -148,13 +148,18 @@ export const NewSale = () => {
 
   // Delete sale
   async function deleteSale() {
-
     await deleteDoc(doc(salesCollectionRef, updateProductId))
     .then(
       console.log("Sale successfully deleted"),
       refreshHandler(),
       navigate("/")
     )
+  }
+
+  // Handle Delete sale
+  function handleDeleteSale() {
+    confirm("Tem certeza que deseja deletar a venda ?") === true &&
+    deleteSale()
   }
 
   // Add product to cart
@@ -237,7 +242,7 @@ export const NewSale = () => {
                   <Export size={24} weight="duotone" />
                 </button>
                 {/* <button id="update-button" onClick={() => updateSale()}>Atualizar</button>  */}
-                <div id="delete-button" onClick={() => deleteSale()}>
+                <div id="delete-button" onClick={() => handleDeleteSale()}>
                   <span>Deletar</span>
                   <Trash size={24} weight="duotone" />
                 </div>
