@@ -174,8 +174,6 @@ export const NewSale = () => {
       product: watch("cart-product"),
       type: type,
     }]);
-
-    notifySuccess("Produto adicionado");
     
     setTimeout(() => {
       setValue("cart-quantity", 1);

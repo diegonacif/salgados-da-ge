@@ -22,6 +22,7 @@ $font-primary: 'Laila', sans-serif;
   padding: 0;
   box-sizing: border-box;
 
+  -webkit-tap-highlight-color: transparent; // remove color highlight on tap
 
   // Remove arrows/spinners from numeric inputs
   /* Chrome, Safari, Edge, Opera */
