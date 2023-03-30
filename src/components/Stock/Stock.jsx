@@ -9,16 +9,27 @@ import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
 import '../../App.scss';
+import { StockSumContext } from '../../contexts/StockSumProvider';
 
 export const Stock = () => {
-  const [stockRefresh, setStockRefresh] = useState(false);
-  const salesCollectionRef = collection(db, 'vendas');
+  
+  
   const stockCollectionRef = collection(db, 'stock');
-  const [salesRaw, setSalesRaw] = useState();
-  const [stockRaw, setStockRaw] = useState();
-  const [carts, setCarts] = useState([]);
+  
+  // const [stockRaw, setStockRaw] = useState();
   const [firestoreLoading, setFirestoreLoading] = useState(true);
   const { notifySuccess, notifyError } = useContext(ToastifyContext); // Toastify Context
+  const {
+    mistoSum, setMistoSum,
+    frangoSum, setFrangoSum,
+    salsichaSum, setSalsichaSum,
+    enroladinhoSum, setEnroladinhoSum,
+    coxinhaSum, setCoxinhaSum,
+    tortaSum, setTortaSum,
+    cebolaSum, setCebolaSum,
+    handleRefresh, refresh,
+    stockRaw, setStockRaw
+  } = useContext(StockSumContext);
 
   // Firestore loading
   const [value, loading, error] = useCollection(stockCollectionRef,
@@ -48,15 +59,6 @@ export const Stock = () => {
     }
   });
 
-  
-  const [mistoSum, setMistoSum] = useState(0);
-  const [frangoSum, setFrangoSum] = useState(0);
-  const [salsichaSum, setSalsichaSum] = useState(0);
-  const [enroladinhoSum, setEnroladinhoSum] = useState(0);
-  const [coxinhaSum, setCoxinhaSum] = useState(0);
-  const [tortaSum, setTortaSum] = useState(0);
-  const [cebolaSum, setCebolaSum] = useState(0);
-
   const [editMistoProductionStatus, setEditMistoProductionStatus] = useState(false);
   const [editFrangoProductionStatus, setEditFrangoProductionStatus] = useState(false);
   const [editSalsichaProductionStatus, setEditSalsichaProductionStatus] = useState(false);
@@ -74,45 +76,6 @@ export const Stock = () => {
   //   torta: tortaSum,
   //   cebola: cebolaSum,
   // })
-
-  // Sales Data
-  useEffect(() => {
-    const getSalesData = async () => {
-      const data = await getDocs(salesCollectionRef);
-      setSalesRaw(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getSalesData();
-  }, [])
-
-  // Load Carts Data
-  useEffect(() => {
-    setCarts([]);
-    const getCarts = () => {
-      salesRaw?.map((sale, index) => 
-        setCarts(current => current.concat(sale.cart))
-      )
-    }
-    getCarts();
-  }, [salesRaw])
-
-  // Sum of each product
-  useEffect(() => {
-    const arrMisto = carts?.filter((data) => (data.product === "Misto"));
-    const arrFrango = carts?.filter((data) => (data.product === "Frango"));
-    const arrSalsicha = carts?.filter((data) => (data.product === "Salsicha"));
-    const arrEnroladinho = carts?.filter((data) => (data.product === "Enroladinho"));
-    const arrCoxinha = carts?.filter((data) => (data.product === "Coxinha"));
-    const arrTorta = carts?.filter((data) => (data.product === "Torta"));
-    const arrCebola = carts?.filter((data) => (data.product === "Cebola"));
-
-    setMistoSum(arrMisto?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
-    setFrangoSum(arrFrango?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
-    setSalsichaSum(arrSalsicha?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
-    setEnroladinhoSum(arrEnroladinho?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
-    setCoxinhaSum(arrCoxinha?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
-    setTortaSum(arrTorta?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
-    setCebolaSum(arrCebola?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
-  }, [carts])
 
   // Handle production status
   function handleProductionStatus(product) {
@@ -158,19 +121,19 @@ export const Stock = () => {
       console.log("Stock successfully updated"),
       handleProductionStatus(product),
       notifySuccess("Produção atualizada!"),
-      handleStockRefresh()
+      handleRefresh()
     )
   }
 
   // Load production values
-  useEffect(() => {
-    const getSalesData = async () => {
-      const data = await getDocs(stockCollectionRef);
-      const raw = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      setStockRaw(raw);
-    }
-    getSalesData();
-  }, [stockRefresh])
+  // useEffect(() => {
+  //   const getSalesData = async () => {
+  //     const data = await getDocs(stockCollectionRef);
+  //     const raw = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  //     setStockRaw(raw);
+  //   }
+  //   getSalesData();
+  // }, [refresh])
 
   // Updating production values
   useEffect(() => {
@@ -193,13 +156,7 @@ export const Stock = () => {
       setValue("torta", torta[0]?.quantity);
       setValue("cebola", cebola[0]?.quantity);
     }
-  }, [stockRaw, stockRefresh, firestoreLoading])
-
-
-  function handleStockRefresh() {
-    setStockRefresh(current => !current);
-  }
-
+  }, [stockRaw, refresh, firestoreLoading])
 
   return (
     <>

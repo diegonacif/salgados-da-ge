@@ -12,13 +12,34 @@ import * as yup from 'yup';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
 
 import '../../App.scss';
+import { StockSumContext } from '../../contexts/StockSumProvider';
 
 export const NewSale = () => {
   const date = new Date();
   const navigate = useNavigate();
   const { setUpdateProductId, updateProductId, saleRaw, firestoreLoading, refreshHandler } = useContext(UpdateProductsContext);
   const salesCollectionRef = collection(db, 'vendas');
+  const stockCollectionRef = collection(db, 'stock');
   const { notifySuccess, notifyError } = useContext(ToastifyContext); // Toastify Context
+  const {
+    mistoSum, setMistoSum,
+    frangoSum, setFrangoSum,
+    salsichaSum, setSalsichaSum,
+    enroladinhoSum, setEnroladinhoSum,
+    coxinhaSum, setCoxinhaSum,
+    tortaSum, setTortaSum,
+    cebolaSum, setCebolaSum,
+    mistoStock,
+    frangoStock,
+    salsichaStock,
+    enroladinhoStock,
+    coxinhaStock,
+    tortaStock,
+    cebolaStock,
+    handleRefresh, refresh,
+  } = useContext(StockSumContext);
+
+  
 
   // Yup Resolver
   const saleSchema = yup.object({
@@ -44,10 +65,31 @@ export const NewSale = () => {
     }
   });
 
+  // Load Old Cart
+  const oldCart = saleRaw[0]?.cart;
+  const [oldMisto, setOldMisto] = useState(0);
+  const [oldFrango, setOldFrango] = useState(0);
+  const [oldSalsicha, setOldSalsicha] = useState(0);
+  const [oldEnroladinho, setOldEnroladinho] = useState(0);
+  const [oldCoxinha, setOldCoxinha] = useState(0);
+  const [oldTorta, setOldTorta] = useState(0);
+  const [oldCebola, setOldCebola] = useState(0);
 
-  console.log(watch());
+  console.log(oldMisto);
+
+  useEffect(() => {
+    setOldMisto(oldCart?.filter((data) => (data.product === "Misto"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
+    setOldFrango(oldCart?.filter((data) => (data.product === "Frango"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
+    setOldSalsicha(oldCart?.filter((data) => (data.product === "Salsicha"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
+    setOldEnroladinho(oldCart?.filter((data) => (data.product === "Enroladinho"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
+    setOldCoxinha(oldCart?.filter((data) => (data.product === "Coxinha"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
+    setOldTorta(oldCart?.filter((data) => (data.product === "Torta"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
+    setOldCebola(oldCart?.filter((data) => (data.product === "Cebola"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
+  }, [saleRaw])
+  
 
   const [cart, setCart] = useState([]);
+
 
   // Handling Price
   const [price, setPrice] = useState(0);
@@ -64,8 +106,6 @@ export const NewSale = () => {
     const assadoPrice = ((assadoSum % 3) * 4) + ((((assadoSum - (assadoSum % 3)) / 3) * 10))
     const fritoPrice = ((fritoSum % 2) * 3) + ((((fritoSum - (fritoSum % 2)) / 2) * 5))
     const paoPrice = paoSum * 1
-
-    // console.log(fritoPrice);
 
     setPrice(
       (assadoPrice + paoPrice + fritoPrice) - Number(watch("discount"))
@@ -86,6 +126,17 @@ export const NewSale = () => {
       null
     )
   }, [watch("cart-product")])
+
+  // Load Stock quantities
+  const [stockRaw, setStockRaw] = useState();
+  useEffect(() => {
+    const getSalesData = async () => {
+      const data = await getDocs(stockCollectionRef);
+      const raw = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setStockRaw(raw);
+    }
+    getSalesData();
+  }, [watch("cart-product"), watch("cart-quantity")])
 
   // Loading products editing
   useEffect(() => {
@@ -108,46 +159,103 @@ export const NewSale = () => {
 
   // Register sale
   async function registerSale() {
-    const uuid = uuidv4();
-    const docRef = doc(db, "vendas", uuid);
 
-    return await setDoc(docRef, {
-      block: watch("block"),
-      apartment: watch("apartment"),
-      payment: watch("payment"),
-      status: watch("status"),
-      date: date,
-      cart: cart,
-      price: price,
-      discount: watch("discount")
-    })
-    .then(
-      console.log("New sale successfully registered"),
-      navigate("/"),
-      notifySuccess("Venda registrada!"),
-    )
+    const sumMistoCart = cart?.filter((data) => (data.product === "Misto"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumFrangoCart = cart?.filter((data) => (data.product === "Frango")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumSalsichaCart = cart?.filter((data) => (data.product === "Salsicha")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumEnroladinhoCart = cart?.filter((data) => (data.product === "Enroladinho")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumCoxinhaCart = cart?.filter((data) => (data.product === "Coxinha")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumTortaCart = cart?.filter((data) => (data.product === "Torta")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumCebolaCart = cart?.filter((data) => (data.product === "Cebola")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+
+    console.log({mistoStock: mistoStock, sumMistoCart: sumMistoCart, mistoSum: mistoSum});
+
+    if(mistoStock < (sumMistoCart + mistoSum)) {
+      return notifyError(`Você tem ${mistoStock - mistoSum} Mistos em estoque!`);
+    } else if(frangoStock < (sumFrangoCart + frangoSum)) {
+      return notifyError(`Você tem ${frangoStock - frangoSum} Frangos em estoque!`);
+    } else if(salsichaStock < (sumSalsichaCart + salsichaSum)) {
+      return notifyError(`Você tem ${salsichaStock - salsichaSum} Salsichas em estoque!`);
+    } else if(enroladinhoStock < (sumEnroladinhoCart + enroladinhoSum)) {
+      return notifyError(`Você tem ${enroladinhoStock - enroladinhoSum} Enroladinhos em estoque!`);
+    } else if(coxinhaStock < (sumCoxinhaCart + coxinhaSum)) {
+      return notifyError(`Você tem ${coxinhaStock - coxinhaSum} Coxinhas em estoque!`);
+    } else if(tortaStock < (sumTortaCart + tortaSum)) {
+      return notifyError(`Você tem ${tortaStock - tortaSum} Tortas em estoque!`);
+    } else if(cebolaStock < (sumCebolaCart + cebolaSum)) {
+      return notifyError(`Você tem ${cebolaStock - cebolaSum} Pães de Cebola em estoque!`);
+    } else {
+      const uuid = uuidv4();
+      const docRef = doc(db, "vendas", uuid);
+
+      return await setDoc(docRef, {
+        block: watch("block"),
+        apartment: watch("apartment"),
+        payment: watch("payment"),
+        status: watch("status"),
+        date: date,
+        cart: cart,
+        price: price,
+        discount: watch("discount")
+      })
+      .then(
+        console.log("New sale successfully registered"),
+        handleRefresh(),
+        navigate("/"),
+        notifySuccess("Venda registrada!"),
+      )
+    }
   }
+
+  // console.log({mistoSum: mistoSum, mistoStock: mistoStock})
 
   // Update sale
   async function updateSale() {
-    const docRef = doc(db, "vendas", updateProductId);
+    const sumMistoCart = cart?.filter((data) => (data.product === "Misto"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumFrangoCart = cart?.filter((data) => (data.product === "Frango")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumSalsichaCart = cart?.filter((data) => (data.product === "Salsicha")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumEnroladinhoCart = cart?.filter((data) => (data.product === "Enroladinho")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumCoxinhaCart = cart?.filter((data) => (data.product === "Coxinha")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumTortaCart = cart?.filter((data) => (data.product === "Torta")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
+    const sumCebolaCart = cart?.filter((data) => (data.product === "Cebola")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
 
-    return await setDoc(docRef, {
-      block: watch("block"),
-      apartment: watch("apartment"),
-      payment: watch("payment"),
-      status: watch("status"),
-      date: saleRaw[0].date,
-      cart: cart,
-      price: price,
-      discount: watch("discount")
-    })
-    .then(
-      console.log("Sale successfully updated"),
-      refreshHandler(),
-      navigate("/"),
-      notifySuccess("Venda atualizada!")
-    )
+    console.log({mistoStock: mistoStock, sumMistoCart: sumMistoCart, mistoSum: mistoSum});
+    
+    if(mistoStock < (sumMistoCart + mistoSum - oldMisto)) {
+      return notifyError(`Você tem ${mistoStock - mistoSum} Mistos em estoque!`)
+    } else if(frangoStock < (sumFrangoCart + frangoSum - oldFrango)) {
+      return notifyError(`Você tem ${frangoStock - frangoSum} Frangos em estoque!`)
+    } else if(salsichaStock < (sumSalsichaCart + salsichaSum - oldSalsicha)) {
+      return notifyError(`Você tem ${salsichaStock - salsichaSum} Salsichas em estoque!`)
+    } else if(enroladinhoStock < (sumEnroladinhoCart + enroladinhoSum - oldEnroladinho)) {
+      return notifyError(`Você tem ${enroladinhoStock - enroladinhoSum} Enroladinhos em estoque!`)
+    } else if(coxinhaStock < (sumCoxinhaCart + coxinhaSum - oldCoxinha)) {
+      return notifyError(`Você tem ${coxinhaStock - coxinhaSum} Coxinhas em estoque!`)
+    } else if(tortaStock < (sumTortaCart + tortaSum - oldTorta)) {
+      return notifyError(`Você tem ${tortaStock - tortaSum} Tortas em estoque!`)
+    } else if(cebolaStock < (sumCebolaCart + cebolaSum - oldCebola)) {
+      return notifyError(`Você tem ${cebolaStock - cebolaSum} Pães de Cebola em estoque!`)
+    } else {
+      const docRef = doc(db, "vendas", updateProductId);
+  
+      return await setDoc(docRef, {
+        block: watch("block"),
+        apartment: watch("apartment"),
+        payment: watch("payment"),
+        status: watch("status"),
+        date: saleRaw[0].date,
+        cart: cart,
+        price: price,
+        discount: watch("discount")
+      })
+      .then(
+        console.log("Sale successfully updated"),
+        refreshHandler(),
+        handleRefresh(),
+        navigate("/"),
+        notifySuccess("Venda atualizada!")
+      )
+    }
   }
 
   // Delete sale
@@ -156,6 +264,7 @@ export const NewSale = () => {
     .then(
       console.log("Sale successfully deleted"),
       refreshHandler(),
+      handleRefresh(),
       navigate("/")
     )
   }
@@ -169,6 +278,7 @@ export const NewSale = () => {
 
   // Add product to cart
   function handleNewCartProduct() {
+
     setCart(current => [...current, {
       quantity: Number(watch("cart-quantity")),
       product: watch("cart-product"),
@@ -178,6 +288,7 @@ export const NewSale = () => {
     setTimeout(() => {
       setValue("cart-quantity", 1);
       setValue("cart-product", '');
+      handleRefresh();
     }, 25);
   }
 
@@ -186,8 +297,8 @@ export const NewSale = () => {
     const productIndex = cart.indexOf(product);
     const newCart = structuredClone(cart);
     newCart.splice(productIndex, 1);
+    handleRefresh();
     setCart(newCart);
-    // console.log(cart);
   };
 
   // Handling Discount Show
@@ -200,6 +311,7 @@ export const NewSale = () => {
     setIsPlusButtonDisabled(true) :
     setIsPlusButtonDisabled(false);
   }, [watch("cart-product"), watch("cart-quantity")]);
+
 
   return (
     <>
