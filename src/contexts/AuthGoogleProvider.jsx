@@ -66,6 +66,9 @@ export const AuthGoogleProvider = ({ children }) => {
     signOut(auth).then(() => console.log("sign out sucessfully"));
   }
 
+  // Current user created on database
+  
+
   // Current user Photo URL
   useEffect(() => {
     setUserPhotoUrl(user?.photoURL);

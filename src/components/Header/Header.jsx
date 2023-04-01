@@ -11,7 +11,7 @@ export const Header = () => {
   const { isSignedIn, isLoading, handleGoogleSignOut, user } = useContext(AuthGoogleContext);
   // const { width, height } = useWindowSize();
 
-  console.log(isSignedIn);
+  console.log(user?.uid);
 
   return (
     <div className="header-container">
