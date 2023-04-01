@@ -7,12 +7,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { Header } from '../Header/Header';
 import { Export, FloppyDisk, HandCoins, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
+import { StockSumContext } from '../../contexts/StockSumProvider';
 
 import '../../App.scss';
-import { StockSumContext } from '../../contexts/StockSumProvider';
 
 export const NewSale = () => {
   const date = new Date();

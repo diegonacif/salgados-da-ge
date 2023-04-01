@@ -37,22 +37,27 @@
     }
   }
 
-  #titleMiniGe {
-    position: absolute;
-    top: 1rem;
-    left: 50%;
-    transform: translateX(-16rem);
-    width: 5rem;
+  .title-wrapper {
     z-index: 99;
+
+    #titleMiniGe {
+      position: absolute;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-16rem);
+      width: 5rem;
+      z-index: 99;
+    }
+  
+    h1 {
+      padding-top: 1.5rem;
+      color: $red-600;
+      font-size: 3.5rem;
+      z-index: 99;
+      font-family: $font-title;
+    }
   }
 
-  h1 {
-    padding-top: 1.5rem;
-    color: $red-600;
-    font-size: 3.5rem;
-    z-index: 99;
-    font-family: $font-title;
-  }
 
   @keyframes smoke1 {
     0% {
@@ -137,19 +142,24 @@
   }
 
   @media only screen and ($tablet-size) {
-    #titleMiniGe {
-      position: relative;
-      left: auto;
-      top: auto;
-      width: 2.25rem;
-      z-index: 99;
-      transform: none;
-      margin-right: 0.75rem;
-    }
 
-    h1 {
-      font-size: 2.75rem;
-      padding-top: 1.7rem;
+    .title-wrapper {
+      position: relative;
+
+      #titleMiniGe {
+        position: absolute;
+        left: -2.75rem;
+        top: 0.7rem;
+        width: 2.25rem;
+        z-index: 99;
+        transform: none;
+        margin-right: 0.75rem;
+      }
+  
+      h1 {
+        font-size: 2.75rem;
+        padding-top: 1.7rem;
+      }
     }
   }
 }

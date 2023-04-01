@@ -6,6 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 import { App } from './App'
+import { Login } from './components/Login/Login';
 import { NewSale } from './components/NewSale/NewSale';
 import { Stock } from './components/Stock/Stock';
 import { StockSumProvider } from './contexts/StockSumProvider';
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/" element={<App />} />
           <Route path="/new-sale" element={<NewSale />} />
           <Route path="/stock" element={<Stock />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </ToastifyProvider>

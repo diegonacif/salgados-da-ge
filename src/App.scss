@@ -15,6 +15,8 @@ $desktop-size: "max-width: 1280px";
 $font-title: 'Great Vibes', cursive;
 $font-primary: 'Laila', sans-serif;
 
+$assets-path: './assets';
+
 * {
   // --toastify-color-success: #E4B147;
   // --toastify-text-color-success: #801115;
@@ -73,3 +75,4 @@ $font-primary: 'Laila', sans-serif;
 @import "./components/NewSale/NewSale";
 @import "./components/Header/Header";
 @import "./components/Stock/Stock";
+@import "./components/Login/Login";
