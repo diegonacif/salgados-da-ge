@@ -6,6 +6,7 @@
   height: 4rem;
   width: 100%;
   background-color: $yelllow-700;
+  @include responsive-padding;
 
   .smoke-wrapper {
     position: absolute;
@@ -38,6 +39,10 @@
   }
 
   .title-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
     z-index: 99;
 
     #titleMiniGe {
@@ -55,6 +60,16 @@
       font-size: 3.5rem;
       z-index: 99;
       font-family: $font-title;
+
+    }
+
+    #logout-button {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $red-600;
+      cursor: pointer;
     }
   }
 
