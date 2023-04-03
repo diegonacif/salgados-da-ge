@@ -59,7 +59,7 @@ export const Menu = () => {
             <div className="product-card" key={`${assado.label}-${index}`}>
               <div className="text-content">
                 <div className="product-text">
-                  {/* <h4>{assado.label}</h4> */}
+                  <h4>{assado.label}</h4>
                   <p>{assado.description}</p>
                 </div>
                 <div className="product-price">
