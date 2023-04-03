@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Header } from '../Header/Header';
 import imgTemp from '../../assets/bread.png';
 import { collection } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
+import { StockSumContext } from '../../contexts/StockSumProvider';
 
 export const Menu = () => {
   const stockCollectionRef = collection(db, 'stock');
@@ -11,6 +12,8 @@ export const Menu = () => {
   const [assadosArray, setAssadosArray] = useState([]);
   const [fritosArray, setFritosArray] = useState([]);
   const [paesArray, setPaesArray] = useState([]);
+
+  console.log(assadosArray);
 
   // Firestore loading
   const [value, loading, error] = useCollection(stockCollectionRef,
@@ -20,118 +23,87 @@ export const Menu = () => {
     setFirestoreLoading(loading);
   }, [loading])
 
+  const {
+    stockRaw
+  } = useContext(StockSumContext);
+
+  useEffect(() => {
+    const stockAssados = stockRaw?.filter(stock => stock.type === "assado");
+    const stockFritos = stockRaw?.filter(stock => stock.type === "frito");
+    const stockPaes = stockRaw?.filter(stock => stock.type === "pao");
+    setAssadosArray(stockAssados);
+    setFritosArray(stockFritos);
+    setPaesArray(stockPaes);
+  }, [firestoreLoading, stockRaw])
+
   return (
     <>
     <Header />
     <div className="menu-container">
       <h3 id="section-title">Salgados Assados</h3>
       <section>
-        <div className="product-card">
-          <div className="text-content">
-            <div className="product-text">
-              <h4>Salgado de Frango</h4>
-              <p>Salgado assado com recheio de frango com cheddar, gostoso pra caramba, preciso dele.</p>
+        {
+          assadosArray?.map((assado, index) => (
+            <div className="product-card" key={`${assado.label}-${index}`}>
+              <div className="text-content">
+                <div className="product-text">
+                  <h4>{assado.label}</h4>
+                  <p>{assado.description}</p>
+                </div>
+                <div className="product-price">
+                  <span>R$ 4,00</span>
+                </div>
+              </div>
+              <div className="product-image-wrapper">
+                <img src={imgTemp} alt="" />
+              </div>
             </div>
-            <div className="product-price">
-              <span>R$ 4,00</span>
-            </div>
-          </div>
-          <div className="product-image-wrapper">
-            <img src={imgTemp} alt="" />
-          </div>
-        </div>
-        <div className="product-card">
-          <div className="text-content">
-            <div className="product-text">
-              <h4>Salgado de Frango</h4>
-              <p>Salgado assado com recheio de frango com cheddar, gostoso pra caramba, preciso dele.</p>
-            </div>
-            <div className="product-price">
-              <span>R$ 4,00</span>
-            </div>
-          </div>
-          <div className="product-image-wrapper">
-            <img src={imgTemp} alt="" />
-          </div>
-        </div>
-        <div className="product-card">
-          <div className="text-content">
-            <div className="product-text">
-              <h4>Salgado de Frango</h4>
-              <p>Salgado assado com recheio de frango com cheddar, gostoso pra caramba, preciso dele.</p>
-            </div>
-            <div className="product-price">
-              <span>R$ 4,00</span>
-            </div>
-          </div>
-          <div className="product-image-wrapper">
-            <img src={imgTemp} alt="" />
-          </div>
-        </div>
+          ))
+        }
       </section>
 
       <h3 id="section-title">Salgados Fritos</h3>
       <section>
-        <div className="product-card">
-          <div className="text-content">
-            <div className="product-text">
-              <h4>Salgado de Frango</h4>
-              <p>Salgado assado com recheio de frango com cheddar, gostoso pra caramba, preciso dele.</p>
+        {
+          fritosArray?.map((assado, index) => (
+            <div className="product-card" key={`${assado.label}-${index}`}>
+              <div className="text-content">
+                <div className="product-text">
+                  <h4>{assado.label}</h4>
+                  <p>{assado.description}</p>
+                </div>
+                <div className="product-price">
+                  <span>R$ 4,00</span>
+                </div>
+              </div>
+              <div className="product-image-wrapper">
+                <img src={imgTemp} alt="" />
+              </div>
             </div>
-            <div className="product-price">
-              <span>R$ 4,00</span>
-            </div>
-          </div>
-          <div className="product-image-wrapper">
-            <img src={imgTemp} alt="" />
-          </div>
-        </div>
-        <div className="product-card">
-          <div className="text-content">
-            <div className="product-text">
-              <h4>Salgado de Frango</h4>
-              <p>Salgado assado com recheio de frango com cheddar, gostoso pra caramba, preciso dele.</p>
-            </div>
-            <div className="product-price">
-              <span>R$ 4,00</span>
-            </div>
-          </div>
-          <div className="product-image-wrapper">
-            <img src={imgTemp} alt="" />
-          </div>
-        </div>
-        <div className="product-card">
-          <div className="text-content">
-            <div className="product-text">
-              <h4>Salgado de Frango</h4>
-              <p>Salgado assado com recheio de frango com cheddar, gostoso pra caramba, preciso dele.</p>
-            </div>
-            <div className="product-price">
-              <span>R$ 4,00</span>
-            </div>
-          </div>
-          <div className="product-image-wrapper">
-            <img src={imgTemp} alt="" />
-          </div>
-        </div>
+          ))
+        }
       </section>
 
       <h3 id="section-title">Pães</h3>
       <section>
-        <div className="product-card">
-          <div className="text-content">
-            <div className="product-text">
-              <h4>Pão de Cebola</h4>
-              <p>Salgado assado com recheio de frango com cheddar, gostoso pra caramba, preciso dele.</p>
+        {
+          paesArray?.map((assado, index) => (
+            <div className="product-card" key={`${assado.label}-${index}`}>
+              <div className="text-content">
+                <div className="product-text">
+                  <h4>{assado.label}</h4>
+                  <p>{assado.description}</p>
+                </div>
+                <div className="product-price">
+                  <span>R$ 4,00</span>
+                </div>
+              </div>
+              <div className="product-image-wrapper">
+                <img src={imgTemp} alt="" />
+              </div>
             </div>
-            <div className="product-price">
-              <span>R$ 4,00</span>
-            </div>
-          </div>
-          <div className="product-image-wrapper">
-            <img src={imgTemp} alt="" />
-          </div>
-        </div>
+          ))
+        }
       </section>
     </div>
     </>
