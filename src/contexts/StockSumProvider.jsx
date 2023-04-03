@@ -14,6 +14,8 @@ export const StockSumProvider = ({ children }) => {
   const [firestoreLoading, setFirestoreLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
+  console.log(stockRaw);
+
   const [mistoSum, setMistoSum] = useState(0);
   const [frangoSum, setFrangoSum] = useState(0);
   const [salsichaSum, setSalsichaSum] = useState(0);

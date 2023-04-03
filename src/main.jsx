@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { App } from './App'
 import { Login } from './components/Login/Login';
+import { Menu } from './components/Menu/Menu';
 import { NewSale } from './components/NewSale/NewSale';
 import { Stock } from './components/Stock/Stock';
 import { UserData } from './components/UserData/UserData';
@@ -24,7 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <ToastifyProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Menu />} />
             <Route element={<PrivateRoutes />}>
               <Route path="/management" element={<App />} />
               <Route path="/new-sale" element={<NewSale />} />
