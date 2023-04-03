@@ -134,7 +134,8 @@ export const StockSumProvider = ({ children }) => {
     tortaStock, setTortaStock,
     cebolaStock, setCebolaStock,
     handleRefresh, refresh,
-    stockRaw, setStockRaw
+    stockRaw, setStockRaw,
+    firestoreLoading
     }}>
       {children}
     </StockSumContext.Provider>

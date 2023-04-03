@@ -5,6 +5,7 @@ import { Header } from './components/Header/Header';
 import { NewSale } from './components/NewSale/NewSale'
 import { SalesTable } from './components/SalesTable/SalesTable'
 import './App.scss'
+import 'rodal/lib/rodal.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {

@@ -5,26 +5,32 @@ import { collection } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { StockSumContext } from '../../contexts/StockSumProvider';
+import loadingGif from '../../assets/load-orange-2.gif';
+
+import '../../App.scss';
+import Rodal from 'rodal';
+import { ShoppingCart } from '@phosphor-icons/react';
 
 export const Menu = () => {
   const stockCollectionRef = collection(db, 'stock');
-  const [firestoreLoading, setFirestoreLoading] = useState(true);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [assadosArray, setAssadosArray] = useState([]);
   const [fritosArray, setFritosArray] = useState([]);
   const [paesArray, setPaesArray] = useState([]);
 
-  console.log(assadosArray);
+  // console.log(assadosArray);
 
-  // Firestore loading
-  const [value, loading, error] = useCollection(stockCollectionRef,
-    { snapshotListenOptions: { includeMetadataChanges: true } }
-  );
-  useEffect(() => {
-    setFirestoreLoading(loading);
-  }, [loading])
+  // // Firestore loading
+  // const [value, loading, error] = useCollection(stockCollectionRef,
+  //   { snapshotListenOptions: { includeMetadataChanges: true } }
+  // );
+  // useEffect(() => {
+  //   setFirestoreLoading(loading);
+  // }, [loading])
 
   const {
-    stockRaw
+    stockRaw,
+    firestoreLoading
   } = useContext(StockSumContext);
 
   // Loading stock products by type
@@ -49,13 +55,20 @@ export const Menu = () => {
     }
   }
 
+  const modalCustomStyles = {
+    height: '100vh',
+    width: '400px',
+  }
+
   return (
     <>
     <Header />
     <div className="menu-container">
       <h3 id="section-title">Salgados Assados</h3>
       <section>
-        {
+        { 
+          firestoreLoading ?
+          <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
           assadosArray?.map((assado, index) => (
             <div className="product-card" key={`${assado.label}-${index}`}>
               <div className="text-content">
@@ -68,7 +81,7 @@ export const Menu = () => {
                 </div>
               </div>
               <div className="product-image-wrapper">
-                <img src={imgTemp} alt="" />
+                <img src={imgTemp} alt="" loading="lazy" />
               </div>
             </div>
           ))
@@ -78,6 +91,8 @@ export const Menu = () => {
       <h3 id="section-title">Salgados Fritos</h3>
       <section>
         {
+          firestoreLoading ?
+          <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
           fritosArray?.map((frito, index) => (
             <div className="product-card" key={`${frito.label}-${index}`}>
               <div className="text-content">
@@ -90,7 +105,7 @@ export const Menu = () => {
                 </div>
               </div>
               <div className="product-image-wrapper">
-                <img src={imgTemp} alt="" />
+                <img src={imgTemp} alt="" loading="lazy" />
               </div>
             </div>
           ))
@@ -100,6 +115,8 @@ export const Menu = () => {
       <h3 id="section-title">Pães</h3>
       <section>
         {
+          firestoreLoading ?
+          <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
           paesArray?.map((pao, index) => (
             <div className="product-card" key={`${pao.label}-${index}`}>
               <div className="text-content">
@@ -112,12 +129,33 @@ export const Menu = () => {
                 </div>
               </div>
               <div className="product-image-wrapper">
-                <img src={imgTemp} alt="" />
+                <img src={imgTemp} alt="" loading="lazy" />
               </div>
             </div>
           ))
         }
       </section>
+      <ShoppingCart 
+        size={36} 
+        weight="bold" 
+        id="cart-button" 
+        onClick={() => setIsCartOpen(true)}
+      />
+      <Rodal
+        visible={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        className='rodal-container'
+        id='rodal-cart'
+        animation='slideRight'
+        duration={400}
+        showMask={true}
+        closeMaskOnClick={true}
+        showCloseButton={false}
+        closeOnEsc={true}
+        customStyles={modalCustomStyles}
+      >
+        <h1>teste</h1>
+      </Rodal>
     </div>
     </>
   )
