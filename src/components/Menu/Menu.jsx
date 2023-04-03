@@ -37,6 +37,7 @@ export const Menu = () => {
     setPaesArray(stockPaes);
   }, [firestoreLoading, stockRaw])
 
+
   // Pricing by type
   const typePrice = (type) => {
     if(type === 'assado') {
