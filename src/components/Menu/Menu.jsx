@@ -27,6 +27,7 @@ export const Menu = () => {
     stockRaw
   } = useContext(StockSumContext);
 
+  // Loading stock products by type
   useEffect(() => {
     const stockAssados = stockRaw?.filter(stock => stock.type === "assado");
     const stockFritos = stockRaw?.filter(stock => stock.type === "frito");
@@ -35,6 +36,17 @@ export const Menu = () => {
     setFritosArray(stockFritos);
     setPaesArray(stockPaes);
   }, [firestoreLoading, stockRaw])
+
+  // Pricing by type
+  const typePrice = (type) => {
+    if(type === 'assado') {
+      return '4,00'
+    } else if (type === 'frito') {
+      return '3,00'
+    } else if (type === 'pao') {
+      return '1,00'
+    }
+  }
 
   return (
     <>
@@ -51,7 +63,7 @@ export const Menu = () => {
                   <p>{assado.description}</p>
                 </div>
                 <div className="product-price">
-                  <span>R$ 4,00</span>
+                  <span>{`R$ ${typePrice(assado.type)}`}</span>
                 </div>
               </div>
               <div className="product-image-wrapper">
@@ -65,15 +77,15 @@ export const Menu = () => {
       <h3 id="section-title">Salgados Fritos</h3>
       <section>
         {
-          fritosArray?.map((assado, index) => (
-            <div className="product-card" key={`${assado.label}-${index}`}>
+          fritosArray?.map((frito, index) => (
+            <div className="product-card" key={`${frito.label}-${index}`}>
               <div className="text-content">
                 <div className="product-text">
-                  <h4>{assado.label}</h4>
-                  <p>{assado.description}</p>
+                  <h4>{frito.label}</h4>
+                  <p>{frito.description}</p>
                 </div>
                 <div className="product-price">
-                  <span>R$ 4,00</span>
+                  <span>{`R$ ${typePrice(frito.type)}`}</span>
                 </div>
               </div>
               <div className="product-image-wrapper">
@@ -87,15 +99,15 @@ export const Menu = () => {
       <h3 id="section-title">Pães</h3>
       <section>
         {
-          paesArray?.map((assado, index) => (
-            <div className="product-card" key={`${assado.label}-${index}`}>
+          paesArray?.map((pao, index) => (
+            <div className="product-card" key={`${pao.label}-${index}`}>
               <div className="text-content">
                 <div className="product-text">
-                  <h4>{assado.label}</h4>
-                  <p>{assado.description}</p>
+                  <h4>{pao.label}</h4>
+                  <p>{pao.description}</p>
                 </div>
                 <div className="product-price">
-                  <span>R$ 4,00</span>
+                  <span>{`R$ ${typePrice(pao.type)}`}</span>
                 </div>
               </div>
               <div className="product-image-wrapper">
