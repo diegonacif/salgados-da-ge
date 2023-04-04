@@ -139,7 +139,7 @@ export const Menu = () => {
       </section>
       <ShoppingCart 
         size={36} 
-        weight="bold" 
+        weight="duotone" 
         id="cart-button" 
         onClick={() => setIsCartOpen(true)}
       />
