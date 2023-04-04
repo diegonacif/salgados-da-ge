@@ -59,6 +59,7 @@ export const Menu = () => {
   const modalCustomStyles = {
     height: '100vh',
     width: '400px',
+    maxWidth: '100vw'
   }
 
   return (
