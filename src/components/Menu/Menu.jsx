@@ -10,6 +10,7 @@ import loadingGif from '../../assets/load-orange-2.gif';
 import '../../App.scss';
 import Rodal from 'rodal';
 import { ShoppingCart } from '@phosphor-icons/react';
+import { CustomerCart } from '../CustomerCart/CustomerCart';
 
 export const Menu = () => {
   const stockCollectionRef = collection(db, 'stock');
@@ -150,11 +151,11 @@ export const Menu = () => {
         duration={400}
         showMask={true}
         closeMaskOnClick={true}
-        showCloseButton={false}
+        showCloseButton={true}
         closeOnEsc={true}
         customStyles={modalCustomStyles}
       >
-        <h1>teste</h1>
+        <CustomerCart />
       </Rodal>
     </div>
     </>

@@ -1,5 +1,4 @@
 .menu-container {
-  position: relative;
   display: flex;
   flex-direction: column;
   font-family: $font-primary;
@@ -14,7 +13,7 @@
     }
 
     .rodal-mask {
-      background: transparent;
+      background: rgba(228, 178, 71, 0.2);
     }
   }
 
@@ -24,6 +23,7 @@
     right: 1rem;
     cursor: pointer;
     color: $red-600;
+    z-index: 99;
   }
 
   section {
