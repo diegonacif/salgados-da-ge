@@ -39,8 +39,6 @@ export const NewSale = () => {
     handleRefresh, refresh,
   } = useContext(StockSumContext);
 
-  
-
   // Yup Resolver
   const saleSchema = yup.object({
     apartment: yup.string().required("Insira o número do apartamento").min(3, "Número inválido"),
@@ -86,10 +84,8 @@ export const NewSale = () => {
     setOldTorta(oldCart?.filter((data) => (data.product === "Torta"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
     setOldCebola(oldCart?.filter((data) => (data.product === "Cebola"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
   }, [saleRaw])
-  
 
   const [cart, setCart] = useState([]);
-
 
   // Handling Price
   const [price, setPrice] = useState(0);
@@ -206,8 +202,6 @@ export const NewSale = () => {
       )
     }
   }
-
-  // console.log({mistoSum: mistoSum, mistoStock: mistoStock})
 
   // Update sale
   async function updateSale() {
@@ -346,7 +340,6 @@ export const NewSale = () => {
               <option value="Entregue">Entregue</option>
             </select>
           </div>
-          {/* <span>*Data*</span> */}
           <div className="input-row buttons-wrapper">
             {
               updateProductId ?
@@ -358,12 +351,10 @@ export const NewSale = () => {
                   <span>Atualizar</span>
                   <Export size={24} weight="duotone" />
                 </button>
-                {/* <button id="update-button" onClick={() => updateSale()}>Atualizar</button>  */}
                 <div id="delete-button" onClick={() => handleDeleteSale()}>
                   <span>Deletar</span>
                   <Trash size={24} weight="duotone" />
                 </div>
-                {/* <button id="delete-button" onClick={() => deleteSale()}>Deletar</button> */}
               </> :
               <button 
                 className={`register-button ${!isValid && 'disabled-button'}`}
@@ -376,7 +367,6 @@ export const NewSale = () => {
                 <span>Salvar</span>
                 <FloppyDisk size={24} weight="duotone" />
               </button>
-              // <button id="register-button" onClick={() => registerSale()}>Salvar</button>
             }
           </div>
         </div>
@@ -402,11 +392,6 @@ export const NewSale = () => {
                 handleNewCartProduct()
               } 
             />
-            {/* {
-              isPlusButtonDisabled ?
-              <PlusCircle size={32} weight="duotone" onClick={() => alert("insira um produto")} /> :
-              <PlusCircle size={32} weight="fill" onClick={() => handleNewCartProduct()} />
-            } */}
           </div>
           <div className="price-wrapper">
             {

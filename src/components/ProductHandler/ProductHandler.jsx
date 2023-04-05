@@ -1,7 +1,6 @@
-import React from 'react'
-import productImg from '../../assets/bread.png';
 
 export const ProductHandler = ({ currentProduct, pricer }) => {
+
   const promotionNotice = () => {
     if(currentProduct?.type === 'assado') {
       return 'Comprando 3 unidades, pague apenas 10 reais!';
@@ -27,7 +26,6 @@ export const ProductHandler = ({ currentProduct, pricer }) => {
         </div>
         <button id="add-button">
           Adicionar
-          <span>R$ 69,00</span>
         </button>
       </div>
     </div>

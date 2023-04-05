@@ -14,7 +14,7 @@ export const App = () => {
     <div className="App">
       <Header />
       <SalesTable />
-      
+      <NewSale />
     </div>
   )
 }

@@ -31,7 +31,7 @@
   #unitary-price {
     align-self: start;
     font-size: .875rem;
-    margin-top: .5rem;
+    margin-top: .25rem;
     color: $red-600;
   }
 
@@ -39,12 +39,13 @@
     align-self: start;
     font-size: .875rem;
     color: $gray-800;
+    margin-top: 1rem;
   }
 
   .add-row {
     display: flex;
     align-items: center;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 
     .input-wrapper {
       display: flex;
@@ -76,10 +77,10 @@
     #add-button {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 0.75rem;
+      justify-content: center;
+      padding: 0 1.5rem;
       height: 2.25rem;
-      width: 11rem;
+      width: fit-content;
       margin-left: 1rem;
       border: 0;
       border-radius: 4px;
