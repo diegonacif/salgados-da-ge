@@ -5,7 +5,7 @@
   background-color: $white;
   @include responsive-padding(6rem, 3rem);
 
-  .rodal-container {
+  .rodal-cart-container {
     #rodal-cart {
       padding: 0;
       margin: 0 0 0 auto;
@@ -13,7 +13,9 @@
     }
 
     .rodal-mask {
-      background: rgba(228, 178, 71, 0.2);
+      background: rgba(129, 101, 39, 0.5);
+      backdrop-filter: blur(2px);
+      transition: backdrop-filter 0.2s;
     }
   }
 
@@ -24,6 +26,20 @@
     cursor: pointer;
     color: $red-600;
     z-index: 99;
+  }
+
+  .rodal-product-handler {
+    #rodal-handler {
+      box-shadow: -2px 0px 10px -3px rgba(0,0,0,0.3);
+      border-radius: 8px;
+      padding: 2rem;
+    }
+
+    .rodal-mask {
+      background: rgba(129, 101, 39, 0.5);
+      backdrop-filter: blur(2px);
+      transition: backdrop-filter 0.2s;
+    }
   }
 
   section {

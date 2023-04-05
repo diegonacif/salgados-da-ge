@@ -18,10 +18,8 @@ $font-primary: 'Noto Sans HK', sans-serif;
 $assets-path: './assets';
 
 * {
-  // --toastify-color-success: #E4B147;
-  // --toastify-text-color-success: #801115;
-  margin: 0;
   padding: 0;
+  margin: 0;
   box-sizing: border-box;
 
   -webkit-tap-highlight-color: transparent; // remove color highlight on tap
@@ -39,20 +37,6 @@ $assets-path: './assets';
     appearance: textfield;
   }
 }
-
-// @mixin responsive-padding($pt: 0, $pb: 0) {
-//   padding: $pt 1rem $pb;
-
-//   @media only screen and ($tablet-size) {
-//     padding: $pt 4rem $pb;
-//   }
-//   @media only screen and ($notebook-size) {
-//     padding: $pt 6rem $pb;
-//   }
-//   @media only screen and ($desktop-size) {
-//     padding: $pt calc(8rem + 5vw) $pb;
-//   }
-// }
 
 @mixin responsive-padding($pt: 0, $pb: 0) {
   padding: $pt calc(8rem + 5vw) $pb;
@@ -79,3 +63,4 @@ $assets-path: './assets';
 @import "./components/UserData/UserData";
 @import "./components/Menu/Menu";
 @import "./components/CustomerCart/CustomerCart";
+@import "./components/ProductHandler/ProductHandler";

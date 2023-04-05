@@ -8,6 +8,10 @@
   max-height: 100%;
   background-color: $white;
 
+  #customer-cart-title {
+    color:rgba(0, 0, 0, 0.5)
+  }
+
   .cart-section {
     display: flex;
     flex-direction: column;
@@ -21,6 +25,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-weight: 500;
   }
 
   button {

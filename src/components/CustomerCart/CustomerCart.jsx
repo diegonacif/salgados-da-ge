@@ -4,7 +4,7 @@ import '../../App.scss';
 export const CustomerCart = () => {
   return (
     <div className="customer-cart-container">
-      <h5>Seu pedido</h5>
+      <h5 id="customer-cart-title">Seu pedido</h5>
       <div className="cart-section">
         <span>1x jujuba de baunilha</span>
         <span>3x maços de malboro</span>

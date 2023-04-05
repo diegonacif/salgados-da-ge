@@ -11,23 +11,17 @@ import '../../App.scss';
 import Rodal from 'rodal';
 import { ShoppingCart } from '@phosphor-icons/react';
 import { CustomerCart } from '../CustomerCart/CustomerCart';
+import { ProductHandler } from '../ProductHandler/ProductHandler';
 
 export const Menu = () => {
   const stockCollectionRef = collection(db, 'stock');
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isDishHandlerOpen, setIsDishHandlerOpen] = useState(false);
   const [assadosArray, setAssadosArray] = useState([]);
   const [fritosArray, setFritosArray] = useState([]);
   const [paesArray, setPaesArray] = useState([]);
 
-  // console.log(assadosArray);
-
-  // // Firestore loading
-  // const [value, loading, error] = useCollection(stockCollectionRef,
-  //   { snapshotListenOptions: { includeMetadataChanges: true } }
-  // );
-  // useEffect(() => {
-  //   setFirestoreLoading(loading);
-  // }, [loading])
+  const [currentProductHandle, setCurrentProductHandle] = useState()
 
   const {
     stockRaw,
@@ -56,8 +50,21 @@ export const Menu = () => {
     }
   }
 
+  // Product Handler Modal Opening
+  const productHandlerModal = (product) => {
+    setCurrentProductHandle(product)
+    // console.log(product)
+    setIsDishHandlerOpen(true)
+  }
+
   const modalCustomStyles = {
     height: '100vh',
+    width: '400px',
+    maxWidth: '100vw'
+  }
+
+  const modalProductHandlerStyles = {
+    height: 'max-content',
     width: '400px',
     maxWidth: '100vw'
   }
@@ -72,7 +79,11 @@ export const Menu = () => {
           firestoreLoading ?
           <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
           assadosArray?.map((assado, index) => (
-            <div className="product-card" key={`${assado.label}-${index}`}>
+            <div 
+              className="product-card" 
+              key={`${assado.label}-${index}`}
+              onClick={() => productHandlerModal(assado)}
+            >
               <div className="text-content">
                 <div className="product-text">
                   <h4>{assado.label}</h4>
@@ -146,7 +157,7 @@ export const Menu = () => {
       <Rodal
         visible={isCartOpen}
         onClose={() => setIsCartOpen(false)}
-        className='rodal-container'
+        className='rodal-cart-container'
         id='rodal-cart'
         animation='slideRight'
         duration={400}
@@ -157,6 +168,22 @@ export const Menu = () => {
         customStyles={modalCustomStyles}
       >
         <CustomerCart />
+      </Rodal>
+
+      <Rodal
+        visible={isDishHandlerOpen}
+        onClose={() => setIsDishHandlerOpen(false)}
+        className='rodal-product-handler'
+        id='rodal-handler'
+        animation='zoom'
+        duration={300}
+        showMask={true}
+        closeMaskOnClick={true}
+        showCloseButton={true}
+        closeOnEsc={true}
+        customStyles={modalProductHandlerStyles}
+      >
+        <ProductHandler currentProduct={currentProductHandle} pricer={typePrice} />
       </Rodal>
     </div>
     </>
