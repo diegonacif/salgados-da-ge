@@ -9,9 +9,11 @@ import { App } from './App'
 import { Login } from './components/Login/Login';
 import { Menu } from './components/Menu/Menu';
 import { NewSale } from './components/NewSale/NewSale';
+import { SalesTable } from './components/SalesTable/SalesTable';
 import { Stock } from './components/Stock/Stock';
 import { UserData } from './components/UserData/UserData';
 import { AuthGoogleProvider } from './contexts/AuthGoogleProvider';
+import { SalesProvider } from './contexts/SalesProvider';
 import { StockSumProvider } from './contexts/StockSumProvider';
 import { ToastifyProvider } from './contexts/ToastifyProvider';
 import { UpdateProductsProvider } from './contexts/UpdateProductsProvider';
@@ -23,18 +25,20 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <UpdateProductsProvider>
       <StockSumProvider>
       <ToastifyProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <SalesProvider>
           <Routes>
             <Route path="/" element={<Menu />} />
             <Route path="/login" element={<Login />} />
             <Route element={<PrivateRoutes />}>
-              <Route path="/management" element={<App />} />
+              <Route path="/sales-table" element={<SalesTable />} />
               <Route path="/new-sale" element={<NewSale />} />
               <Route path="/stock" element={<Stock />} />
               <Route path="/user-data" element={<UserData />} />
             </Route>
           </Routes>
-        </BrowserRouter>
+        </SalesProvider>
+      </BrowserRouter>
       </ToastifyProvider>
       </StockSumProvider>
       </UpdateProductsProvider>
