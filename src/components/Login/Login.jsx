@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthGoogleContext } from '../../contexts/AuthGoogleProvider';
 import { useContext, useEffect } from 'react';
 import '../../App.scss';
+import { UserDataContext } from '../../contexts/UserDataProvider';
 
 export const Login = () => {
   const { 
@@ -14,14 +15,27 @@ export const Login = () => {
     user 
   } = useContext(AuthGoogleContext);
 
+  const {
+    alreadyRegistered, setAlreadyRegistered,
+    users, setUsers
+  } = useContext(UserDataContext);
+
   const navigate = useNavigate();
 
   // console.log(user);
 
   // Back to main page when logged in
   useEffect(() => {
-    isSignedIn ? navigate("/management") : null;
-  }, [isSignedIn])
+    isSignedIn & alreadyRegistered ? 
+    navigate("/") :
+    isSignedIn & !alreadyRegistered ? 
+    navigate("/user-data") :
+    null
+  }, [isSignedIn, alreadyRegistered])
+
+  // useEffect(() => {
+  //   isSignedIn ? navigate("/") : null;
+  // }, [isSignedIn])
 
   async function loginGoogle() {
     await handleGoogleSignIn();

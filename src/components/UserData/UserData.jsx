@@ -5,16 +5,21 @@ import { AuthGoogleContext } from '../../contexts/AuthGoogleProvider';
 import { db } from '../../services/firebase';
 import { useForm } from 'react-hook-form';
 import { Header } from '../Header/Header';
+import { UserDataContext } from '../../contexts/UserDataProvider';
 
 export const UserData = () => {
   const usersCollectionRef = collection(db, "users");
-  const [users, setUsers] = useState({})
-  const [alreadyRegistered, setAlreadyRegistered] = useState(false)
   const [firestoreLoading, setFirestoreLoading] = useState(true);
   const { userId, userPhotoUrl } = useContext(AuthGoogleContext);
+  const {
+    alreadyRegistered, setAlreadyRegistered,
+    users, setUsers
+  } = useContext(UserDataContext);
   const [refresh, setRefresh] = useState(false);
 
-  const IdsArray = firestoreLoading ? [] : users?.map((user) => user.id)
+  console.log(users);
+
+  const IdsArray = firestoreLoading ? null : users?.map(user => user.id)
 
   // Hook Form Controller
   const {
@@ -45,7 +50,7 @@ export const UserData = () => {
     }
     getUsers();
     
-  }, [refresh])
+  }, [refresh, firestoreLoading])
 
   useEffect(() => {
     if(firestoreLoading) {
@@ -56,7 +61,22 @@ export const UserData = () => {
       }
       handleAlreadyExists();
     }
-  }, [IdsArray])
+  }, [IdsArray, firestoreLoading])
+
+  console.log(alreadyRegistered)
+  // Loading data if already exists 
+  useEffect(() => {
+    if(alreadyRegistered == true) {
+      return (
+        setValue("userName", users[0]?.name),
+        setValue("userPhone", users[0]?.phone),
+        setValue("userBlock", users[0]?.block),
+        setValue("userApartment", users[0]?.apartment)
+      )
+    } else {
+      return console.log("não está registrado")
+    }
+  }, [firestoreLoading, alreadyRegistered])
 
   // Create user data
   async function registerUser() {

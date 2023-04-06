@@ -17,6 +17,7 @@ import { SalesProvider } from './contexts/SalesProvider';
 import { StockSumProvider } from './contexts/StockSumProvider';
 import { ToastifyProvider } from './contexts/ToastifyProvider';
 import { UpdateProductsProvider } from './contexts/UpdateProductsProvider';
+import { UserDataProvider } from './contexts/UserDataProvider';
 import { PrivateRoutes } from './PrivateRoutes';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <StockSumProvider>
       <ToastifyProvider>
       <BrowserRouter>
+        <UserDataProvider>
         <SalesProvider>
           <Routes>
             <Route path="/" element={<Menu />} />
@@ -38,6 +40,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             </Route>
           </Routes>
         </SalesProvider>
+        </UserDataProvider>
       </BrowserRouter>
       </ToastifyProvider>
       </StockSumProvider>
