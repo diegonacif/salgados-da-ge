@@ -10,7 +10,7 @@ export const CustomerCart = () => {
     handleDeleteCartProduct
   } = useContext(SalesContext);
 
-  console.log(cart);
+  // console.log(cart);
 
   return (
     <div className="customer-cart-container">

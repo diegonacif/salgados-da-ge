@@ -6,12 +6,13 @@ import { useWindowSize } from 'usehooks-ts'
 import { ShoppingCart, SignOut } from '@phosphor-icons/react';
 
 import '../../App.scss';
+import { SalesContext } from '../../contexts/SalesProvider';
 
 export const Header = ({currentPage, setIsCartOpen}) => {
   const { isSignedIn, isLoading, handleGoogleSignOut, user } = useContext(AuthGoogleContext);
-  // const { width, height } = useWindowSize();
-
-  console.log(currentPage);
+  const {
+    cart,
+  } = useContext(SalesContext);
 
   return (
     <div className="header-container">
@@ -31,7 +32,10 @@ export const Header = ({currentPage, setIsCartOpen}) => {
           currentPage === "menu" &&
           <div id="cart-button">
             <div id="cart-counter">
-              <span>2</span>
+              {
+                cart.length !== 0 &&
+                <span>{cart.length}</span>
+              }
             </div>
             <ShoppingCart 
               size={36} 
