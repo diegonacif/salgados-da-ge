@@ -57,10 +57,6 @@ export const SalesTable = () => {
               <tr>
                 <th>Bloco</th>
                 <th>Apartamento</th>
-                {/* <th>Misto</th>
-                <th>Frango</th>
-                <th>Salsicha</th>
-                <th>Pão</th> */}
                 <th>Pagamento</th>
                 <th>Status</th>
                 <th>Data</th>
@@ -73,34 +69,6 @@ export const SalesTable = () => {
                   <tr key={index}>
                     <td onClick={() => handleUpdateSale(sale.id)}>{sale?.block}</td>
                     <td>{sale?.apartment}</td>
-                    {/* <td>
-                      {
-                        sale?.cart.filter((product) =>  product.product === "Misto").length === 0 ?
-                        0 :
-                        sale?.cart.filter((product) =>  product.product === "Misto")[0].quantity
-                      }
-                    </td>
-                    <td>
-                      {
-                        sale?.cart.filter((product) =>  product.product === "Frango").length === 0 ?
-                        0 :
-                        sale?.cart.filter((product) =>  product.product === "Frango")[0].quantity
-                      }
-                    </td>
-                    <td>
-                      {
-                        sale?.cart.filter((product) =>  product.product === "Salsicha").length === 0 ?
-                        0 :
-                        sale?.cart.filter((product) =>  product.product === "Salsicha")[0].quantity
-                      }
-                    </td>
-                    <td>
-                      {
-                        sale?.cart.filter((product) =>  product.product === "Cebola").length === 0 ?
-                        0 :
-                        sale?.cart.filter((product) =>  product.product === "Cebola")[0].quantity
-                      }
-                    </td> */}
                     <td>{sale?.payment}</td>
                     <td className={
                       sale?.status === "Novo Pedido" ? "status-red" :

@@ -15,9 +15,13 @@
     width: 14rem;
     height: 12rem;
     
+    &#frango { @include product-image('frango'); }
     &#misto { @include product-image('misto'); }
-    &#cebola { @include product-image('cebola'); }
     &#salsicha { @include product-image('salsicha'); }
+    &#torta { @include product-image('torta'); }
+    &#coxinha { @include product-image('coxinha'); }
+    &#enroladinho { @include product-image('enroladinho'); }
+    &#cebola { @include product-image('cebola'); }
   }
 
   h4 {

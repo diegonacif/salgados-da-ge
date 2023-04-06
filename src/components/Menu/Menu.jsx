@@ -69,6 +69,15 @@ export const Menu = () => {
     maxWidth: '100vw'
   }
 
+  // Salgados Images Object
+
+  const salgadosImages = (salgado) => {
+    return `/src/assets/salgados/${salgado}.png`
+  }
+
+
+  
+
   return (
     <>
     <Header />
@@ -94,7 +103,7 @@ export const Menu = () => {
                 </div>
               </div>
               <div className="product-image-wrapper">
-                <img src={imgTemp} alt="" loading="lazy" />
+                <img src={salgadosImages(assado.id)} alt="" loading="lazy" />
               </div>
             </div>
           ))
@@ -107,7 +116,11 @@ export const Menu = () => {
           firestoreLoading ?
           <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
           fritosArray?.map((frito, index) => (
-            <div className="product-card" key={`${frito.label}-${index}`}>
+            <div 
+              className="product-card" 
+              key={`${frito.label}-${index}`}
+              onClick={() => productHandlerModal(frito)}
+            >
               <div className="text-content">
                 <div className="product-text">
                   <h4>{frito.label}</h4>
@@ -118,7 +131,7 @@ export const Menu = () => {
                 </div>
               </div>
               <div className="product-image-wrapper">
-                <img src={imgTemp} alt="" loading="lazy" />
+                <img src={salgadosImages(frito.id)} alt="" loading="lazy" />
               </div>
             </div>
           ))
@@ -131,7 +144,11 @@ export const Menu = () => {
           firestoreLoading ?
           <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
           paesArray?.map((pao, index) => (
-            <div className="product-card" key={`${pao.label}-${index}`}>
+            <div 
+              className="product-card" 
+              key={`${pao.label}-${index}`}
+              onClick={() => productHandlerModal(pao)}
+            >
               <div className="text-content">
                 <div className="product-text">
                   <h4>{pao.label}</h4>
@@ -142,7 +159,7 @@ export const Menu = () => {
                 </div>
               </div>
               <div className="product-image-wrapper">
-                <img src={imgTemp} alt="" loading="lazy" />
+                <img src={salgadosImages(pao.id)} alt="" loading="lazy" />
               </div>
             </div>
           ))

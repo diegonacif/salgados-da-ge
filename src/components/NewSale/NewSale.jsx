@@ -11,9 +11,9 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
 import { StockSumContext } from '../../contexts/StockSumProvider';
+import { SalesContext } from '../../contexts/SalesProvider';
 
 import '../../App.scss';
-import { SalesContext } from '../../contexts/SalesProvider';
 
 export const NewSale = () => {
   const date = new Date();
