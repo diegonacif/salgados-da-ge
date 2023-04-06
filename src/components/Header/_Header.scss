@@ -71,6 +71,29 @@
       color: $red-600;
       cursor: pointer;
     }
+
+    #cart-button {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $red-600;
+      cursor: pointer;
+      // z-index: 98;
+
+      #cart-counter {
+        position: absolute;
+        top: -0.3rem;
+        right: -0.2rem;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 999px;
+        padding: 0 0.2rem;
+        font-size: 0.75rem;
+        // z-index: 99;
+      }
+    }
   }
 
 

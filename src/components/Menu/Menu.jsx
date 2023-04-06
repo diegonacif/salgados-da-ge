@@ -77,7 +77,10 @@ export const Menu = () => {
 
   return (
     <>
-    <Header />
+    <Header 
+      currentPage="menu"
+      setIsCartOpen={setIsCartOpen}
+    />
     <div className="menu-container">
       <h3 id="section-title">Salgados Assados</h3>
       <section>
@@ -162,12 +165,12 @@ export const Menu = () => {
           ))
         }
       </section>
-      <ShoppingCart 
+      {/* <ShoppingCart 
         size={36} 
         weight="duotone" 
         id="cart-button" 
         onClick={() => setIsCartOpen(true)}
-      />
+      /> */}
       <Rodal
         visible={isCartOpen}
         onClose={() => setIsCartOpen(false)}

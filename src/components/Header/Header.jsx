@@ -3,13 +3,15 @@ import titleMiniGe from '../../assets/salgados-mini-ge.png';
 import smoke from '../../assets/smoke.png';
 import { AuthGoogleContext } from '../../contexts/AuthGoogleProvider';
 import { useWindowSize } from 'usehooks-ts'
-import { SignOut } from '@phosphor-icons/react';
+import { ShoppingCart, SignOut } from '@phosphor-icons/react';
 
 import '../../App.scss';
 
-export const Header = () => {
+export const Header = ({currentPage, setIsCartOpen}) => {
   const { isSignedIn, isLoading, handleGoogleSignOut, user } = useContext(AuthGoogleContext);
   // const { width, height } = useWindowSize();
+
+  console.log(currentPage);
 
   return (
     <div className="header-container">
@@ -24,6 +26,19 @@ export const Header = () => {
             id="logout-button" 
             onClick={() => handleGoogleSignOut()}
           />
+        }
+        {
+          currentPage === "menu" &&
+          <div id="cart-button">
+            <div id="cart-counter">
+              <span>2</span>
+            </div>
+            <ShoppingCart 
+              size={36} 
+              weight="duotone" 
+              onClick={() => setIsCartOpen(true)}
+            />
+          </div>
         }
       </div>
       <div className="smoke-wrapper">
