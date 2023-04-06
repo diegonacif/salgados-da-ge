@@ -286,18 +286,16 @@ export const SalesProvider = ({ children }) => {
     setCart(newCart);
   };
 
-  console.log({
-    block: newSaleBlock,
-    apartment: newSaleApartment,
-    payment: newSalePayment,
-    status:newSaleStatus,
-    date: saleRaw[0]?.date,
-    cart: cart,
-    price: price,
-    discount: newSaleDiscount
-  })
-
-
+  // console.log({
+  //   block: newSaleBlock,
+  //   apartment: newSaleApartment,
+  //   payment: newSalePayment,
+  //   status:newSaleStatus,
+  //   date: saleRaw[0]?.date,
+  //   cart: cart,
+  //   price: price,
+  //   discount: newSaleDiscount
+  // })
 
   return (
     <SalesContext.Provider value={{ 

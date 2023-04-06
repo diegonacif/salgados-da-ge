@@ -66,7 +66,7 @@ export const Menu = () => {
   const modalProductHandlerStyles = {
     height: 'max-content',
     width: '400px',
-    maxWidth: '100vw'
+    maxWidth: '90vw'
   }
 
   // Salgados Images Object
@@ -74,9 +74,6 @@ export const Menu = () => {
   const salgadosImages = (salgado) => {
     return `/src/assets/salgados/${salgado}.png`
   }
-
-
-  
 
   return (
     <>

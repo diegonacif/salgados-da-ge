@@ -14,6 +14,7 @@
   .product-image {
     width: 14rem;
     height: 12rem;
+    border-radius: 4px;
     
     &#frango { @include product-image('frango'); }
     &#misto { @include product-image('misto'); }
@@ -30,6 +31,7 @@
 
   p {
     margin-top: 1rem;
+    align-self: start;
   }
 
   #unitary-price {
@@ -67,6 +69,10 @@
         height: 2rem;
         text-align: center;
         border: 0;
+
+        &:disabled {
+          color: $black;
+        }
       }
 
       button {

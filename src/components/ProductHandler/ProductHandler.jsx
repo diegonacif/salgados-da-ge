@@ -1,5 +1,20 @@
+import { useEffect, useState } from "react";
 
 export const ProductHandler = ({ currentProduct, pricer }) => {
+
+  const [productQuantity, setProductQuantity] = useState(1);
+
+  useEffect(() => {
+    setProductQuantity(1)
+  }, [currentProduct])
+  
+  const handleQuantityChange = (operation) => {
+      operation === "plus" ?
+      setProductQuantity(current => current + 1) :
+      operation === "minus" ?
+      setProductQuantity(current => current > 1 ? current - 1 : current) :
+      null;
+  }
 
   const promotionNotice = () => {
     if(currentProduct?.type === 'assado') {
@@ -20,9 +35,15 @@ export const ProductHandler = ({ currentProduct, pricer }) => {
       <span id="promotion-notice">{promotionNotice()}</span>
       <div className="add-row">
         <div className="input-wrapper">
-          <button>-</button>
-          <input type="number" />
-          <button>+</button>
+          <button onClick={() => handleQuantityChange("minus")}>-</button>
+          <input 
+            type="number" 
+            value={productQuantity}
+            onChange={(e) => setProductQuantity(e.target.value)}
+            readOnly
+            disabled
+          />
+          <button onClick={() => handleQuantityChange("plus")}>+</button>
         </div>
         <button id="add-button">
           Adicionar
