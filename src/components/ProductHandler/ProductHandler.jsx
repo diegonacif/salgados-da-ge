@@ -1,18 +1,25 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SalesContext } from "../../contexts/SalesProvider";
 
-export const ProductHandler = ({ currentProduct, pricer }) => {
+export const ProductHandler = ({ currentProduct, pricer, setIsDishHandlerOpen }) => {
 
-  const [productQuantity, setProductQuantity] = useState(1);
+  const {
+    newSaleCartQuantity, setNewSaleCartQuantity,
+    newSaleCartProduct, setNewSaleCartProduct,
+
+    handleNewCartProduct
+  } = useContext(SalesContext);
 
   useEffect(() => {
-    setProductQuantity(1)
+    setNewSaleCartQuantity(1);
+    setNewSaleCartProduct(currentProduct?.label);
   }, [currentProduct])
   
   const handleQuantityChange = (operation) => {
       operation === "plus" ?
-      setProductQuantity(current => current + 1) :
+      setNewSaleCartQuantity(current => current + 1) :
       operation === "minus" ?
-      setProductQuantity(current => current > 1 ? current - 1 : current) :
+      setNewSaleCartQuantity(current => current > 1 ? current - 1 : current) :
       null;
   }
 
@@ -26,6 +33,13 @@ export const ProductHandler = ({ currentProduct, pricer }) => {
     }
   };
 
+  const handleAddCartProduct = () => {
+    handleNewCartProduct();
+    setTimeout(() => {
+      setIsDishHandlerOpen(false);
+    }, 50);
+  }
+
   return (
     <div className="product-handler-container">
       <div className="product-image" id={`${currentProduct?.id}`}></div>
@@ -38,14 +52,16 @@ export const ProductHandler = ({ currentProduct, pricer }) => {
           <button onClick={() => handleQuantityChange("minus")}>-</button>
           <input 
             type="number" 
-            value={productQuantity}
-            onChange={(e) => setProductQuantity(e.target.value)}
+            value={newSaleCartQuantity}
             readOnly
             disabled
           />
           <button onClick={() => handleQuantityChange("plus")}>+</button>
         </div>
-        <button id="add-button">
+        <button 
+          id="add-button"
+          onClick={() => handleAddCartProduct(currentProduct?.label)}
+        >
           Adicionar
         </button>
       </div>

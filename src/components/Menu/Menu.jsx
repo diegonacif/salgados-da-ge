@@ -197,7 +197,11 @@ export const Menu = () => {
         closeOnEsc={true}
         customStyles={modalProductHandlerStyles}
       >
-        <ProductHandler currentProduct={currentProductHandle} pricer={typePrice} />
+        <ProductHandler 
+          currentProduct={currentProductHandle} 
+          pricer={typePrice} 
+          setIsDishHandlerOpen={setIsDishHandlerOpen}
+        />
       </Rodal>
     </div>
     </>
