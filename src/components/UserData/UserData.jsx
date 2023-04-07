@@ -43,14 +43,14 @@ export const UserData = () => {
   }, [loading])
 
   // Users Data
-  useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    }
-    getUsers();
+  // useEffect(() => {
+  //   const getUsers = async () => {
+  //     const data = await getDocs(usersCollectionRef);
+  //     setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   }
+  //   getUsers();
     
-  }, [refresh, firestoreLoading])
+  // }, [refresh, firestoreLoading])
 
   useEffect(() => {
     if(firestoreLoading) {

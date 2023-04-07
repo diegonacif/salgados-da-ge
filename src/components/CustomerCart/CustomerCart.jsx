@@ -1,23 +1,37 @@
 import { useContext } from 'react';
 import { SalesContext } from '../../contexts/SalesProvider';
 import { MinusCircle } from '@phosphor-icons/react';
+import { UserDataContext } from '../../contexts/UserDataProvider';
 import '../../App.scss';
 
-export const CustomerCart = () => {
+export const CustomerCart = ({ setIsCartOpen }) => {
   const {
     cart,
     price,
-    handleDeleteCartProduct
+    handleDeleteCartProduct,
+    registerSale
   } = useContext(SalesContext);
 
-  // console.log(cart);
+  const {
+    alreadyRegistered, setAlreadyRegistered,
+    users, setUsers
+  } = useContext(UserDataContext);
+
+  const handleRegisterSale = () => {
+    registerSale("customerMode");
+    setTimeout(() => {
+      setIsCartOpen(false)
+    }, 50);
+  }
+
+  // console.log(alreadyRegistered);
 
   return (
     <div className="customer-cart-container">
       <h5 id="customer-cart-title">Seu pedido</h5>
       <div className="cart-section">
         { 
-          cart.length === 0 ?
+          cart?.length === 0 ?
           <>
           <span>Seu carrinho está vazio! =/</span>
           </> :
@@ -36,7 +50,7 @@ export const CustomerCart = () => {
         <span>Total</span>
         <span>R$ {price},00</span>
       </div>
-      <button>Finalizar pedido</button>
+      <button onClick={() => handleRegisterSale()}>Finalizar pedido</button>
     </div>
   )
 }

@@ -33,8 +33,8 @@ export const Header = ({currentPage, setIsCartOpen}) => {
           <div id="cart-button">
             <div id="cart-counter">
               {
-                cart.length !== 0 &&
-                <span>{cart.length}</span>
+                cart?.length !== 0 &&
+                <span>{cart?.length}</span>
               }
             </div>
             <ShoppingCart 

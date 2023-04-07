@@ -184,7 +184,7 @@ export const Menu = () => {
         closeOnEsc={true}
         customStyles={modalCustomStyles}
       >
-        <CustomerCart />
+        <CustomerCart setIsCartOpen={setIsCartOpen} />
       </Rodal>
 
       <Rodal

@@ -6,6 +6,7 @@ import { StockSumContext } from "./StockSumProvider";
 import { ToastifyContext } from "./ToastifyProvider";
 import { UpdateProductsContext } from "./UpdateProductsProvider";
 import { v4 as uuidv4 } from 'uuid';
+import { UserDataContext } from "./UserDataProvider";
 
 export const SalesContext = createContext();
 
@@ -34,6 +35,11 @@ export const SalesProvider = ({ children }) => {
     cebolaStock,
     handleRefresh, refresh,
   } = useContext(StockSumContext);
+
+  const {
+    alreadyRegistered, setAlreadyRegistered,
+    users, setUsers
+  } = useContext(UserDataContext);
 
   const [cart, setCart] = useState([]);
 
@@ -78,7 +84,6 @@ export const SalesProvider = ({ children }) => {
     setOldCebola(oldCart?.filter((data) => (data.product === "Cebola"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
   }, [saleRaw])
 
-
   // Handling Price
   const [price, setPrice] = useState(0);
   useEffect(() => {
@@ -93,6 +98,9 @@ export const SalesProvider = ({ children }) => {
     const assadoPrice = ((assadoSum % 3) * 4) + ((((assadoSum - (assadoSum % 3)) / 3) * 10))
     const fritoPrice = ((fritoSum % 2) * 3) + ((((fritoSum - (fritoSum % 2)) / 2) * 5))
     const paoPrice = paoSum * 1
+
+    // console.log((assadoPrice + paoPrice + fritoPrice) - Number(newSaleDiscount))
+    console.log(newSaleDiscount)
 
     setPrice(
       (assadoPrice + paoPrice + fritoPrice) - Number(newSaleDiscount)
@@ -130,22 +138,27 @@ export const SalesProvider = ({ children }) => {
     if(firestoreLoading === true || updateProductId === '') {
       return;
     } else {
-      const sale = saleRaw[0];
-      // console.log(saleRaw)
-      setNewSaleBlock(sale?.block);
-      setNewSaleApartment(sale?.apartment);
-      setNewSalePayment(sale?.payment);
-      setNewSaleStatus(sale?.status);
-      setNewSaleDiscount(sale?.discount);
-      setCart(sale?.cart);
-      // setTimeout(() => {
-      //   trigger();
-      // }, 100);
+      if(saleRaw[0] === undefined) {
+        return;
+      } else {
+        const sale = saleRaw[0];
+        setNewSaleBlock(sale?.block);
+        setNewSaleApartment(sale?.apartment);
+        setNewSalePayment(sale?.payment);
+        setNewSaleStatus(sale?.status);
+        setNewSaleDiscount(sale?.discount);
+        setCart(sale?.cart);
+        // setTimeout(() => {
+        //   trigger();
+        // }, 100);
+      }
     }
   }, [firestoreLoading, saleRaw])
 
+  
+
   // Register sale
-  async function registerSale() {
+  async function registerSale(mode) {
 
     const sumMistoCart = cart?.filter((data) => (data.product === "Misto"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0);
     const sumFrangoCart = cart?.filter((data) => (data.product === "Frango")).map((data) => data.quantity).reduce((a, b) => a + b, 0);
@@ -175,22 +188,43 @@ export const SalesProvider = ({ children }) => {
       const uuid = uuidv4();
       const docRef = doc(db, "vendas", uuid);
 
-      return await setDoc(docRef, {
-        block: newSaleBlock,
-        apartment: newSaleApartment,
-        payment: newSalePayment,
-        status: newSaleStatus,
-        date: date,
-        cart: cart,
-        price: price,
-        discount: newSaleDiscount
-      })
-      .then(
-        console.log("New sale successfully registered"),
-        handleRefresh(),
-        navigate("/sales-table"),
-        notifySuccess("Venda registrada!"),
-      )
+      if(mode === "customerMode") {
+        return await setDoc(docRef, {
+          block: users[0].block,
+          apartment: users[0].apartment,
+          payment: newSalePayment,
+          status: "Novo Pedido",
+          date: date,
+          cart: cart,
+          price: price,
+          discount: 0
+        })
+        .then(
+          console.log("New sale successfully registered"),
+          refreshForNewSale(),
+          handleRefresh(),
+          navigate("/"),
+          notifySuccess("Sua venda foi registrada!"),
+        )
+      } else {
+        return await setDoc(docRef, {
+          block: newSaleBlock,
+          apartment: newSaleApartment,
+          payment: newSalePayment,
+          status: newSaleStatus,
+          date: date,
+          cart: cart,
+          price: price,
+          discount: newSaleDiscount
+        })
+        .then(
+          console.log("New sale successfully registered"),
+          handleRefresh(),
+          navigate("/sales-table"),
+          notifySuccess("Venda registrada!"),
+        )
+      }
+
     }
   }
 

@@ -12,7 +12,16 @@ import '../../App.scss';
 import { StockSumContext } from '../../contexts/StockSumProvider';
 
 export const Stock = () => {
-  
+
+  const [currentMisto, setCurrentMisto] = useState({});
+  const [currentFrango, setCurrentFrango] = useState({});
+  const [currentSalsicha, setCurrentSalsicha] = useState({});
+  const [currentEnroladinho, setCurrentEnroladinho] = useState({});
+  const [currentCoxinha, setCurrentCoxinha] = useState({});
+  const [currentTorta, setCurrentTorta] = useState({});
+  const [currentCebola, setCurrentCebola] = useState({});
+
+  console.log(currentMisto);
   
   const stockCollectionRef = collection(db, 'stock');
   
@@ -99,22 +108,58 @@ export const Stock = () => {
   // Update production values
   async function updateProduction(product) {
     const docRef = doc(db, "stock", product);
+    console.log(product);
 
     return await setDoc(docRef, 
       product === "misto" ?
-      {quantity: Number(watch("misto"))} :
+      {
+        quantity: Number(watch("misto")),
+        label: currentMisto?.label,
+        description: currentMisto?.description,
+        type: currentMisto?.type
+      } :
       product === "frango" ?
-      {quantity: Number(watch("frango"))} :
+      {
+        quantity: Number(watch("frango")),
+        label: currentFrango?.label,
+        description: currentFrango?.description,
+        type: currentFrango?.type
+      } :
       product === "salsicha" ?
-      {quantity: Number(watch("salsicha"))} :
+      {
+        quantity: Number(watch("salsicha")),
+        label: currentSalsicha?.label,
+        description: currentSalsicha?.description,
+        type: currentSalsicha?.type
+      } :
       product === "enroladinho" ?
-      {quantity: Number(watch("enroladinho"))} :
+      {
+        quantity: Number(watch("enroladinho")),
+        label: currentEnroladinho?.label,
+        description: currentEnroladinho?.description,
+        type: currentEnroladinho?.type
+      } :
       product === "coxinha" ?
-      {quantity: Number(watch("coxinha"))} :
+      {
+        quantity: Number(watch("coxinha")),
+        label: currentCoxinha?.label,
+        description: currentCoxinha?.description,
+        type: currentCoxinha?.type
+      } :
       product === "torta" ?
-      {quantity: Number(watch("torta"))} :
+      {
+        quantity: Number(watch("torta")),
+        label: currentTorta?.label,
+        description: currentTorta?.description,
+        type: currentTorta?.type
+      } :
       product === "cebola" ?
-      {quantity: Number(watch("cebola"))} :
+      {
+        quantity: Number(watch("cebola")),
+        label: currentCebola?.label,
+        description: currentCebola?.description,
+        type: currentCebola?.type
+      } :
       null
     )
     .then(
@@ -125,17 +170,9 @@ export const Stock = () => {
     )
   }
 
-  // Load production values
-  // useEffect(() => {
-  //   const getSalesData = async () => {
-  //     const data = await getDocs(stockCollectionRef);
-  //     const raw = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-  //     setStockRaw(raw);
-  //   }
-  //   getSalesData();
-  // }, [refresh])
+  
 
-  // Updating production values
+  // Updating inputs values
   useEffect(() => {
     if(firestoreLoading === true) {
       return;
@@ -147,13 +184,21 @@ export const Stock = () => {
       const coxinha = stockRaw?.filter(data => data.id === "coxinha");
       const torta = stockRaw?.filter(data => data.id === "torta");
       const cebola = stockRaw?.filter(data => data.id === "cebola");
-  
+      
+      setCurrentMisto(misto[0]);
+      setCurrentFrango(frango[0]);
+      setCurrentSalsicha(salsicha[0]);
+      setCurrentEnroladinho(enroladinho[0]);
+      setCurrentCoxinha(coxinha[0]);
+      setCurrentTorta(torta[0]);
+      setCurrentCebola(cebola[0]);
+
       setValue("misto", misto[0]?.quantity);
       setValue("frango", frango[0]?.quantity);
       setValue("salsicha", salsicha[0]?.quantity);
       setValue("enroladinho", enroladinho[0]?.quantity);
       setValue("coxinha", coxinha[0]?.quantity);
-      setValue("torta", torta[0]?.quantity);
+      setValue("torta", torta[0].quantity);
       setValue("cebola", cebola[0]?.quantity);
     }
   }, [stockRaw, refresh, firestoreLoading])
