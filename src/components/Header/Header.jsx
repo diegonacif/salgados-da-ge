@@ -3,10 +3,11 @@ import titleMiniGe from '../../assets/salgados-mini-ge.png';
 import smoke from '../../assets/smoke.png';
 import { AuthGoogleContext } from '../../contexts/AuthGoogleProvider';
 import { useWindowSize } from 'usehooks-ts'
-import { ShoppingCart, SignOut } from '@phosphor-icons/react';
+import { ShoppingCart, SignOut, User } from '@phosphor-icons/react';
 
 import '../../App.scss';
 import { SalesContext } from '../../contexts/SalesProvider';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = ({currentPage, setIsCartOpen}) => {
   const { isSignedIn, isLoading, handleGoogleSignOut, user } = useContext(AuthGoogleContext);
@@ -14,6 +15,9 @@ export const Header = ({currentPage, setIsCartOpen}) => {
     cart,
   } = useContext(SalesContext);
 
+  const navigate = useNavigate();
+  const windowSize = useWindowSize();
+  
   return (
     <div className="header-container">
 
@@ -21,13 +25,19 @@ export const Header = ({currentPage, setIsCartOpen}) => {
         <img src={titleMiniGe} alt="Boneca Mini Gê" id="titleMiniGe" />
         <h1>Salgados da Gê</h1>
         {
-          isSignedIn && 
+          isSignedIn ? 
           <SignOut 
-            size={32} 
+            size={windowSize.width > 450 ? 32 : 28} 
             weight="duotone" 
             id="logout-button" 
             onClick={() => handleGoogleSignOut()}
-          />
+          /> :
+          <User 
+            size={windowSize.width > 450 ? 32 : 28} 
+            weight="duotone" 
+            id="logout-button" 
+            onClick={() => navigate("/login")}
+          /> 
         }
       </div>
       {
