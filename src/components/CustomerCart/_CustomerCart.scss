@@ -1,7 +1,7 @@
 .customer-cart-container {
   position: relative;
   display: grid;
-  grid-template-rows: min-content 1fr min-content min-content;
+  grid-template-rows: min-content min-content 1fr min-content min-content;
   gap: 1rem;
   padding: 1.5rem 2rem;
   height: 100%;
@@ -9,7 +9,27 @@
   background-color: $white;
 
   #customer-cart-title {
-    color:rgba(0, 0, 0, 0.5)
+    color:rgba(0, 0, 0, 0.5);
+  }
+
+  .address-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    cursor: pointer;
+
+    .address-row {
+      display: flex;
+      gap: .25rem;
+      margin-bottom: .5rem;
+      svg {
+        color: $red-600;
+      }
+    }
+
+    span {
+      font-size: 0.875rem;
+    }
   }
 
   .cart-section {
@@ -19,6 +39,58 @@
     gap: 0;
     height: 100%;
     overflow: auto;
+    border-top: 1px solid $yelllow-700;
+    padding-top: 1rem;
+  }
+
+  .cart-row {
+    display: flex;
+    align-items: center;
+    transition: background-color 0.1s;
+
+    cursor: default;
+    // justify-content: space-between;
+
+    svg {
+      margin: 0 0 0 auto;
+      color: $red-600;
+      cursor: pointer;
+    }
+
+    & + .cart-row {
+      margin-top: 0.5rem;
+    }
+
+    &:hover {
+      background-color:rgba(228, 178, 71, 0.2);
+      transition: background-color 0.1s;
+    }
+  }
+
+  .payment-wrapper {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid $yelllow-700;
+    padding-top: 1rem;
+
+    svg {
+      color: $red-600;
+    }
+
+    label {
+      margin-left: 0.25rem;
+      font-weight: 600;
+    }
+
+    select {
+      height: 1.75rem;
+      width: 7rem;
+      margin-left: auto;
+      background-color: $white;
+      border: 1px solid $yelllow-700;
+      padding: 0 0.25rem;
+      border-radius: 4px;
+    }
   }
 
   .cart-total-row {

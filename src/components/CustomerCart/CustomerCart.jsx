@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { SalesContext } from '../../contexts/SalesProvider';
-import { MinusCircle } from '@phosphor-icons/react';
+import { MapPin, MinusCircle, Money } from '@phosphor-icons/react';
 import { UserDataContext } from '../../contexts/UserDataProvider';
 import '../../App.scss';
 
@@ -9,7 +9,8 @@ export const CustomerCart = ({ setIsCartOpen }) => {
     cart,
     price,
     handleDeleteCartProduct,
-    registerSale
+    registerSale,
+    newSalePayment, setNewSalePayment,
   } = useContext(SalesContext);
 
   const {
@@ -29,6 +30,14 @@ export const CustomerCart = ({ setIsCartOpen }) => {
   return (
     <div className="customer-cart-container">
       <h5 id="customer-cart-title">Seu pedido</h5>
+      <div className="address-wrapper">
+        <div className="address-row">
+          <MapPin size={24} weight="duotone" />
+          <h4>Entregar em:</h4>
+        </div>
+        <span>Bloco: {users[0]?.block}</span>
+        <span>Apartamento: {users[0]?.apartment}</span>
+      </div>
       <div className="cart-section">
         { 
           cart?.length === 0 ?
@@ -45,6 +54,21 @@ export const CustomerCart = ({ setIsCartOpen }) => {
             )
           })
         }
+      </div>
+      <div className="payment-wrapper">
+        <Money size={24} weight="duotone" />
+        <label htmlFor="block">Forma de pagamento:</label>
+        <select 
+          name="payment" 
+          id="payment" 
+          value={newSalePayment} 
+          onChange={(e) => setNewSalePayment(e.target.value)}
+        >
+          <option value="" disabled>Selecione...</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Pix">Pix</option>
+          <option value="Cartão">Cartão</option>
+        </select>
       </div>
       <div className="cart-total-row">
         <span>Total</span>

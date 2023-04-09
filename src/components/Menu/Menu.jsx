@@ -24,9 +24,17 @@ export const Menu = () => {
   const [currentProductHandle, setCurrentProductHandle] = useState()
 
   const {
+    mistoStock, mistoSum,
+    frangoStock, frangoSum,
+    salsichaStock, salsichaSum,
+    enroladinhoStock, enroladinhoSum,
+    coxinhaStock, coxinhaSum,
+    tortaStock, tortaSum,
+    cebolaStock, cebolaSum,
     stockRaw,
     firestoreLoading
   } = useContext(StockSumContext);
+  // console.log(mistoStock);
 
   // Loading stock products by type
   useEffect(() => {
@@ -53,7 +61,6 @@ export const Menu = () => {
   // Product Handler Modal Opening
   const productHandlerModal = (product) => {
     setCurrentProductHandle(product)
-    // console.log(product)
     setIsDishHandlerOpen(true)
   }
 
@@ -70,9 +77,30 @@ export const Menu = () => {
   }
 
   // Salgados Images Object
-
   const salgadosImages = (salgado) => {
     return `/src/assets/salgados/${salgado}.png`
+  }
+
+  mistoSum
+
+  const remainingStock = (salgado) => {
+    if(salgado === 'misto') {
+      return mistoSum
+    } else if (salgado === 'frango') {
+      return frangoSum
+    } else if (salgado === 'salsicha') {
+      return salsichaSum
+    } else if (salgado === 'enroladinho') {
+      return enroladinhoSum
+    } else if (salgado === 'coxinha') {
+      return coxinhaSum
+    } else if (salgado === 'torta') {
+      return tortaSum
+    } else if (salgado === 'cebola') {
+      return cebolaSum
+    } else {
+      console.log('error in remainingStock')
+    }
   }
 
   return (
@@ -89,9 +117,9 @@ export const Menu = () => {
           <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
           assadosArray?.map((assado, index) => (
             <div 
-              className="product-card" 
+              className={assado.quantity - remainingStock(assado.id) > 0 ? "product-card" : "product-card out-of-stock"} 
               key={`${assado.label}-${index}`}
-              onClick={() => productHandlerModal(assado)}
+              onClick={() => assado.quantity - remainingStock(assado.id) > 0 && productHandlerModal(assado)}
             >
               <div className="text-content">
                 <div className="product-text">
@@ -99,7 +127,11 @@ export const Menu = () => {
                   <p>{assado.description}</p>
                 </div>
                 <div className="product-price">
-                  <span>{`R$ ${typePrice(assado.type)}`}</span>
+                  {
+                    assado.quantity - remainingStock(assado.id) > 0 ?
+                    <span>{`R$ ${typePrice(assado.type)}`}</span> :
+                    <span id="out-of-stock-text">Indisponível</span>
+                  }
                 </div>
               </div>
               <div className="product-image-wrapper">
@@ -117,9 +149,9 @@ export const Menu = () => {
           <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
           fritosArray?.map((frito, index) => (
             <div 
-              className="product-card" 
+              className={frito.quantity - remainingStock(frito.id) > 0 ? "product-card" : "product-card out-of-stock"} 
               key={`${frito.label}-${index}`}
-              onClick={() => productHandlerModal(frito)}
+              onClick={() => frito.quantity - remainingStock(frito.id) > 0 && productHandlerModal(frito)}
             >
               <div className="text-content">
                 <div className="product-text">
@@ -127,7 +159,11 @@ export const Menu = () => {
                   <p>{frito.description}</p>
                 </div>
                 <div className="product-price">
-                  <span>{`R$ ${typePrice(frito.type)}`}</span>
+                {
+                  frito.quantity - remainingStock(frito.id) > 0 ?
+                  <span>{`R$ ${typePrice(frito.type)}`}</span> :
+                  <span id="out-of-stock-text">Indisponível</span>
+                }
                 </div>
               </div>
               <div className="product-image-wrapper">
@@ -145,9 +181,9 @@ export const Menu = () => {
           <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
           paesArray?.map((pao, index) => (
             <div 
-              className="product-card" 
+              className={pao.quantity - remainingStock(pao.id) > 0 ? "product-card" : "product-card out-of-stock"}  
               key={`${pao.label}-${index}`}
-              onClick={() => productHandlerModal(pao)}
+              onClick={() => pao.quantity - remainingStock(pao.id) > 0 && productHandlerModal(pao)}
             >
               <div className="text-content">
                 <div className="product-text">
@@ -155,7 +191,11 @@ export const Menu = () => {
                   <p>{pao.description}</p>
                 </div>
                 <div className="product-price">
-                  <span>{`R$ ${typePrice(pao.type)}`}</span>
+                {
+                  pao.quantity - remainingStock(pao.id) > 0 ?
+                  <span>{`R$ ${typePrice(pao.type)}`}</span> :
+                  <span id="out-of-stock-text">Indisponível</span>
+                }
                 </div>
               </div>
               <div className="product-image-wrapper">

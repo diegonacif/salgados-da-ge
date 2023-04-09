@@ -100,7 +100,7 @@ export const SalesProvider = ({ children }) => {
     const paoPrice = paoSum * 1
 
     // console.log((assadoPrice + paoPrice + fritoPrice) - Number(newSaleDiscount))
-    console.log(newSaleDiscount)
+    // console.log(newSaleDiscount)
 
     setPrice(
       (assadoPrice + paoPrice + fritoPrice) - Number(newSaleDiscount)
@@ -330,6 +330,8 @@ export const SalesProvider = ({ children }) => {
   //   price: price,
   //   discount: newSaleDiscount
   // })
+
+  console.log(newSalePayment);
 
   return (
     <SalesContext.Provider value={{ 

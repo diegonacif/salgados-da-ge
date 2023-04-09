@@ -22,6 +22,7 @@ export const NewSale = () => {
   const salesCollectionRef = collection(db, 'vendas');
   const stockCollectionRef = collection(db, 'stock');
   const { notifySuccess, notifyError } = useContext(ToastifyContext); // Toastify Context
+  
   const {
     newSaleBlock, setNewSaleBlock,
     newSaleApartment, setNewSaleApartment,

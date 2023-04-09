@@ -20,8 +20,6 @@ export const Stock = () => {
   const [currentCoxinha, setCurrentCoxinha] = useState({});
   const [currentTorta, setCurrentTorta] = useState({});
   const [currentCebola, setCurrentCebola] = useState({});
-
-  console.log(currentMisto);
   
   const stockCollectionRef = collection(db, 'stock');
   
