@@ -16,6 +16,7 @@ export const Header = ({currentPage, setIsCartOpen}) => {
 
   return (
     <div className="header-container">
+
       <div className="title-wrapper">
         <img src={titleMiniGe} alt="Boneca Mini Gê" id="titleMiniGe" />
         <h1>Salgados da Gê</h1>
@@ -28,23 +29,26 @@ export const Header = ({currentPage, setIsCartOpen}) => {
             onClick={() => handleGoogleSignOut()}
           />
         }
-        {
-          currentPage === "menu" &&
-          <div id="cart-button">
-            <div id="cart-counter">
-              {
-                cart?.length !== 0 &&
-                <span>{cart?.length}</span>
-              }
-            </div>
-            <ShoppingCart 
-              size={36} 
-              weight="duotone" 
-              onClick={() => setIsCartOpen(true)}
-            />
-          </div>
-        }
       </div>
+      {
+        currentPage === "menu" &&
+        <div 
+          className={cart?.length !== 0 ? "cart-button-show" : "cart-button-hide"} 
+          id="cart-button"
+        >
+          <div id="cart-counter">
+            {
+              cart?.length !== 0 &&
+              <span>{cart?.length}</span>
+            }
+          </div>
+          <ShoppingCart 
+            size={36} 
+            weight="duotone" 
+            onClick={() => setIsCartOpen(true)}
+          />
+        </div>
+      }
       <div className="smoke-wrapper">
         <img className="smoke" src={smoke} alt="smoke" />
       </div>
