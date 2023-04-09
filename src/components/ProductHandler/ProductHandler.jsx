@@ -1,4 +1,6 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthGoogleContext } from "../../contexts/AuthGoogleProvider";
 import { SalesContext } from "../../contexts/SalesProvider";
 
 export const ProductHandler = ({ currentProduct, pricer, setIsDishHandlerOpen }) => {
@@ -9,6 +11,12 @@ export const ProductHandler = ({ currentProduct, pricer, setIsDishHandlerOpen })
 
     handleNewCartProduct
   } = useContext(SalesContext);
+
+  const {
+    isSignedIn
+  } = useContext(AuthGoogleContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setNewSaleCartQuantity(1);
@@ -34,10 +42,14 @@ export const ProductHandler = ({ currentProduct, pricer, setIsDishHandlerOpen })
   };
 
   const handleAddCartProduct = () => {
-    handleNewCartProduct();
-    setTimeout(() => {
-      setIsDishHandlerOpen(false);
-    }, 50);
+    if(isSignedIn) {
+      handleNewCartProduct();
+      setTimeout(() => {
+        setIsDishHandlerOpen(false);
+      }, 50);
+    } else {
+      navigate("/login");
+    }
   }
 
   return (
