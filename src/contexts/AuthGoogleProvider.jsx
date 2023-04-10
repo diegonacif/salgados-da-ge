@@ -3,6 +3,7 @@ import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, getAu
 import { auth, db } from '../services/firebase';
 import { collection, getDocs, setDoc, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { UserDataContext } from "./UserDataProvider";
 
 const provider = new GoogleAuthProvider();
 

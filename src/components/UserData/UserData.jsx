@@ -9,17 +9,13 @@ import { UserDataContext } from '../../contexts/UserDataProvider';
 
 export const UserData = () => {
   const usersCollectionRef = collection(db, "users");
-  const [firestoreLoading, setFirestoreLoading] = useState(true);
   const { userId, userPhotoUrl } = useContext(AuthGoogleContext);
   const {
     alreadyRegistered, setAlreadyRegistered,
-    users, setUsers
+    users, setUsers,
+    firestoreLoading
   } = useContext(UserDataContext);
   const [refresh, setRefresh] = useState(false);
-
-  console.log(users);
-
-  const IdsArray = firestoreLoading ? null : users?.map(user => user.id)
 
   // Hook Form Controller
   const {
@@ -34,39 +30,9 @@ export const UserData = () => {
     }
   });
 
-   // Firestore loading
-  const [value, loading, error] = useCollection(usersCollectionRef,
-    { snapshotListenOptions: { includeMetadataChanges: true } }
-  );
-  useEffect(() => {
-    setFirestoreLoading(loading);
-  }, [loading])
-
-  // Users Data
-  // useEffect(() => {
-  //   const getUsers = async () => {
-  //     const data = await getDocs(usersCollectionRef);
-  //     setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  //   }
-  //   getUsers();
-    
-  // }, [refresh, firestoreLoading])
-
-  useEffect(() => {
-    if(firestoreLoading) {
-      return;
-    } else {
-      const handleAlreadyExists = () => {
-        setAlreadyRegistered(IdsArray.includes(userId))
-      }
-      handleAlreadyExists();
-    }
-  }, [IdsArray, firestoreLoading])
-
-  console.log(alreadyRegistered)
   // Loading data if already exists 
   useEffect(() => {
-    if(alreadyRegistered == true) {
+    if(alreadyRegistered === true) {
       return (
         setValue("userName", users[0]?.name),
         setValue("userPhone", users[0]?.phone),
@@ -76,7 +42,7 @@ export const UserData = () => {
     } else {
       return console.log("não está registrado")
     }
-  }, [firestoreLoading, alreadyRegistered])
+  }, [firestoreLoading, alreadyRegistered, users])
 
   // Create user data
   async function registerUser() {
@@ -101,6 +67,11 @@ export const UserData = () => {
     <>
       <Header />
       <div className="user-data-container">
+        {
+          alreadyRegistered ?
+          <h4 id="confirm-data">Confirme seus dados</h4> :
+          <h4 id="confirm-data">Insira seus dados</h4>
+        }
         <div className="input-row">
           <label htmlFor="name">Nome</label>
           <input type="text" name="name" {...register("userName")}/>

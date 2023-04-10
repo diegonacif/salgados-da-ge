@@ -331,8 +331,6 @@ export const SalesProvider = ({ children }) => {
   //   discount: newSaleDiscount
   // })
 
-  console.log(newSalePayment);
-
   return (
     <SalesContext.Provider value={{ 
       newSaleBlock, setNewSaleBlock,

@@ -8,6 +8,7 @@ import { ShoppingCart, SignOut, User } from '@phosphor-icons/react';
 import '../../App.scss';
 import { SalesContext } from '../../contexts/SalesProvider';
 import { useNavigate } from 'react-router-dom';
+import { UserDataContext } from '../../contexts/UserDataProvider';
 
 export const Header = ({currentPage, setIsCartOpen}) => {
   const { isSignedIn, isLoading, handleGoogleSignOut, user } = useContext(AuthGoogleContext);
@@ -15,8 +16,17 @@ export const Header = ({currentPage, setIsCartOpen}) => {
     cart,
   } = useContext(SalesContext);
 
+  const { setAlreadyRegistered } = useContext(UserDataContext);
+
   const navigate = useNavigate();
   const windowSize = useWindowSize();
+
+  const logOut = () => {
+    return (
+      setAlreadyRegistered(false),
+      handleGoogleSignOut()
+    )
+  }
   
   return (
     <div className="header-container">
@@ -30,7 +40,7 @@ export const Header = ({currentPage, setIsCartOpen}) => {
             size={windowSize.width > 450 ? 32 : 28} 
             weight="duotone" 
             id="logout-button" 
-            onClick={() => handleGoogleSignOut()}
+            onClick={() => logOut()}
           /> :
           <User 
             size={windowSize.width > 450 ? 32 : 28} 

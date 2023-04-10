@@ -2,15 +2,20 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthGoogleContext } from "../../contexts/AuthGoogleProvider";
 import { SalesContext } from "../../contexts/SalesProvider";
+import { UserDataContext } from "../../contexts/UserDataProvider";
 
 export const ProductHandler = ({ currentProduct, pricer, setIsDishHandlerOpen }) => {
 
   const {
     newSaleCartQuantity, setNewSaleCartQuantity,
     newSaleCartProduct, setNewSaleCartProduct,
-
     handleNewCartProduct
   } = useContext(SalesContext);
+
+  const {
+    alreadyRegistered, setAlreadyRegistered,
+    users, setUsers
+  } = useContext(UserDataContext);
 
   const {
     isSignedIn
@@ -42,13 +47,15 @@ export const ProductHandler = ({ currentProduct, pricer, setIsDishHandlerOpen })
   };
 
   const handleAddCartProduct = () => {
-    if(isSignedIn) {
+    if(!isSignedIn) {
+      navigate("/login");
+    } else if (!alreadyRegistered) {
+      navigate("/user-data");
+    } else {
       handleNewCartProduct();
       setTimeout(() => {
         setIsDishHandlerOpen(false);
       }, 50);
-    } else {
-      navigate("/login");
     }
   }
 

@@ -4,6 +4,12 @@
   flex-direction: column;
   @include responsive-padding(6rem, 3rem);
 
+  #confirm-data {
+    margin-bottom: 1.5rem;
+    font-family: $font-primary;
+    color: $red-600;
+  }
+
   .input-row {
     position: relative;
     display: flex;

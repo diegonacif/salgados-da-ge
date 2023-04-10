@@ -20,22 +20,20 @@ export const Login = () => {
     users, setUsers
   } = useContext(UserDataContext);
 
+  // console.log(alreadyRegistered);
+
   const navigate = useNavigate();
 
-  // console.log(user);
+  useEffect(() => {
+    setAlreadyRegistered(false);
+  }, [])
 
   // Back to main page when logged in
   useEffect(() => {
-    isSignedIn & alreadyRegistered ? 
-    navigate("/") :
-    isSignedIn & !alreadyRegistered ? 
+    isSignedIn ?
     navigate("/user-data") :
     null
-  }, [isSignedIn, alreadyRegistered])
-
-  // useEffect(() => {
-  //   isSignedIn ? navigate("/") : null;
-  // }, [isSignedIn])
+  }, [isSignedIn, users])
 
   async function loginGoogle() {
     await handleGoogleSignIn();
