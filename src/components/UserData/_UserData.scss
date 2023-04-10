@@ -98,5 +98,11 @@
       padding: 0 1rem;
       
     }
+
+    .disabled-button {
+      background-color: $gray-200;
+      cursor: not-allowed;
+      transition: background-color 0.3s;
+    }
   }
 }

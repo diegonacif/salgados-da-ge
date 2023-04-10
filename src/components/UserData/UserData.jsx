@@ -6,10 +6,12 @@ import { db } from '../../services/firebase';
 import { useForm } from 'react-hook-form';
 import { Header } from '../Header/Header';
 import { UserDataContext } from '../../contexts/UserDataProvider';
+import { ToastifyContext } from '../../contexts/ToastifyProvider';
 
 export const UserData = () => {
   const usersCollectionRef = collection(db, "users");
   const { userId, userPhotoUrl } = useContext(AuthGoogleContext);
+  const { notifySuccess, notifyError } = useContext(ToastifyContext); // Toastify Context
   const {
     alreadyRegistered, setAlreadyRegistered,
     users, setUsers,
@@ -63,6 +65,19 @@ export const UserData = () => {
     )
   }
 
+  // Inputs validation
+  const [isButtonActive, setIsButtonActive] = useState(false);
+  useEffect(() => {
+    if(watch("userName").length < 4 || 
+    watch("userPhone").length < 9 || 
+    watch("userBlock").length < 2 || 
+    watch("userApartment").length < 3) {
+      setIsButtonActive(false);
+    } else {
+      setIsButtonActive(true);
+    }
+  }, [watch("userName"), watch("userPhone"), watch("userBlock"), watch("userApartment")])
+
   return (
     <>
       <Header />
@@ -90,7 +105,16 @@ export const UserData = () => {
         </div>
         <div className="button-wrapper">
 
-          <button onClick={() => registerUser()} className="register-button">Tudo pronto!</button>
+          <button 
+            className={`register-button ${!isButtonActive && 'disabled-button'}`}
+            onClick={() => 
+              !isButtonActive ?
+              notifyError("Preencha os dados") :
+              registerUser()
+            } 
+          >
+            Tudo pronto!
+          </button>
         </div>
       </div>
     </>
