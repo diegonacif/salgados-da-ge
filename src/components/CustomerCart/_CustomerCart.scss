@@ -120,6 +120,11 @@
         outline: 2px solid $red-600;
         transition: outline 0.3s, border 0.3s;
       }
+
+      &::placeholder {
+        color: red;
+        opacity: 0.75;
+      }
     }
   }
 

@@ -36,12 +36,12 @@ export const CustomerCart = ({ setIsCartOpen }) => {
   // Inputs validation
   const [isButtonActive, setIsButtonActive] = useState(false);
   useEffect(() => {
-    if(cart.length === 0 || newSalePayment === "") {
+    if(cart.length === 0 || newSalePayment === "" || isNaN(newSaleChange) === true) {
       setIsButtonActive(false);
     } else {
       setIsButtonActive(true);
     }
-  }, [cart, newSalePayment]);
+  }, [cart, newSalePayment, newSaleChange]);
 
   // Clear change when not money payment
   useEffect(() => {
