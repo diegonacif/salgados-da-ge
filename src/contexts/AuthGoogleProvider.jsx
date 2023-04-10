@@ -24,7 +24,7 @@ export const AuthGoogleProvider = ({ children }) => {
 
   onAuthStateChanged(auth, (currentUser) => {
     if (loading) {
-      console.log("loading user state")
+      // console.log("loading user state")
       setIsLoading(true);
     } else {
       setUser(currentUser);

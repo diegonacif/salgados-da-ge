@@ -45,8 +45,6 @@ export const UserDataProvider = ({ children }) => {
     getUsers();
   }, [])
 
-  console.log(alreadyRegistered);
-
   return (
     <UserDataContext.Provider value={{
       alreadyRegistered, setAlreadyRegistered,

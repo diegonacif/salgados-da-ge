@@ -84,6 +84,22 @@ export const SalesProvider = ({ children }) => {
     setOldCebola(oldCart?.filter((data) => (data.product === "Cebola"))?.map((data) => data.quantity).reduce((a, b) => a + b, 0));
   }, [saleRaw])
 
+  // Base prices and promotion
+  const basePrices = {
+    assado: 4,
+    frito: 3,
+    pao: 1
+  };
+
+  const promotionPrices = {
+    // assado = 3 por 10
+    assadoPromotionQtd: 3,
+    assadoPromotionPrice: 10,
+    // frito = 2 por 5
+    fritoPromotionQtd: 2,
+    fritoPromotionPrice: 5,
+  };
+
   // Handling Price
   const [price, setPrice] = useState(0);
   useEffect(() => {
@@ -95,9 +111,17 @@ export const SalesProvider = ({ children }) => {
     const fritoSum = arrFrito?.map((data) => data.quantity).reduce((a, b) => a + b, 0);
     const paoSum = arrPao?.map((data) => data.quantity).reduce((a, b) => a + b, 0);
 
-    const assadoPrice = ((assadoSum % 3) * 4) + ((((assadoSum - (assadoSum % 3)) / 3) * 10))
-    const fritoPrice = ((fritoSum % 2) * 3) + ((((fritoSum - (fritoSum % 2)) / 2) * 5))
-    const paoPrice = paoSum * 1
+    const assadoPrice = ((assadoSum % promotionPrices.assadoPromotionQtd) * basePrices.assado) +
+    ((((assadoSum - (assadoSum % promotionPrices.assadoPromotionQtd)) / promotionPrices.assadoPromotionQtd) * promotionPrices.assadoPromotionPrice))
+
+    const fritoPrice = ((fritoSum % promotionPrices.fritoPromotionQtd) * basePrices.frito) + 
+    ((((fritoSum - (fritoSum % promotionPrices.fritoPromotionQtd)) / promotionPrices.fritoPromotionQtd) * promotionPrices.fritoPromotionPrice))
+
+    const paoPrice = paoSum * basePrices.pao
+
+    // const assadoPrice = ((assadoSum % 3) * 4) + ((((assadoSum - (assadoSum % 3)) / 3) * 10))
+    // const fritoPrice = ((fritoSum % 2) * 3) + ((((fritoSum - (fritoSum % 2)) / 2) * 5))
+    // const paoPrice = paoSum * 1
 
     // console.log((assadoPrice + paoPrice + fritoPrice) - Number(newSaleDiscount))
     // console.log(newSaleDiscount)
