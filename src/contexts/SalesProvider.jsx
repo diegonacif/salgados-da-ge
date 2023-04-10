@@ -47,8 +47,8 @@ export const SalesProvider = ({ children }) => {
   const [newSaleBlock, setNewSaleBlock] = useState('');
   const [newSaleApartment, setNewSaleApartment] = useState('');
   const [newSalePayment, setNewSalePayment] = useState('');
-  const [newSaleStatus, setNewSaleStatus] = useState('');
-  const [newSaleCartQuantity, setNewSaleCartQuantity] = useState('');
+  const [newSaleStatus, setNewSaleStatus] = useState('Novo Pedido');
+  const [newSaleCartQuantity, setNewSaleCartQuantity] = useState('1');
   const [newSaleCartProduct, setNewSaleCartProduct] = useState('');
   const [newSaleDiscount, setNewSaleDiscount] = useState('');
   const [newSaleObs, setNewSaleObs] = useState('');

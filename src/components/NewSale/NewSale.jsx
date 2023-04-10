@@ -31,6 +31,8 @@ export const NewSale = () => {
     newSaleCartQuantity, setNewSaleCartQuantity,
     newSaleCartProduct, setNewSaleCartProduct,
     newSaleDiscount, setNewSaleDiscount,
+    newSaleObs, setNewSaleObs,
+    newSaleChange, setNewSaleChange,
     stockRaw,
     price,
     type,
@@ -63,6 +65,7 @@ export const NewSale = () => {
     resolver: yupResolver(saleSchema),
     defaultValues: {
       payment: "",
+      status: "Novo Pedido",
       discount: 0
     }
   });
@@ -87,6 +90,7 @@ export const NewSale = () => {
     setNewSaleCartQuantity(watch("cart-quantity"))
     setNewSaleCartProduct(watch("cart-product"))
     setNewSaleDiscount(watch("discount"))
+    setNewSaleObs(watch("obs"))
   }, [
     watch("block"),
     watch("apartment"), 
@@ -94,7 +98,8 @@ export const NewSale = () => {
     watch("status"), 
     watch("cart-quantity"), 
     watch("cart-product"), 
-    watch("discount")
+    watch("discount"),
+    watch("obs"),
   ])
 
   // Updating input fields when updating sale
@@ -106,6 +111,7 @@ export const NewSale = () => {
     setValue("cart-quantity", newSaleCartQuantity)
     setValue("cart-product", newSaleCartProduct)
     setValue("discount", newSaleDiscount)
+    setValue("obs", newSaleObs)
   }, [
     newSaleBlock,
     newSaleApartment,
@@ -114,6 +120,7 @@ export const NewSale = () => {
     newSaleCartQuantity,
     newSaleCartProduct,
     newSaleDiscount,
+    newSaleObs,
   ])
 
 
@@ -149,6 +156,17 @@ export const NewSale = () => {
               <option value="Saindo">Saindo</option>
               <option value="Entregue">Entregue</option>
             </select>
+          </div>
+          <div className="input-row">
+            <label htmlFor="obs">Observações</label>
+            <textarea 
+              name="obs"
+              id="obs" 
+              rows="2"
+              placeholder="Opcional"
+              {...register("obs")} 
+            />
+            <span id="error-alert-message">{errors?.obs?.message}</span>
           </div>
           <div className="input-row buttons-wrapper">
             {

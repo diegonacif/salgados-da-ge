@@ -205,6 +205,24 @@
       }
     }
 
+    #obs {
+      width: 100%;
+      font-size: 0.875rem;
+      font-family: $font-primary;
+      padding: 0.5rem;
+      resize: none;
+      border-radius: 4px;
+      border: 1px solid $yelllow-700;
+      outline: 2px solid transparent;
+      transition: outline 0.15s, border 0.15s;
+
+      &:focus-visible, &:target {
+        border: 1px solid transparent;
+        outline: 2px solid $red-600;
+        transition: outline 0.3s, border 0.3s;
+      }
+    }
+
     #error-alert-message {
       position: absolute;
       bottom: -1.125rem;
