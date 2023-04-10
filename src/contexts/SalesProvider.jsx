@@ -179,8 +179,6 @@ export const SalesProvider = ({ children }) => {
     }
   }, [firestoreLoading, saleRaw])
 
-  
-
   // Register sale
   async function registerSale(mode) {
 
@@ -228,7 +226,7 @@ export const SalesProvider = ({ children }) => {
           refreshForNewSale(),
           handleRefresh(),
           navigate("/"),
-          notifySuccess("Sua venda foi registrada!"),
+          mode === "customerMode" ? notifySuccess("Seu pedido foi realizado com sucesso!") : notifySuccess("Sua venda foi registrada!"),
         )
       } else {
         return await setDoc(docRef, {

@@ -1,8 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { SalesContext } from '../../contexts/SalesProvider';
 import { MapPin, MinusCircle, Money } from '@phosphor-icons/react';
 import { UserDataContext } from '../../contexts/UserDataProvider';
 import '../../App.scss';
+import { ToastifyContext } from '../../contexts/ToastifyProvider';
 
 export const CustomerCart = ({ setIsCartOpen }) => {
   const {
@@ -18,6 +19,8 @@ export const CustomerCart = ({ setIsCartOpen }) => {
     users, setUsers
   } = useContext(UserDataContext);
 
+  const { notifySuccess, notifyError } = useContext(ToastifyContext); // Toastify Context
+
   const handleRegisterSale = () => {
     registerSale("customerMode");
     setTimeout(() => {
@@ -25,7 +28,20 @@ export const CustomerCart = ({ setIsCartOpen }) => {
     }, 50);
   }
 
-  // console.log(alreadyRegistered);
+  // Inputs validation
+  const [isButtonActive, setIsButtonActive] = useState(false);
+  useEffect(() => {
+    if(cart.length === 0 || newSalePayment === "") {
+      setIsButtonActive(false);
+    } else {
+      setIsButtonActive(true);
+    }
+  }, [cart, newSalePayment]);
+
+  console.log({
+    cart: cart.length,
+    newSalePayment: newSalePayment,
+  });
 
   return (
     <div className="customer-cart-container">
@@ -74,7 +90,16 @@ export const CustomerCart = ({ setIsCartOpen }) => {
         <span>Total</span>
         <span>R$ {price},00</span>
       </div>
-      <button onClick={() => handleRegisterSale()}>Finalizar pedido</button>
+      <button 
+        className={`register-button ${!isButtonActive && 'disabled-button'}`}
+        onClick={() => 
+          !isButtonActive ?
+          notifyError("Carrinho vazio ou forma de pagamento pendente") :
+          handleRegisterSale()
+        }
+      >
+        Finalizar pedido
+      </button>
     </div>
   )
 }

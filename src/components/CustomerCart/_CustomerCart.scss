@@ -100,7 +100,7 @@
     font-weight: 500;
   }
 
-  button {
+  .register-button {
     height: 3rem;
     width: 80%;
     background-color: $yelllow-700;
@@ -110,5 +110,12 @@
     font-size: 1rem;
     cursor: pointer;
     justify-self: center;
+    transition: background-color 0.3s;
+  }
+
+  .disabled-button {
+    background-color: $gray-200;
+    cursor: not-allowed;
+    transition: background-color 0.3s;
   }
 }
