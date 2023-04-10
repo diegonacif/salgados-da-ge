@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { SalesContext } from '../../contexts/SalesProvider';
-import { Article, MapPin, MinusCircle, Money } from '@phosphor-icons/react';
+import { Article, Coins, MapPin, MinusCircle, Money } from '@phosphor-icons/react';
 import { UserDataContext } from '../../contexts/UserDataProvider';
 import '../../App.scss';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
+import CurrencyInput from 'react-currency-input-field';
 
 export const CustomerCart = ({ setIsCartOpen }) => {
   const {
@@ -13,9 +14,10 @@ export const CustomerCart = ({ setIsCartOpen }) => {
     registerSale,
     newSalePayment, setNewSalePayment,
     newSaleObs, setNewSaleObs,
+    newSaleChange, setNewSaleChange
   } = useContext(SalesContext);
 
-  console.log(newSaleObs);
+  console.log(newSaleChange);
 
   const {
     alreadyRegistered, setAlreadyRegistered,
@@ -41,10 +43,10 @@ export const CustomerCart = ({ setIsCartOpen }) => {
     }
   }, [cart, newSalePayment]);
 
-  // console.log({
-  //   cart: cart.length,
-  //   newSalePayment: newSalePayment,
-  // });
+  // Clear change when not money payment
+  useEffect(() => {
+    setNewSaleChange(0);
+  }, [newSalePayment])
 
   return (
     <div className="customer-cart-container">
@@ -89,6 +91,35 @@ export const CustomerCart = ({ setIsCartOpen }) => {
           <option value="Cartão">Cartão</option>
         </select>
       </div>
+      {
+        newSalePayment === "Dinheiro" &&
+        <div className="change-wrapper">
+          <Coins size={24} weight="duotone" />
+          <label id="change-label" htmlFor="change">Troco pra quanto?</label>
+          <CurrencyInput
+            id="change-input"
+            name="change"
+            placeholder="Valor do troco"
+            defaultValue={0}
+            allowDecimals={false}
+            allowNegativeValue={false}
+            maxLength={6}
+            intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
+            onValueChange={(value, name) => setNewSaleChange(Number(value))}
+          />
+        </div>
+        // <div className="change-wrapper">
+        //   <Coins size={24} weight="duotone" />
+        //   <label id="change-label" htmlFor="change">Troco pra quanto?</label>
+        //   <input 
+        //     type="number" 
+        //     name="change" 
+        //     id="change-input"
+        //     value={newSaleChange}
+        //     onChange={(e) => setNewSaleChange(e.target.value)}
+        //   />
+        // </div>
+      }
       <div className="obs-wrapper">
         <Article size={24} weight="duotone" />
         <label id="obs-label" htmlFor="obs">Observações:</label>

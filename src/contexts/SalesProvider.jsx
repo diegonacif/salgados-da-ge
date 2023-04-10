@@ -52,6 +52,7 @@ export const SalesProvider = ({ children }) => {
   const [newSaleCartProduct, setNewSaleCartProduct] = useState('');
   const [newSaleDiscount, setNewSaleDiscount] = useState('');
   const [newSaleObs, setNewSaleObs] = useState('');
+  const [newSaleChange, setNewSaleChange] = useState('');
 
   // Refresh new sale
   const refreshForNewSale = () => {
@@ -175,6 +176,7 @@ export const SalesProvider = ({ children }) => {
         setNewSaleDiscount(sale?.discount);
         setNewSaleObs(sale?.obs);
         setCart(sale?.cart);
+        setNewSaleChange(sale?.change);
         // setTimeout(() => {
         //   trigger();
         // }, 100);
@@ -223,7 +225,8 @@ export const SalesProvider = ({ children }) => {
           cart: cart,
           price: price,
           discount: 0,
-          obs: newSaleObs
+          obs: newSaleObs,
+          change: newSaleChange
         })
         .then(
           console.log("New sale successfully registered"),
@@ -242,7 +245,8 @@ export const SalesProvider = ({ children }) => {
           cart: cart,
           price: price,
           discount: newSaleDiscount,
-          obs: newSaleObs
+          obs: newSaleObs,
+          change: newSaleChange
         })
         .then(
           console.log("New sale successfully registered"),
@@ -293,7 +297,8 @@ export const SalesProvider = ({ children }) => {
         cart: cart,
         price: price,
         discount: newSaleDiscount,
-        obs: newSaleObs
+        obs: newSaleObs,
+        change: newSaleChange
       })
       .then(
         console.log("Sale successfully updated"),
@@ -369,6 +374,7 @@ export const SalesProvider = ({ children }) => {
       newSaleCartProduct, setNewSaleCartProduct,
       newSaleDiscount, setNewSaleDiscount,
       newSaleObs, setNewSaleObs,
+      newSaleChange, setNewSaleChange,
       refreshForNewSale,
       stockRaw,
       price,
