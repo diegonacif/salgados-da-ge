@@ -6,7 +6,7 @@ import { useNavigate, useBeforeUnload } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { Header } from '../Header/Header';
-import { Export, FloppyDisk, HandCoins, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
+import { Coins, Export, FloppyDisk, HandCoins, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
@@ -14,6 +14,7 @@ import { StockSumContext } from '../../contexts/StockSumProvider';
 import { SalesContext } from '../../contexts/SalesProvider';
 
 import '../../App.scss';
+import CurrencyInput from 'react-currency-input-field';
 
 export const NewSale = () => {
   const date = new Date();
@@ -111,6 +112,7 @@ export const NewSale = () => {
     setValue("cart-quantity", newSaleCartQuantity)
     setValue("cart-product", newSaleCartProduct)
     setValue("discount", newSaleDiscount)
+    // newSaleDiscount === '' ? setValue("discount", 0) : setValue("discount", newSaleDiscount)
     setValue("obs", newSaleObs)
   }, [
     newSaleBlock,
@@ -123,6 +125,25 @@ export const NewSale = () => {
     newSaleObs,
   ])
 
+  // Clear change when not money payment
+  useEffect(() => {
+    newSalePayment !== "Dinheiro" &&
+    setNewSaleChange(0);
+  }, [newSalePayment])
+
+  // Validating buttons
+  const [isButtonsValid, setIsButtonsValid] = useState(false);
+  useEffect(() => {
+    if(!isValid || isNaN(newSaleChange) === true) {
+      console.log("not valid");
+      setIsButtonsValid(false);
+    } else {
+      console.log("valid");
+      setIsButtonsValid(true);
+    }
+  }, [isValid, newSalePayment, newSaleChange])
+
+  console.log(newSaleChange)
 
   return (
     <>
@@ -173,7 +194,7 @@ export const NewSale = () => {
               updateProductId ?
               <>
                 <button 
-                  className={`update-button ${!isValid && 'disabled-button'}`}
+                  className={`update-button ${!isButtonsValid && 'disabled-button'}`}
                   onClick={() => updateSale()}
                 >
                   <span>Atualizar</span>
@@ -187,7 +208,7 @@ export const NewSale = () => {
               <button 
                 className={`register-button ${!isValid && 'disabled-button'}`}
                 onClick={() => 
-                  !isValid ?
+                  !isButtonsValid ?
                   notifyError("Preencha os dados") :
                   registerSale()
                 }
@@ -222,6 +243,24 @@ export const NewSale = () => {
             />
           </div>
           <div className="price-wrapper">
+            {
+              newSalePayment === "Dinheiro" &&
+              <div className="change-wrapper">
+                <label id="change-label" htmlFor="change">Troco pra quanto?</label>
+                <CurrencyInput
+                  id="change-input"
+                  name="change"
+                  placeholder="Valor do troco"
+                  defaultValue={0}
+                  allowDecimals={false}
+                  allowNegativeValue={false}
+                  maxLength={6}
+                  intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
+                  value={isNaN(newSaleChange) === true ? '' : newSaleChange}
+                  onValueChange={(value, name) => setNewSaleChange(Number(value))}
+                />
+              </div>
+            }
             {
               discountShow &&
               <div className="input-row" id="discount-wrapper">

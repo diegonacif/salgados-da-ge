@@ -50,7 +50,7 @@ export const SalesProvider = ({ children }) => {
   const [newSaleStatus, setNewSaleStatus] = useState('Novo Pedido');
   const [newSaleCartQuantity, setNewSaleCartQuantity] = useState('1');
   const [newSaleCartProduct, setNewSaleCartProduct] = useState('');
-  const [newSaleDiscount, setNewSaleDiscount] = useState('');
+  const [newSaleDiscount, setNewSaleDiscount] = useState(0);
   const [newSaleObs, setNewSaleObs] = useState('');
   const [newSaleChange, setNewSaleChange] = useState('');
 

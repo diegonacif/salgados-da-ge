@@ -85,6 +85,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      // justify-content: center;
       width: 100%;
       margin-top: 1rem;
 
@@ -111,9 +112,44 @@
         background-color: $white;
       }
 
+      .change-wrapper {
+        position: relative;
+        width: max-content;
+
+        #change-input {
+          padding: 0 0.5rem;
+        }
+
+        label {
+          position: absolute;
+          top: -0.75rem;
+          left: 0.75rem;
+          width: max-content;
+          font-size: 0.875rem;
+          font-weight: 600;
+          padding: 0 0.25rem;
+          color: $red-600;
+          z-index: 99;
+          font-family: $font-primary;
+    
+          &::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background-color: $white;
+            z-index: -1;
+          }
+        }
+      }
+
       #discount-wrapper {
+        width: max-content;
+
         input {
-          padding-left: 2rem;
+          padding-left: 1.75rem;
           padding-top: 0.175rem;
         }
         #currency-label {
@@ -121,7 +157,14 @@
           top: 50%;
           left: 0.5rem;
           transform: translateY(-50%);
+          font-size: 0.8333rem;
         }
+
+        
+      }
+
+      .change-wrapper + #discount-wrapper {
+        margin-top: 1rem;
       }
 
     }
