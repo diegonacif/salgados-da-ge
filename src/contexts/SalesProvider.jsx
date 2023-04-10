@@ -51,6 +51,7 @@ export const SalesProvider = ({ children }) => {
   const [newSaleCartQuantity, setNewSaleCartQuantity] = useState('');
   const [newSaleCartProduct, setNewSaleCartProduct] = useState('');
   const [newSaleDiscount, setNewSaleDiscount] = useState('');
+  const [newSaleObs, setNewSaleObs] = useState('');
 
   // Refresh new sale
   const refreshForNewSale = () => {
@@ -61,6 +62,7 @@ export const SalesProvider = ({ children }) => {
     setNewSaleCartQuantity("1");
     setNewSaleCartProduct("");
     setNewSaleDiscount("0");
+    setNewSaleObs("");
     setCart([]);
   }
 
@@ -171,6 +173,7 @@ export const SalesProvider = ({ children }) => {
         setNewSalePayment(sale?.payment);
         setNewSaleStatus(sale?.status);
         setNewSaleDiscount(sale?.discount);
+        setNewSaleObs(sale?.obs);
         setCart(sale?.cart);
         // setTimeout(() => {
         //   trigger();
@@ -219,7 +222,8 @@ export const SalesProvider = ({ children }) => {
           date: date,
           cart: cart,
           price: price,
-          discount: 0
+          discount: 0,
+          obs: newSaleObs
         })
         .then(
           console.log("New sale successfully registered"),
@@ -237,7 +241,8 @@ export const SalesProvider = ({ children }) => {
           date: date,
           cart: cart,
           price: price,
-          discount: newSaleDiscount
+          discount: newSaleDiscount,
+          obs: newSaleObs
         })
         .then(
           console.log("New sale successfully registered"),
@@ -287,7 +292,8 @@ export const SalesProvider = ({ children }) => {
         date: saleRaw[0].date,
         cart: cart,
         price: price,
-        discount: newSaleDiscount
+        discount: newSaleDiscount,
+        obs: newSaleObs
       })
       .then(
         console.log("Sale successfully updated"),
@@ -362,6 +368,7 @@ export const SalesProvider = ({ children }) => {
       newSaleCartQuantity, setNewSaleCartQuantity,
       newSaleCartProduct, setNewSaleCartProduct,
       newSaleDiscount, setNewSaleDiscount,
+      newSaleObs, setNewSaleObs,
       refreshForNewSale,
       stockRaw,
       price,

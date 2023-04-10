@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { SalesContext } from '../../contexts/SalesProvider';
-import { MapPin, MinusCircle, Money } from '@phosphor-icons/react';
+import { Article, MapPin, MinusCircle, Money } from '@phosphor-icons/react';
 import { UserDataContext } from '../../contexts/UserDataProvider';
 import '../../App.scss';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
@@ -12,7 +12,10 @@ export const CustomerCart = ({ setIsCartOpen }) => {
     handleDeleteCartProduct,
     registerSale,
     newSalePayment, setNewSalePayment,
+    newSaleObs, setNewSaleObs,
   } = useContext(SalesContext);
+
+  console.log(newSaleObs);
 
   const {
     alreadyRegistered, setAlreadyRegistered,
@@ -38,10 +41,10 @@ export const CustomerCart = ({ setIsCartOpen }) => {
     }
   }, [cart, newSalePayment]);
 
-  console.log({
-    cart: cart.length,
-    newSalePayment: newSalePayment,
-  });
+  // console.log({
+  //   cart: cart.length,
+  //   newSalePayment: newSalePayment,
+  // });
 
   return (
     <div className="customer-cart-container">
@@ -85,6 +88,18 @@ export const CustomerCart = ({ setIsCartOpen }) => {
           <option value="Pix">Pix</option>
           <option value="Cartão">Cartão</option>
         </select>
+      </div>
+      <div className="obs-wrapper">
+        <Article size={24} weight="duotone" />
+        <label id="obs-label" htmlFor="obs">Observações:</label>
+        <textarea 
+          name="obs" 
+          id="obs" 
+          rows="2" 
+          placeholder="Opcional"
+          value={newSaleObs}
+          onChange={(e) => setNewSaleObs(e.target.value)}
+        ></textarea>
       </div>
       <div className="cart-total-row">
         <span>Total</span>
