@@ -5,6 +5,7 @@ import { UserDataContext } from '../../contexts/UserDataProvider';
 import '../../App.scss';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
 import CurrencyInput from 'react-currency-input-field';
+import { useNavigate } from 'react-router-dom';
 
 export const CustomerCart = ({ setIsCartOpen }) => {
   const {
@@ -25,6 +26,8 @@ export const CustomerCart = ({ setIsCartOpen }) => {
   } = useContext(UserDataContext);
 
   const { notifySuccess, notifyError } = useContext(ToastifyContext); // Toastify Context
+
+  const navigate = useNavigate();
 
   const handleRegisterSale = () => {
     registerSale("customerMode");
@@ -51,7 +54,7 @@ export const CustomerCart = ({ setIsCartOpen }) => {
   return (
     <div className="customer-cart-container">
       <h5 id="customer-cart-title">Seu pedido</h5>
-      <div className="address-wrapper">
+      <div className="address-wrapper" onClick={() => navigate("/user-data")}>
         <div className="address-row">
           <MapPin size={24} weight="duotone" />
           <h4>Entregar em:</h4>
