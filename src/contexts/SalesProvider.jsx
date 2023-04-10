@@ -379,7 +379,7 @@ export const SalesProvider = ({ children }) => {
       stockRaw,
       price,
       type,
-      cart,
+      cart, setCart,
 
       registerSale,
       updateSale,

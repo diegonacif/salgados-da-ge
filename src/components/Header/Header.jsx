@@ -9,11 +9,12 @@ import '../../App.scss';
 import { SalesContext } from '../../contexts/SalesProvider';
 import { useNavigate } from 'react-router-dom';
 import { UserDataContext } from '../../contexts/UserDataProvider';
+import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 
 export const Header = ({currentPage, setIsCartOpen}) => {
   const { isSignedIn, isLoading, handleGoogleSignOut, user } = useContext(AuthGoogleContext);
   const {
-    cart,
+    cart, setCart
   } = useContext(SalesContext);
 
   const { setAlreadyRegistered } = useContext(UserDataContext);
@@ -27,13 +28,21 @@ export const Header = ({currentPage, setIsCartOpen}) => {
       handleGoogleSignOut()
     )
   }
+
+  // Clear UpdateProductId on rendering
+  const { setUpdateProductId, refreshHandler } = useContext(UpdateProductsContext)
+  const toHomeLink = () => {
+    setUpdateProductId("");
+    setCart([]);
+    navigate("/");
+  }
   
   return (
     <div className="header-container">
 
       <div className="title-wrapper">
         <img src={titleMiniGe} alt="Boneca Mini Gê" id="titleMiniGe" />
-        <h1>Salgados da Gê</h1>
+        <h1 onClick={() => toHomeLink()}>Salgados da Gê</h1>
         {
           isSignedIn ? 
           <SignOut 

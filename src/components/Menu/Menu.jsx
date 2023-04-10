@@ -36,6 +36,9 @@ export const Menu = () => {
   } = useContext(StockSumContext);
   // console.log(mistoStock);
 
+  
+ 
+
   // Loading stock products by type
   useEffect(() => {
     const stockAssados = stockRaw?.filter(stock => stock.type === "assado");
@@ -81,7 +84,7 @@ export const Menu = () => {
     return `/src/assets/salgados/${salgado}.png`
   }
 
-  mistoSum
+  // mistoSum
 
   const remainingStock = (salgado) => {
     if(salgado === 'misto') {

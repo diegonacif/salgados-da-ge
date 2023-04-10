@@ -24,6 +24,7 @@ export const SalesTable = () => {
       setSalesRaw(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     }
     getSalesData();
+    setUpdateProductId('');
   }, [])
 
   function handleNewSale() {
