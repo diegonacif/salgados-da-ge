@@ -9,8 +9,14 @@ export const UserDataContext = createContext();
 export const UserDataProvider = ({ children }) => {
   const usersCollectionRef = collection(db, "users");
   const [firestoreLoading, setFirestoreLoading] = useState(true);
-  const [users, setUsers] = useState({})
-  const [alreadyRegistered, setAlreadyRegistered] = useState(false)
+  const [users, setUsers] = useState({});
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
+  const [userAccess, setUserAccess] = useState(1);
+
+  // User Access
+  useEffect(() => {
+    setUserAccess(users[0]?.access);
+  }, [users])
 
   const { userId, userPhotoUrl } = useContext(AuthGoogleContext);
 
@@ -49,7 +55,9 @@ export const UserDataProvider = ({ children }) => {
     <UserDataContext.Provider value={{
       alreadyRegistered, setAlreadyRegistered,
       users, setUsers,
-      firestoreLoading
+      firestoreLoading,
+      usersCollectionRef,
+      userAccess
     }}>
       {children}
     </UserDataContext.Provider>

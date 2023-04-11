@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import { Header } from '../Header/Header';
 import { UserDataContext } from '../../contexts/UserDataProvider';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
+import { ArrowCircleLeft } from '@phosphor-icons/react';
+import { useNavigate } from 'react-router-dom';
 
 export const UserData = () => {
   const usersCollectionRef = collection(db, "users");
@@ -18,6 +20,8 @@ export const UserData = () => {
     firestoreLoading
   } = useContext(UserDataContext);
   const [refresh, setRefresh] = useState(false);
+
+  const navigate = useNavigate();
 
   // Hook Form Controller
   const {
@@ -82,6 +86,14 @@ export const UserData = () => {
     <>
       <Header />
       <div className="user-data-container">
+        <div className="back-button-wrapper">
+          <ArrowCircleLeft 
+            size={34} 
+            weight="duotone" 
+            id="go-back-button" 
+            onClick={() => navigate("/")}
+          />
+        </div>
         {
           alreadyRegistered ?
           <h4 id="confirm-data">Confirme seus dados</h4> :

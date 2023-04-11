@@ -19,6 +19,7 @@ import { ToastifyProvider } from './contexts/ToastifyProvider';
 import { UpdateProductsProvider } from './contexts/UpdateProductsProvider';
 import { UserDataProvider } from './contexts/UserDataProvider';
 import { PrivateRoutes } from './PrivateRoutes';
+import { RestrictRoutes } from './RestrictRoutes';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -33,10 +34,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="/" element={<Menu />} />
             <Route path="login" element={<Login />} />
             <Route element={<PrivateRoutes />}>
-              <Route path="sales-table" element={<SalesTable />} />
-              <Route path="new-sale" element={<NewSale />} />
-              <Route path="stock" element={<Stock />} />
               <Route path="user-data" element={<UserData />} />
+              <Route element={<RestrictRoutes />}>
+                <Route path="sales-table" element={<SalesTable />} />
+                <Route path="new-sale" element={<NewSale />} />
+                <Route path="stock" element={<Stock />} />
+              </Route>
             </Route>
           </Routes>
         </SalesProvider>

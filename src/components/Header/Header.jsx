@@ -3,7 +3,7 @@ import titleMiniGe from '../../assets/salgados-mini-ge.png';
 import smoke from '../../assets/smoke.png';
 import { AuthGoogleContext } from '../../contexts/AuthGoogleProvider';
 import { useWindowSize } from 'usehooks-ts'
-import { IdentificationCard, ShoppingCart, SignOut, User } from '@phosphor-icons/react';
+import { House, IdentificationCard, ShoppingCart, SignOut, User } from '@phosphor-icons/react';
 
 import '../../App.scss';
 import { SalesContext } from '../../contexts/SalesProvider';
@@ -22,8 +22,6 @@ export const Header = ({currentPage, setIsCartOpen}) => {
   const navigate = useNavigate();
   const windowSize = useWindowSize();
   const { pathname } = useLocation();
-
-  console.log(pathname)
 
   const logOut = () => {
     return (
@@ -62,6 +60,16 @@ export const Header = ({currentPage, setIsCartOpen}) => {
               id="logout-button" 
               onClick={() => navigate("/login")}
             /> :
+          null
+        }
+        {
+          pathname === "/login" ?
+          <House 
+            size={32} 
+            weight="duotone" 
+            id="logout-button"
+            onClick={() => navigate("/")}
+          /> :
           null
         }
         {

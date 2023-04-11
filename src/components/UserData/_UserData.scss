@@ -1,11 +1,28 @@
 .user-data-container {
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
   @include responsive-padding(6rem, 3rem);
 
+  .back-button-wrapper {
+    position: absolute;
+    width: 95%;
+    height: 2.125rem;
+    max-width: 20rem;
+
+    #go-back-button {
+      position: absolute;
+      top: -.25rem;
+      left: 0;
+      color: $red-600;
+      cursor: pointer;
+    }
+  }
+
+
   #confirm-data {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     font-family: $font-primary;
     color: $red-600;
   }

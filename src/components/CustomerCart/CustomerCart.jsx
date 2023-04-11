@@ -18,8 +18,6 @@ export const CustomerCart = ({ setIsCartOpen }) => {
     newSaleChange, setNewSaleChange
   } = useContext(SalesContext);
 
-  console.log(newSaleChange);
-
   const {
     alreadyRegistered, setAlreadyRegistered,
     users, setUsers
