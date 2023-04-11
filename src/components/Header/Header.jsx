@@ -25,6 +25,7 @@ export const Header = ({currentPage, setIsCartOpen}) => {
   const logOut = () => {
     return (
       setAlreadyRegistered(false),
+      setCart([]),
       handleGoogleSignOut()
     )
   }
