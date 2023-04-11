@@ -17,7 +17,8 @@ export const UserData = () => {
   const {
     alreadyRegistered, setAlreadyRegistered,
     users, setUsers,
-    firestoreLoading
+    firestoreLoading,
+    userAccess
   } = useContext(UserDataContext);
   const [refresh, setRefresh] = useState(false);
 
@@ -59,6 +60,7 @@ export const UserData = () => {
       phone: watch("userPhone"),
       block: watch("userBlock"),
       apartment: watch("userApartment"),
+      access: userAccess,
     })
     .then(
       setRefresh((current) => !current),
