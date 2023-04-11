@@ -30,6 +30,8 @@
       background-color: $white;
       padding: 0 0.5rem;
       transition: border 0.15s;
+      font-family: $font-primary;
+
 
       &:focus-visible {
         border: 2px solid $red-600;
@@ -86,6 +88,7 @@
       gap: 0.5rem;
       padding: 0.25rem 0.5rem;
       color: $black;
+      font-family: $font-primary;
   
       background-color: $yelllow-700;
       border: 0;

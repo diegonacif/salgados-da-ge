@@ -81,14 +81,14 @@
       border: 0;
       border-radius: 4px;
       background-color: $yelllow-700;
-      // margin-top: 1rem;
       column-gap: 0.75rem;
       cursor: pointer;
 
       
       span {
+        font-family: $font-primary;
         font-size: .9rem;
-        font-weight: 500;
+        font-weight: 400;
         // color: $red-600;
       }
     }
