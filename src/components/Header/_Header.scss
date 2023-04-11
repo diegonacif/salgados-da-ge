@@ -45,6 +45,20 @@
     width: 100%;
     z-index: 99;
 
+    .title-inner {
+      position: relative;
+      width: fit-content;
+      height: fit-content;
+      // background: blue;
+
+      #admin-gear {
+        position: absolute;
+        top: 18%;
+        right: -1.5rem;
+        color: $red-600;
+      }
+    }
+
     #titleMiniGe {
       position: absolute;
       top: 1rem;
@@ -217,6 +231,16 @@
 
     .title-wrapper {
       position: relative;
+
+      .title-inner {
+  
+        #admin-gear {
+          position: absolute;
+          top: 0.25rem;
+          right: -1.5rem;
+          color: $red-600;
+        }
+      }
 
       #titleMiniGe {
         position: absolute;

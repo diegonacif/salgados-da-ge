@@ -3,7 +3,7 @@ import titleMiniGe from '../../assets/salgados-mini-ge.png';
 import smoke from '../../assets/smoke.png';
 import { AuthGoogleContext } from '../../contexts/AuthGoogleProvider';
 import { useWindowSize } from 'usehooks-ts'
-import { House, IdentificationCard, ShoppingCart, SignOut, User } from '@phosphor-icons/react';
+import { GearSix, House, IdentificationCard, ShoppingCart, SignOut, User } from '@phosphor-icons/react';
 
 import '../../App.scss';
 import { SalesContext } from '../../contexts/SalesProvider';
@@ -11,13 +11,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { UserDataContext } from '../../contexts/UserDataProvider';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 
-export const Header = ({currentPage, setIsCartOpen}) => {
+export const Header = ({ setIsCartOpen }) => {
   const { isSignedIn, isLoading, handleGoogleSignOut, user } = useContext(AuthGoogleContext);
   const {
     cart, setCart
   } = useContext(SalesContext);
 
-  const { setAlreadyRegistered } = useContext(UserDataContext);
+  const { setAlreadyRegistered, userAccess } = useContext(UserDataContext);
 
   const navigate = useNavigate();
   const windowSize = useWindowSize();
@@ -36,7 +36,11 @@ export const Header = ({currentPage, setIsCartOpen}) => {
   const toHomeLink = () => {
     setUpdateProductId("");
     setCart([]);
-    navigate("/");
+    navigate(
+      pathname === "/" && userAccess === 0 ?
+      "/sales-table" :
+      "/"
+    );
   }
   
   return (
@@ -44,7 +48,13 @@ export const Header = ({currentPage, setIsCartOpen}) => {
 
       <div className="title-wrapper">
         <img src={titleMiniGe} alt="Boneca Mini Gê" id="titleMiniGe" />
-        <h1 onClick={() => toHomeLink()}>Salgados da Gê</h1>
+        <div className="title-inner">
+          <h1 onClick={() => toHomeLink()}>Salgados da Gê</h1>
+          {
+            pathname === "/" && userAccess === 0 &&
+            <GearSix size={20} weight="duotone" id="admin-gear" />
+          }
+        </div>
         {
           pathname === "/user-data" ?
             isSignedIn ?
