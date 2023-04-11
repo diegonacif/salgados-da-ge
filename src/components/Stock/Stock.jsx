@@ -10,6 +10,8 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
 import '../../App.scss';
 import { StockSumContext } from '../../contexts/StockSumProvider';
+import { ArrowCircleLeft } from '@phosphor-icons/react';
+import { useNavigate } from 'react-router-dom';
 
 export const Stock = () => {
 
@@ -37,6 +39,8 @@ export const Stock = () => {
     handleRefresh, refresh,
     stockRaw, setStockRaw
   } = useContext(StockSumContext);
+
+  const navigate = useNavigate();
 
   // Firestore loading
   const [value, loading, error] = useCollection(stockCollectionRef,
@@ -206,6 +210,14 @@ export const Stock = () => {
       <Header />
       <div className="stock-container">
         <div className="stock-wrapper">
+          <div className="back-button-wrapper">
+            <ArrowCircleLeft 
+              size={34} 
+              weight="duotone" 
+              id="go-back-button" 
+              onClick={() => navigate("/sales-table")}
+            />
+          </div>
           {/* Misto */}
           <div className="stock-row">
             <span id="product-title">Misto</span>

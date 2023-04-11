@@ -6,7 +6,7 @@ import { useNavigate, useBeforeUnload } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateProductsContext } from '../../contexts/UpdateProductsProvider';
 import { Header } from '../Header/Header';
-import { Coins, Export, FloppyDisk, HandCoins, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
+import { ArrowCircleLeft, Coins, Export, FloppyDisk, HandCoins, MinusCircle, PlusCircle, Trash } from '@phosphor-icons/react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastifyContext } from '../../contexts/ToastifyProvider';
@@ -150,6 +150,14 @@ export const NewSale = () => {
       <Header />
       <div className="new-sale-container">
         <div className="main-info">
+          <div className="back-button-wrapper">
+            <ArrowCircleLeft 
+              size={34} 
+              weight="duotone" 
+              id="go-back-button" 
+              onClick={() => navigate("/sales-table")}
+            />
+          </div>
           <div className="input-row">
             <label htmlFor="block">Bloco</label>
             <input type="text" id="block" {...register("block")} />

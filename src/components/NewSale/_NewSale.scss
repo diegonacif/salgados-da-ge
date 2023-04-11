@@ -331,6 +331,21 @@
       }
     }
   }
+  
+  .back-button-wrapper {
+    position: absolute;
+    width: 100%;
+    max-width: 20rem;
+    height: max-content;
+    top: -4rem;
+    left: -2rem;
+
+    #go-back-button {
+      color: $red-600;
+      cursor: pointer;
+    }
+  }
+
 
   span {
     color: $black;
@@ -352,6 +367,11 @@
 
   @media ($tablet-size) {
     padding-top: 3rem !important; 
+
+    .back-button-wrapper {
+      top: -3rem;
+      left: -1rem;
+    }
   }
 
   @media ($mobile-size) {
@@ -362,5 +382,10 @@
         padding: 0 0.12rem;
       }
     }
+
+    // .back-button-wrapper {
+    //   top: -3rem;
+    //   left: 0;
+    // }
   }
 }
