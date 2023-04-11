@@ -31,12 +31,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <SalesProvider>
           <Routes>
             <Route path="/" element={<Menu />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="login" element={<Login />} />
             <Route element={<PrivateRoutes />}>
-              <Route path="/sales-table" element={<SalesTable />} />
-              <Route path="/new-sale" element={<NewSale />} />
-              <Route path="/stock" element={<Stock />} />
-              <Route path="/user-data" element={<UserData />} />
+              <Route path="sales-table" element={<SalesTable />} />
+              <Route path="new-sale" element={<NewSale />} />
+              <Route path="stock" element={<Stock />} />
+              <Route path="user-data" element={<UserData />} />
             </Route>
           </Routes>
         </SalesProvider>
