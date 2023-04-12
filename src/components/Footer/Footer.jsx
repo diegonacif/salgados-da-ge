@@ -1,8 +1,16 @@
+import { useState } from "react";
 import { InstagramLogo, LinkedinLogo, QrCode, WhatsappLogo } from "@phosphor-icons/react"
-import { useNavigate } from "react-router-dom"
+import { PixContainer } from "../PixContainer/PixContainer";
+import Rodal from "rodal";
 
 export const Footer = () => {
-  const navigate = useNavigate();
+  const [isPixRodalOpen, setIsPixRodalOpen] = useState(false);
+
+  const modalProductHandlerStyles = {
+    height: 'max-content',
+    width: '400px',
+    maxWidth: '90vw'
+  };
 
   return (
     <div className="footer-container">
@@ -20,7 +28,11 @@ export const Footer = () => {
         </div>
         <div className="pix-wrapper">
           <span>Nosso Pix</span>
-          <QrCode size={32} weight="duotone" />
+          <QrCode 
+            size={32} 
+            weight="duotone" 
+            onClick={() => setIsPixRodalOpen(true)}
+          />
         </div>
       </header>
       <div className="copyright-wrapper">
@@ -28,6 +40,21 @@ export const Footer = () => {
         
         {/* <LinkedinLogo size={28} weight="duotone" /> */}
       </div>
+      <Rodal
+        visible={isPixRodalOpen}
+        onClose={() => setIsPixRodalOpen(false)}
+        className='rodal-pix'
+        id='rodal-pix-content'
+        animation='zoom'
+        duration={300}
+        showMask={true}
+        closeMaskOnClick={true}
+        showCloseButton={true}
+        closeOnEsc={true}
+        customStyles={modalProductHandlerStyles}
+      >
+        <PixContainer />
+      </Rodal>
     </div>
   )
 }
