@@ -12,6 +12,7 @@ import Rodal from 'rodal';
 import { ShoppingCart } from '@phosphor-icons/react';
 import { CustomerCart } from '../CustomerCart/CustomerCart';
 import { ProductHandler } from '../ProductHandler/ProductHandler';
+import { Footer } from '../Footer/Footer';
 
 export const Menu = () => {
   const stockCollectionRef = collection(db, 'stock');
@@ -250,6 +251,7 @@ export const Menu = () => {
         />
       </Rodal>
     </div>
+    <Footer />
     </>
   )
 }

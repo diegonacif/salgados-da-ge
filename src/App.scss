@@ -36,6 +36,16 @@ $assets-path: './assets';
   input[type=number] {
     appearance: textfield;
   }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    &:focus-visible, &:focus-within, &:focus, &:active, &:target {
+      border: 0;
+      outline: 0;
+      background-color: transparent;
+    }
+  }
 }
 
 @mixin responsive-padding($pt: 0, $pb: 0) {
@@ -64,3 +74,4 @@ $assets-path: './assets';
 @import "./components/Menu/Menu";
 @import "./components/CustomerCart/CustomerCart";
 @import "./components/ProductHandler/ProductHandler";
+@import "./components/Footer/Footer";
