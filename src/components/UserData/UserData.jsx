@@ -60,7 +60,7 @@ export const UserData = () => {
       phone: watch("userPhone"),
       block: watch("userBlock"),
       apartment: watch("userApartment"),
-      access: userAccess,
+      access: userAccess ? userAccess : 1,
     })
     .then(
       setRefresh((current) => !current),
