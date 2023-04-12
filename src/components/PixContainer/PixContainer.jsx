@@ -8,8 +8,13 @@ export const PixContainer = () => {
   const pixKey = 99999999999;
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText("this.state.textToCopy");
-    alert(`Chave pix copiada para área de transferência.`);
+    const el = document.createElement('textarea');
+    el.value = pixKey;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    alert("Chave pix copiada com sucesso!");
   }
 
   return (
