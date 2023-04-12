@@ -1,3 +1,9 @@
+@mixin product-image($product) {
+  background: url(#{$assets-path}/salgados/#{$product}.png);
+  background-size: cover;
+  background-position: center center;
+}
+
 .menu-container {
   display: flex;
   flex-direction: column;
@@ -138,11 +144,21 @@
         align-self: center;
         justify-self: center;
         width: 6rem;
+        height: 6rem;
+        border-radius: 4px;
 
-        img {
-          width: 100%;
-          border-radius: 4px;
-        }
+        &#frango { @include product-image('frango'); }
+        &#misto { @include product-image('misto'); }
+        &#salsicha { @include product-image('salsicha'); }
+        &#torta { @include product-image('torta'); }
+        &#coxinha { @include product-image('coxinha'); }
+        &#enroladinho { @include product-image('enroladinho'); }
+        &#cebola { @include product-image('cebola'); }
+
+        // img {
+        //   width: 100%;
+        //   border-radius: 4px;
+        // }
       }
     }
   }

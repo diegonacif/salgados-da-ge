@@ -138,8 +138,8 @@ export const Menu = () => {
                   }
                 </div>
               </div>
-              <div className="product-image-wrapper">
-                <img src={salgadosImages(assado.id)} alt="" />
+              <div className="product-image-wrapper" id={`${assado?.id}`}>
+                {/* <img src={salgadosImages(assado.id)} alt="" /> */}
               </div>
             </div>
           ))
@@ -170,8 +170,8 @@ export const Menu = () => {
                 }
                 </div>
               </div>
-              <div className="product-image-wrapper">
-                <img src={salgadosImages(frito.id)} alt="" />
+              <div className="product-image-wrapper" id={`${frito?.id}`}>
+                {/* <img src={salgadosImages(frito.id)} alt="" /> */}
               </div>
             </div>
           ))
@@ -202,8 +202,9 @@ export const Menu = () => {
                 }
                 </div>
               </div>
-              <div className="product-image-wrapper">
-                <img src={salgadosImages(pao.id)} alt="" />
+              <div className="product-image-wrapper" id={`${pao?.id}`}>
+                {/* <span>{pao?.id}</span> */}
+                {/* <img src={salgadosImages(pao.id)} alt="" /> */}
               </div>
             </div>
           ))
