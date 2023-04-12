@@ -1,6 +1,5 @@
 import { Copy } from '@phosphor-icons/react';
 import { useState } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import pixImg from '../../assets/pix.svg';
 import qrCode from '../../assets/QR_Code_Example.svg';
 
