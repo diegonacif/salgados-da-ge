@@ -114,6 +114,38 @@ export const Menu = () => {
       setIsCartOpen={setIsCartOpen}
     />
     <div className="menu-container">
+      <h3 id="section-title">Pães</h3>
+      <section>
+        {
+          firestoreLoading ?
+          <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
+          paesArray?.map((pao, index) => (
+            <div 
+              className={pao.quantity - remainingStock(pao.id) > 0 ? "product-card" : "product-card out-of-stock"}  
+              key={`${pao.label}-${index}`}
+              onClick={() => pao.quantity - remainingStock(pao.id) > 0 && productHandlerModal(pao)}
+            >
+              <div className="text-content">
+                <div className="product-text">
+                  <h4>{pao.label}</h4>
+                  <p>{pao.description}</p>
+                </div>
+                <div className="product-price">
+                {
+                  pao.quantity - remainingStock(pao.id) > 0 ?
+                  <span>{`R$ ${typePrice(pao.type)}`}</span> :
+                  <span id="out-of-stock-text">Indisponível</span>
+                }
+                </div>
+              </div>
+              <div className="product-image-wrapper" id={`${pao?.id}`}>
+                {/* <img src={salgadosImages(pao.id)} alt="" /> */}
+              </div>
+            </div>
+          ))
+        }
+      </section>
+
       <h3 id="section-title">Salgados Assados</h3>
       <section>
         { 
@@ -178,38 +210,7 @@ export const Menu = () => {
         }
       </section>
 
-      <h3 id="section-title">Pães</h3>
-      <section>
-        {
-          firestoreLoading ?
-          <img src={loadingGif} alt="loading gif" className="loading-gif" /> :
-          paesArray?.map((pao, index) => (
-            <div 
-              className={pao.quantity - remainingStock(pao.id) > 0 ? "product-card" : "product-card out-of-stock"}  
-              key={`${pao.label}-${index}`}
-              onClick={() => pao.quantity - remainingStock(pao.id) > 0 && productHandlerModal(pao)}
-            >
-              <div className="text-content">
-                <div className="product-text">
-                  <h4>{pao.label}</h4>
-                  <p>{pao.description}</p>
-                </div>
-                <div className="product-price">
-                {
-                  pao.quantity - remainingStock(pao.id) > 0 ?
-                  <span>{`R$ ${typePrice(pao.type)}`}</span> :
-                  <span id="out-of-stock-text">Indisponível</span>
-                }
-                </div>
-              </div>
-              <div className="product-image-wrapper" id={`${pao?.id}`}>
-                {/* <span>{pao?.id}</span> */}
-                {/* <img src={salgadosImages(pao.id)} alt="" /> */}
-              </div>
-            </div>
-          ))
-        }
-      </section>
+      
       {/* <ShoppingCart 
         size={36} 
         weight="duotone" 
