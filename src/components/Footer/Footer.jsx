@@ -21,7 +21,7 @@ export const Footer = () => {
             <a href="https://instagram.com/ge_salgados1?igshid=YmMyMTA2M2Y=">
               <InstagramLogo size={32} weight="duotone" />
             </a>
-            <a href="https://wa.me/message/QQBWQREHFCQRE1">
+            <a href="https://wa.me/qr/OFIX6TY76DZ3C1">
               <WhatsappLogo size={32} weight="duotone" />
             </a>
           </div>
