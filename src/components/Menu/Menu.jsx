@@ -139,7 +139,7 @@ export const Menu = () => {
                 </div>
               </div>
               <div className="product-image-wrapper">
-                <img src={salgadosImages(assado.id)} alt="" loading="lazy" />
+                <img src={salgadosImages(assado.id)} alt="" />
               </div>
             </div>
           ))
@@ -171,7 +171,7 @@ export const Menu = () => {
                 </div>
               </div>
               <div className="product-image-wrapper">
-                <img src={salgadosImages(frito.id)} alt="" loading="lazy" />
+                <img src={salgadosImages(frito.id)} alt="" />
               </div>
             </div>
           ))
@@ -203,7 +203,7 @@ export const Menu = () => {
                 </div>
               </div>
               <div className="product-image-wrapper">
-                <img src={salgadosImages(pao.id)} alt="" loading="lazy" />
+                <img src={salgadosImages(pao.id)} alt="" />
               </div>
             </div>
           ))
