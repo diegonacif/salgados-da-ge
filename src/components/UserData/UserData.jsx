@@ -18,14 +18,27 @@ export const UserData = () => {
     alreadyRegistered, setAlreadyRegistered,
     users, setUsers,
     firestoreLoading,
-    userAccess,
-    currentUserData
+    // userAccess,
+    // currentUserData
   } = useContext(UserDataContext);
   const [refresh, setRefresh] = useState(false);
 
   const navigate = useNavigate();
 
-  // console.log(users)
+  const [currentUserData, setCurrentUserData] = useState([]);
+  const [userAccess, setUserAccess] = useState(1);
+
+  console.log(userAccess);
+
+  // Current User Data
+  useEffect(() => {
+    setCurrentUserData(users?.filter(user => user.id === userId))
+  }, [users, firestoreLoading])
+
+  // User Access
+  useEffect(() => {
+    setUserAccess(currentUserData[0]?.access);
+  }, [users, firestoreLoading, currentUserData])
 
   // Hook Form Controller
   const {
@@ -40,9 +53,11 @@ export const UserData = () => {
     }
   });
 
+  // console.log(userAccess);
+
   // Loading data if already exists 
   useEffect(() => {
-    if(alreadyRegistered === true && firestoreLoading === false) {
+    if(alreadyRegistered === true) {
       return (
         setValue("userName", currentUserData[0]?.name),
         setValue("userPhone", currentUserData[0]?.phone),
@@ -52,7 +67,7 @@ export const UserData = () => {
     } else {
       return console.log("não está registrado")
     }
-  }, [firestoreLoading, alreadyRegistered, users, currentUserData])
+  }, [firestoreLoading, alreadyRegistered, currentUserData, users])
 
   // Create user data
   async function registerUser() {
@@ -63,7 +78,7 @@ export const UserData = () => {
       phone: watch("userPhone"),
       block: watch("userBlock"),
       apartment: watch("userApartment"),
-      access: userAccess ? userAccess : 1,
+      access: userAccess === 0 || userAccess === 1 ? userAccess : 1,
     })
     .then(
       setRefresh((current) => !current),
@@ -77,10 +92,10 @@ export const UserData = () => {
   // Inputs validation
   const [isButtonActive, setIsButtonActive] = useState(false);
   useEffect(() => {
-    if(watch("userName").length < 4 || 
-    watch("userPhone").length < 9 || 
-    watch("userBlock").length < 2 || 
-    watch("userApartment").length < 3) {
+    if(watch("userName")?.length < 4 || 
+    watch("userPhone")?.length < 9 || 
+    watch("userBlock")?.length < 2 || 
+    watch("userApartment")?.length < 3) {
       setIsButtonActive(false);
     } else {
       setIsButtonActive(true);

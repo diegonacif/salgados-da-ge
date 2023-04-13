@@ -10,33 +10,35 @@ export const UserDataProvider = ({ children }) => {
   const usersCollectionRef = collection(db, "users");
   const [firestoreLoading, setFirestoreLoading] = useState(true);
   const [users, setUsers] = useState([]);
-  const [currentUserData, setCurrentUserData] = useState({});
+  const [currentUserData, setCurrentUserData] = useState([]);
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const [userAccess, setUserAccess] = useState(1);
 
   const { userId, userPhotoUrl } = useContext(AuthGoogleContext);
 
-  // console.log(currentUserData[0]?.access);
+  // console.log(users?.filter(user => user.id === userId));
 
-  // Current User Data
-  useEffect(() => {
-    setCurrentUserData(users?.filter(user => user.id === userId))
-  }, [users, firestoreLoading])
-
-  // User Access
-  useEffect(() => {
-    setUserAccess(currentUserData[0]?.access);
-  }, [users])
-
-  const IdsArray = firestoreLoading ? null : users?.map(user => user.id)
-
-  // Firestore loading
+   // Firestore loading
   const [value, loading, error] = useCollection(usersCollectionRef,
     { snapshotListenOptions: { includeMetadataChanges: true } }
   );
   useEffect(() => {
     setFirestoreLoading(loading);
   }, [loading])
+
+  // Current User Data
+  useEffect(() => {
+    setCurrentUserData(users?.filter(user => user.id === userId))
+  }, [users, firestoreLoading, loading])
+
+  // User Access
+  useEffect(() => {
+    setUserAccess(currentUserData[0]?.access);
+  }, [users, firestoreLoading, loading])
+
+  const IdsArray = firestoreLoading ? null : users?.map(user => user.id)
+
+ 
 
   useEffect(() => {
     if(firestoreLoading) {
