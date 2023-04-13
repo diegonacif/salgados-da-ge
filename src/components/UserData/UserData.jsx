@@ -67,7 +67,7 @@ export const UserData = () => {
     } else {
       return console.log("não está registrado")
     }
-  }, [firestoreLoading, alreadyRegistered, currentUserData, users])
+  }, [firestoreLoading, alreadyRegistered, currentUserData, users, userAccess])
 
   // Create user data
   async function registerUser() {
