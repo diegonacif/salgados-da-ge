@@ -37,9 +37,6 @@ export const Menu = () => {
   } = useContext(StockSumContext);
   // console.log(mistoStock);
 
-  
- 
-
   // Loading stock products by type
   useEffect(() => {
     const stockAssados = stockRaw?.filter(stock => stock.type === "assado");

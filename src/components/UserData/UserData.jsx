@@ -100,7 +100,7 @@ export const UserData = () => {
     } else {
       setIsButtonActive(true);
     }
-  }, [watch("userName"), watch("userPhone"), watch("userBlock"), watch("userApartment")])
+  }, [watch("userName"), watch("userPhone"), watch("userBlock"), watch("userApartment"), users])
 
   return (
     <>

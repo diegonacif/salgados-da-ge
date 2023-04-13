@@ -122,6 +122,8 @@ export const SalesProvider = ({ children }) => {
 
     const paoPrice = paoSum * basePrices.pao
 
+    console.log(paoSum)
+
     // const assadoPrice = ((assadoSum % 3) * 4) + ((((assadoSum - (assadoSum % 3)) / 3) * 10))
     // const fritoPrice = ((fritoSum % 2) * 3) + ((((fritoSum - (fritoSum % 2)) / 2) * 5))
     // const paoPrice = paoSum * 1
@@ -142,12 +144,14 @@ export const SalesProvider = ({ children }) => {
       setType('assado');
     } else if(['Enroladinho', 'Coxinha', 'Torta'].includes(newSaleCartProduct)) {
       setType('frito');
-    } else if(['Cebola'].includes(newSaleCartProduct)) {
+    } else if(['Pão de Cebola'].includes(newSaleCartProduct)) {
       setType('pao');
     } else (
       null
     )
-  }, [newSaleCartProduct])
+  }, [newSaleCartProduct, cart])
+
+  console.log(newSaleCartProduct, type)
 
   // Load Stock quantities
   const [stockRaw, setStockRaw] = useState();

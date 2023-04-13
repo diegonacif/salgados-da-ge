@@ -49,6 +49,8 @@ export const CustomerCart = ({ setIsCartOpen }) => {
     setNewSaleChange(0);
   }, [newSalePayment])
 
+  // console.log(cart, price);
+
   return (
     <div className="customer-cart-container">
       <h5 id="customer-cart-title">Seu pedido</h5>
