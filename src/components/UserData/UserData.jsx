@@ -42,7 +42,7 @@ export const UserData = () => {
 
   // Loading data if already exists 
   useEffect(() => {
-    if(alreadyRegistered === true) {
+    if(alreadyRegistered === true && firestoreLoading === false) {
       return (
         setValue("userName", currentUserData[0]?.name),
         setValue("userPhone", currentUserData[0]?.phone),
