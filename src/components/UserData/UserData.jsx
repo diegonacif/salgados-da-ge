@@ -18,11 +18,14 @@ export const UserData = () => {
     alreadyRegistered, setAlreadyRegistered,
     users, setUsers,
     firestoreLoading,
-    userAccess
+    userAccess,
+    currentUserData
   } = useContext(UserDataContext);
   const [refresh, setRefresh] = useState(false);
 
   const navigate = useNavigate();
+
+  // console.log(users)
 
   // Hook Form Controller
   const {
@@ -41,15 +44,15 @@ export const UserData = () => {
   useEffect(() => {
     if(alreadyRegistered === true) {
       return (
-        setValue("userName", users[0]?.name),
-        setValue("userPhone", users[0]?.phone),
-        setValue("userBlock", users[0]?.block),
-        setValue("userApartment", users[0]?.apartment)
+        setValue("userName", currentUserData[0]?.name),
+        setValue("userPhone", currentUserData[0]?.phone),
+        setValue("userBlock", currentUserData[0]?.block),
+        setValue("userApartment", currentUserData[0]?.apartment)
       )
     } else {
       return console.log("não está registrado")
     }
-  }, [firestoreLoading, alreadyRegistered, users])
+  }, [firestoreLoading, alreadyRegistered, users, currentUserData])
 
   // Create user data
   async function registerUser() {
